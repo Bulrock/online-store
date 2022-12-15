@@ -6,9 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
 </head>
-<body>
-    <p>CART</p>
-    <a href="./index.html">Main</a>
+<body class="body">
+    <div class="container">
+        <header class="header">
+            <a href="./index.html">
+                <div class="header_logotype">
+                    <p class="logo">🛍</p>
+                    <p class="text_for_logo">Online Store</p>
+                </div>
+            </a>
+            <div class="header_price">
+                <p>Cart total: €<span>0</span></p>
+            </div>
+            <div class="header_bascet">
+                <div class="basket">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#ff5a00;" d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
+                </div>
+                <div class="count-product"></div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="products">
+                <div class="products_header">
+                    <p class="products_header_p">Product in Cart</p>
+                    <div class="wrapper-controller">
+                        <div class="count count-prod">
+                            <p>ITEMS: </p>
+                            <input class="item" type="number" min="1" max="100" value="3">
+                        </div>
+                        <div class="count count-page">
+                            <p>PAGE: </p>
+                            <div class="wrap arrow_prev">
+                                <div class="arrow prevPage"></div>
+                            </div>
+                            <p class="page-view">0</p>
+                            <div class="wrap arrow_next">
+                                <div class="arrow nextPage"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="products_description"></div>
+            </div>
+            <div class="summary"></div>
+        </main>
+    </div>
+    <footer class="footer">
+        <p>Online Store 2022</p>
+    </footer>
     <script src="./cart.js"></script>
 </body>
 </html>
