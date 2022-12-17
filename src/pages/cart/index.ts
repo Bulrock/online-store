@@ -12,11 +12,10 @@ type Data = {
   category: string;
   thumbnail: string;
   images: string[];
+  countBuyProduct: number;
 };
+
 const upData: Data[] = data.slice(0, 20);
-/* if (upData.length === 0){
-    document.querySelector('.main')
-} */
 
 const a = 3;
 let page = Number(
@@ -24,6 +23,28 @@ let page = Number(
 );
 let counUpData: Array<Data[]> = [];
 changeArr(a);
+
+for (let i = 0; i < counUpData.length; i++) {
+  for (let j = 0; j < counUpData[i].length; j++) {
+    counUpData[i][j].countBuyProduct = 1;
+  }
+}
+
+console.log(counUpData);
+
+let cartTotal = 0;
+
+upData.forEach((item) => {
+  cartTotal += item.price;
+});
+(document.querySelector(".header_price span") as HTMLElement).innerHTML =
+  "" + cartTotal;
+(document.querySelector(".summary_total span") as HTMLElement).innerHTML =
+  "" + cartTotal;
+
+draw(page);
+changeCountProduct();
+(document.querySelector(".item") as HTMLInputElement).value = String(a);
 
 document.querySelector(".item")?.addEventListener("input", () => {
   const value = (document.querySelector(".item") as HTMLInputElement).value;
@@ -37,6 +58,7 @@ document.querySelector(".item")?.addEventListener("input", () => {
     (document.querySelector(".page-view") as HTMLElement).innerHTML = "" + page;
   }
   draw(page);
+  changeCountProduct();
   console.log(counUpData);
 });
 
@@ -52,6 +74,7 @@ document.querySelector(".arrow_prev")?.addEventListener("click", () => {
   console.log(page);
   (document.querySelector(".page-view") as HTMLElement).innerHTML = "" + page;
   draw(page);
+  changeCountProduct();
 });
 document.querySelector(".arrow_next")?.addEventListener("click", () => {
   console.log("next");
@@ -59,6 +82,7 @@ document.querySelector(".arrow_next")?.addEventListener("click", () => {
   console.log(page);
   (document.querySelector(".page-view") as HTMLElement).innerHTML = "" + page;
   draw(page);
+  changeCountProduct();
 });
 
 function changeArr(count: number) {
@@ -100,11 +124,11 @@ function draw(page: number) {
               </div>
           </div>
           <div class="product_controlls">
-              <p class="stock">Stock: ${item.stock}</p>
+              <p class="stock">Stock: <span>${item.stock}</span></p>
               <div class="product_controlls_controller">
                   <div class="sign minus"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M0 10h24v4h-24z"/></svg></div>
-                  <p class="count-item">1</p>
-                  <div class=" sign plus"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></div>
+                  <p class="count-item">${item.countBuyProduct}</p>
+                  <div class="sign plus"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></div>
               </div>
               <div class="product-controll_money">€${item.price}</div>
           </div>`;
@@ -113,5 +137,67 @@ function draw(page: number) {
   });
 }
 
-draw(page);
-(document.querySelector(".item") as HTMLInputElement).value = String(a);
+function changeCountProduct() {
+  document.querySelectorAll(".product").forEach((item) => {
+    item?.addEventListener("click", (e) => {
+      if (e.target) {
+        const targetClossestClass = (e.target as HTMLElement)
+          .closest("div")
+          ?.getAttribute("class");
+        const productControls = (e.target as HTMLElement).closest(
+          ".product_controlls"
+        );
+        const nameProduct = (e.target as HTMLElement)
+          .closest(".product")
+          ?.querySelector(".product_about_name")?.innerHTML;
+
+        console.log(nameProduct);
+
+        if (targetClossestClass === "sign minus") {
+          console.log("minus");
+          for (let i = 0; i < counUpData.length; i++) {
+            for (let j = 0; j < counUpData[i].length; j++) {
+              if (counUpData[i][j].title === nameProduct) {
+                console.log("true");
+                counUpData[i][j].countBuyProduct === 1
+                  ? (counUpData[i][j].countBuyProduct = 1)
+                  : counUpData[i][j].countBuyProduct--;
+                ((productControls as HTMLElement).querySelector(
+                  ".count-item"
+                ) as HTMLElement).innerHTML =
+                  "" + counUpData[i][j].countBuyProduct;
+
+                console.log(counUpData[i][j]);
+              }
+            }
+          }
+        } else if (targetClossestClass === "sign plus") {
+          for (let i = 0; i < counUpData.length; i++) {
+            for (let j = 0; j < counUpData[i].length; j++) {
+              if (counUpData[i][j].title === nameProduct) {
+                console.log("true");
+                counUpData[i][j].countBuyProduct >= counUpData[i][j].stock
+                  ? (counUpData[i][j].countBuyProduct = counUpData[i][j].stock)
+                  : counUpData[i][j].countBuyProduct++;
+                ((productControls as HTMLElement).querySelector(
+                  ".count-item"
+                ) as HTMLElement).innerHTML =
+                  "" + counUpData[i][j].countBuyProduct;
+                cartTotal = cartTotal + counUpData[i][j].price;
+                (document.querySelector(
+                  ".header_price span"
+                ) as HTMLElement).innerHTML = "" + cartTotal;
+                (document.querySelector(
+                  ".summary_total span"
+                ) as HTMLElement).innerHTML = "" + cartTotal;
+                console.log(counUpData[i][j]);
+              }
+            }
+          }
+        } else {
+          return;
+        }
+      }
+    });
+  });
+}
