@@ -4,6 +4,11 @@ import {
   draw,
   drawPriceHeaderSummary,
   drawIfCartEmpty,
+  drawblockPromoADD,
+  drawDropTable,
+  drawblockPromoDROP,
+  arrPromo,
+  drawDiscountCartTotal,
 } from "../../components/cart_components/forcart";
 import type { Data } from "../../components/cart_components/forcart";
 
@@ -19,6 +24,7 @@ let counUpData: Array<Data[]> = [];
 changeArr(a);
 
 let cartTotal = 0;
+let discountCartTotal = 0;
 let countProducts = 0;
 
 upData.forEach((item) => {
@@ -120,9 +126,6 @@ function changeCountProduct() {
               if (upData[i].countBuyProduct === 1) {
                 upData.splice(i, 1);
                 drawIfCartEmpty(upData);
-                if (upData[i]) {
-                  upData[i].countBuyProduct = 1;
-                }
                 changeArr(valueNumber);
                 console.log(counUpData);
                 page > counUpData.length ? (page = counUpData.length) : page;
@@ -146,7 +149,9 @@ function changeCountProduct() {
               }
 
               drawPriceHeaderSummary(cartTotal, countProducts, upData);
-              console.log(upData[i]);
+              if (discountCartTotal > 0) {
+                drawDiscountCartTotal(cartTotal, discountCartTotal);
+              }
             }
           }
         } else if (targetClossestClass === "sign plus") {
@@ -166,8 +171,9 @@ function changeCountProduct() {
                 "€" + upData[i].price * upData[i].countBuyProduct;
 
               drawPriceHeaderSummary(cartTotal, countProducts, upData);
-
-              console.log(upData[i]);
+              if (discountCartTotal > 0) {
+                drawDiscountCartTotal(cartTotal, discountCartTotal);
+              }
             }
           }
         } else {
@@ -177,3 +183,67 @@ function changeCountProduct() {
     });
   });
 }
+
+const inputForPromo = document.querySelector(
+  ".summary_form_promo_input"
+) as HTMLInputElement;
+let value;
+inputForPromo.addEventListener("input", () => {
+  value = inputForPromo.value;
+  console.log(`${value}: ${typeof value}`);
+
+  for (let i = 0; i < arrPromo.length; i++) {
+    if (value === arrPromo[i].id) {
+      console.log(typeof arrPromo[i].id);
+      drawblockPromoADD(arrPromo[i].name, arrPromo[i].discount, arrPromo[i].id);
+      (document.querySelector(".button-ADD") as HTMLElement).addEventListener(
+        "click",
+        function drawDrop() {
+          discountCartTotal += arrPromo[i].discount;
+          drawDiscountCartTotal(cartTotal, discountCartTotal);
+          if (!document.querySelector(".drop-table")) {
+            drawDropTable();
+          }
+          drawblockPromoDROP(
+            arrPromo[i].name,
+            arrPromo[i].discount,
+            arrPromo[i].id
+          );
+          (document.querySelector(
+            ".button-ADD"
+          ) as HTMLElement).removeEventListener("click", drawDrop);
+          inputForPromo.value = "";
+          if (document.querySelector(".add-promo") as HTMLElement) {
+            (document.querySelector(".add-promo") as HTMLElement).remove();
+          }
+          ((document.getElementById(
+            `${arrPromo[i].id}`
+          ) as HTMLElement).querySelector(
+            ".button-DROP"
+          ) as HTMLElement).addEventListener("click", () => {
+            console.log("click2");
+            discountCartTotal -= arrPromo[i].discount;
+            drawDiscountCartTotal(cartTotal, discountCartTotal);
+            document.getElementById(`${arrPromo[i].id}`)?.remove();
+            if (document.querySelector(".drop-table_wrap")?.innerHTML === "") {
+              (document.querySelector(".drop-table") as HTMLElement).remove();
+              (document.querySelector(
+                ".summary_total-discount"
+              ) as HTMLElement).remove();
+              (document.querySelector(
+                ".summary_total"
+              ) as HTMLElement).style.textDecoration = "none";
+            }
+          });
+          console.log(discountCartTotal);
+        }
+      );
+      break;
+    } else {
+      console.log("удалил блок");
+      if (document.querySelector(".add-promo") as HTMLElement) {
+        (document.querySelector(".add-promo") as HTMLElement).remove();
+      }
+    }
+  }
+});

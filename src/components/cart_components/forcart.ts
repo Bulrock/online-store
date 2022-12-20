@@ -89,3 +89,103 @@ export function draw(page: number, arr: Array<Data[]>): void {
     });
   }
 }
+
+type Promo = {
+  id: string;
+  name: string;
+  discount: number;
+};
+
+export const arrPromo: Promo[] = [
+  {
+    id: "rs",
+    name: "RSSchool",
+    discount: 10,
+  },
+  {
+    id: "epm",
+    name: "EPAMSystem",
+    discount: 10,
+  },
+];
+
+function drowButtonADD() {
+  const divbutton: HTMLDivElement = document.createElement("div");
+  divbutton.innerHTML = "ADD";
+  divbutton.setAttribute("class", "button-ADD");
+  (document.querySelector(".add-promo") as HTMLElement).append(divbutton);
+}
+
+export function drawblockPromoADD(
+  value: string,
+  discount: number,
+  id: string
+): void {
+  console.log(value + discount);
+  const div: HTMLDivElement = document.createElement("div");
+  div.innerHTML = `
+    <p class="name-discount">${value} - ${discount}%</p>
+  `;
+  div.setAttribute("class", "add-promo");
+  (document.querySelector(".add") as HTMLElement).append(div);
+  if (!document.getElementById(`${id}`)) {
+    drowButtonADD();
+  } else {
+    (document.querySelector(
+      ".name-discount"
+    ) as HTMLElement).innerHTML = `${value} - ${discount}% - Discount already applied`;
+  }
+}
+
+export function drawDropTable() {
+  const div: HTMLDivElement = document.createElement("div");
+  div.innerHTML = `
+    <div class="drop-table_header">Applied codes</div>
+    <div class="drop-table_wrap"></div>
+  `;
+  div.setAttribute("class", "drop-table");
+  (document.querySelector(".summary_form_promo .drop") as HTMLElement).append(
+    div
+  );
+}
+
+export function drawblockPromoDROP(
+  value: string,
+  discount: number,
+  id: string
+): void {
+  const divName: HTMLDivElement = document.createElement("div");
+  divName.innerHTML = `
+  <p>${value} - ${discount}%</p>
+    <div class="button-DROP">DROP</div>
+  `;
+  divName.setAttribute("id", id);
+  divName.setAttribute("class", "drop-promo");
+  (document.querySelector(
+    ".summary_form_promo .drop-table_wrap"
+  ) as HTMLElement).append(divName);
+}
+
+export function drawDiscountCartTotal(
+  cartTotal: number,
+  discountCartTotal: number
+) {
+  const totalAfterDiscount = cartTotal * ((100 - discountCartTotal) / 100);
+  if (document.querySelector(".summary_total") as HTMLElement) {
+    (document.querySelector(
+      ".summary_total"
+    ) as HTMLElement).style.textDecoration = "line-through";
+  }
+  if (!(document.querySelector(".summary_total-discount") as HTMLElement)) {
+    const p = document.createElement("p");
+    p.setAttribute("class", "summary_total-discount");
+    p.innerHTML = `Total: €${totalAfterDiscount.toFixed(2)}`;
+    if (document.querySelector(".total") as HTMLElement) {
+      (document.querySelector(".total") as HTMLElement).append(p);
+    }
+  } else {
+    (document.querySelector(
+      ".summary_total-discount"
+    ) as HTMLElement).innerHTML = `Total: €${totalAfterDiscount.toFixed(2)}`;
+  }
+}

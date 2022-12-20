@@ -321,11 +321,13 @@
     border-radius: 10px;
     border: 1px solid #ff5a00;
     padding-bottom: 10px;
-    max-height: 400px;
+    max-height: 500px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    box-sizing: border-box;
 }
 
 .summary_header {
@@ -356,7 +358,36 @@
     font-weight: 600;
     gap: 20px;
 }
-.summary_form_input {
+.summary_form_promo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.drop-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ff5a00;
+}
+
+.drop-table_header {
+    border-bottom: 1px solid #ff5a00;
+    width: 100%;
+    text-align: center;
+}
+.drop-promo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 3px;
+}
+
+.summary_form_promo_input {
     align-self: center;
     width: 70%;
     outline: #ff5a00;
@@ -366,6 +397,27 @@
     padding: 5px;
     color: #ff5a00;
     font-size: 20px;
+}
+
+.summary_form_promo_input::placeholder {
+    font-size: 14px;
+}
+.add-promo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+.button-ADD,
+.button-DROP {
+    border-radius: 5px;
+    border: 1px solid #ff5a00;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 .buy-now {
     align-self: center;
@@ -377,6 +429,11 @@
     background-color: #ff59000d;
     text-align: center;
     font-size: 18px;
+}
+.example-discount {
+    font-size: 14px;
+    text-align: center;
+    margin-top: -20px;
 }
 
 .footer {
