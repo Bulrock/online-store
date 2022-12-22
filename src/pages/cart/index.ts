@@ -33,9 +33,9 @@ drawIfCartEmpty(upData);
 console.log(upData);
 
 const a = 3;
-let page = Number(
+let page = 1; /* Number(
   (document.querySelector(".page-view") as HTMLElement).innerHTML
-);
+); */
 let counUpData: Array<Data[]> = [];
 changeArr(a);
 
@@ -52,7 +52,9 @@ drawPriceHeaderSummary(cartTotal, countProducts, upData);
 
 draw(page, counUpData);
 changeCountProduct();
-(document.querySelector(".item") as HTMLInputElement).value = String(a);
+if (document.querySelector(".item") as HTMLInputElement) {
+  (document.querySelector(".item") as HTMLInputElement).value = "" + a;
+}
 
 let valueNumber = 3;
 
@@ -204,18 +206,23 @@ const inputForPromo = document.querySelector(
   ".summary_form_promo_input"
 ) as HTMLInputElement;
 let value;
-inputForPromo.addEventListener("input", () => {
-  value = inputForPromo.value;
-  console.log(`${value}: ${typeof value}`);
+if (inputForPromo) {
+  inputForPromo.addEventListener("input", () => {
+    value = inputForPromo.value;
+    console.log(`${value}: ${typeof value}`);
 
-  for (let i = 0; i < arrPromo.length; i++) {
-    if (value === arrPromo[i].id) {
-      console.log(typeof arrPromo[i].id);
-      drawblockPromoADD(arrPromo[i].name, arrPromo[i].discount, arrPromo[i].id);
-      if (document.querySelector(".button-ADD") as HTMLElement) {
-        (document.querySelector(".button-ADD") as HTMLElement).addEventListener(
-          "click",
-          function drawDrop() {
+    for (let i = 0; i < arrPromo.length; i++) {
+      if (value === arrPromo[i].id) {
+        console.log(typeof arrPromo[i].id);
+        drawblockPromoADD(
+          arrPromo[i].name,
+          arrPromo[i].discount,
+          arrPromo[i].id
+        );
+        if (document.querySelector(".button-ADD") as HTMLElement) {
+          (document.querySelector(
+            ".button-ADD"
+          ) as HTMLElement).addEventListener("click", function drawDrop() {
             discountCartTotal += arrPromo[i].discount;
             drawDiscountCartTotal(cartTotal, discountCartTotal);
             if (!document.querySelector(".drop-table")) {
@@ -259,17 +266,17 @@ inputForPromo.addEventListener("input", () => {
               }
             });
             console.log(discountCartTotal);
-          }
-        );
-      }
-      break;
-    } else {
-      console.log("удалил блок");
-      if (document.querySelector(".add-promo") as HTMLElement) {
-        (document.querySelector(".add-promo") as HTMLElement).remove();
+          });
+        }
+        break;
+      } else {
+        console.log("удалил блок");
+        if (document.querySelector(".add-promo") as HTMLElement) {
+          (document.querySelector(".add-promo") as HTMLElement).remove();
+        }
       }
     }
-  }
-});
+  });
+}
 
 showModalWindow();

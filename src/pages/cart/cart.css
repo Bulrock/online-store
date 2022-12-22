@@ -479,6 +479,10 @@
     background-color: #fff;
     color: #ff5900;
 }
+.dataCard.active {
+    display: none;
+}
+
 .dataCard h3 {
     margin-bottom: 0px;
     font-size: 22px;
@@ -628,6 +632,7 @@
 .error {
     font-weight: 600;
     display: none;
+    margin: 0;
 }
 .error.active {
     display: inline;
@@ -638,6 +643,26 @@
 .cvv-date .valid {
     color: rgb(20, 183, 20);
     border: 3px solid rgb(20, 183, 20);
+}
+
+.order-is-processed {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    border-radius: 10px;
+    border: 3px solid #ff5a00;
+    color: #ff5900;
+    background-color: #fff;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    position: absolute;
+    z-index: 20;
+}
+
+.order-is-processed.active {
+    display: flex;
 }
 
 @media (max-width: 1500px) {

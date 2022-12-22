@@ -42,6 +42,7 @@ export function showModalWindow() {
   trueValueInputDate();
   trueValueInputCVV();
   isTrueForm();
+  isTrueforClickButton();
 }
 
 function trueValueInputName() {
@@ -219,4 +220,67 @@ function isTrueForm() {
     buttonConfirm.classList.remove("active");
     headerForm.classList.remove("active");
   }
+}
+
+function isTrueforClickButton() {
+  buttonConfirm.addEventListener("click", () => {
+    if (inputName.className !== "valid")
+      (document.querySelector(".nameError") as HTMLElement).classList.add(
+        "active"
+      );
+    if (inputPhone.className !== "valid")
+      (document.querySelector(".phoneError") as HTMLElement).classList.add(
+        "active"
+      );
+    if (inputAddress.className !== "valid")
+      (document.querySelector(".addressError") as HTMLElement).classList.add(
+        "active"
+      );
+    if (inputEmail.className !== "valid")
+      (document.querySelector(".emailError") as HTMLElement).classList.add(
+        "active"
+      );
+    if (inputNumberCard.className !== "valid")
+      (document.querySelector(
+        ".card-numberError"
+      ) as HTMLElement).classList.add("active");
+    if (inputDate.className !== "valid")
+      (document.querySelector(".DateError") as HTMLElement).classList.add(
+        "active"
+      );
+    if (inputCVV.className !== "valid")
+      (document.querySelector(".CVVError") as HTMLElement).classList.add(
+        "active"
+      );
+
+    if (
+      inputName.className === "valid" &&
+      inputPhone.className === "valid" &&
+      inputAddress.className === "valid" &&
+      inputEmail.className === "valid" &&
+      inputNumberCard.className === "valid" &&
+      inputDate.className === "valid" &&
+      inputCVV.className === "valid"
+    ) {
+      (document.querySelector(".dataCard") as HTMLElement).classList.add(
+        "active"
+      );
+      (document.querySelector(
+        ".order-is-processed"
+      ) as HTMLElement).classList.add("active");
+      let time = 3;
+      setInterval(() => {
+        time--;
+        if (time >= 0) {
+          (document.querySelector(
+            ".order-is-processed span"
+          ) as HTMLElement).innerHTML = `${time}`;
+        }
+        if (time === 0) {
+          document.location.href = "./index.html";
+          localStorage.setItem("arr", "");
+        }
+      }, 1000);
+    }
+  });
 }
