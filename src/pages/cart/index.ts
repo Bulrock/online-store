@@ -11,10 +11,24 @@ import {
   drawDiscountCartTotal,
 } from "../../components/cart_components/forcart";
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
-
 import type { Data } from "../../components/cart_components/forcart";
 
-const upData: Data[] = data.slice(0, 20);
+/* let storage = localStorage.getItem('arrProduct');
+let arrStorage;
+if(typeof storage === "string"){
+  arrStorage = JSON.parse(storage);
+} */
+
+const arrId: number[] = [1, 3, 6, 8, 9, 12, 14, 15, 16, 17, 20];
+const upData: Data[] = [];
+
+for (let i = 0; i < arrId.length; i++) {
+  const product = data.find((item) => item.id == arrId[i]);
+  if (product) {
+    upData.push(product);
+  }
+}
+
 drawIfCartEmpty(upData);
 console.log(upData);
 

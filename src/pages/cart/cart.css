@@ -452,7 +452,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     z-index: 15;
     background-color: rgba(0, 0, 0, 0.7);
     display: none;
@@ -469,7 +469,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     border-radius: 10px;
     border: 3px solid #ff5a00;
     width: 30%;
@@ -478,6 +478,14 @@
     padding: 10px 0 20px 0;
     background-color: #fff;
     color: #ff5900;
+}
+.dataCard h3 {
+    margin-bottom: 0px;
+    font-size: 22px;
+}
+
+.dataCard h3.active {
+    color: rgb(20, 183, 20);
 }
 
 .personalData {
@@ -568,6 +576,13 @@
     width: 100%;
 }
 
+#card-number::-webkit-outer-spin-button,
+#card-number::-webkit-inner-spin-button,
+.cvv-date input::-webkit-outer-spin-button,
+.cvv-date input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .imgCard {
     display: flex;
     align-items: center;
@@ -593,7 +608,7 @@
     justify-content: space-between;
 }
 .cvv-date input {
-    width: 20%;
+    width: 30%;
 }
 .buttonConfirm {
     width: 30%;
@@ -601,6 +616,13 @@
     border-radius: 5px;
     border: 3px solid #ff5a00;
     background-color: #fff;
+}
+
+.buttonConfirm.active {
+    border: 4px solid rgb(20, 183, 20);
+    color: rgb(20, 183, 20);
+    cursor: pointer;
+    font-weight: 600;
 }
 
 .error {

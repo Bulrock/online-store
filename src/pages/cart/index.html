@@ -94,16 +94,16 @@
                             <div class="imgCard">
                                 <img src="https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71" alt="cardtype">
                             </div>
-                            <input type="text" name="Card" id="card-number" maxlength="16" required placeholder="0000000000000000">
+                            <input type="text" name="Card" id="card-number" required placeholder="0000000000000000">
                         </div>
                         <div class="cvv-date">
                             <input type="text" name="Card" id="Date" required placeholder="00/00">
-                            <input type="text" name="Card" id="CVV" required placeholder="000">
+                            <input type="number" name="Card" id="CVV" required placeholder="000">
                         </div>
                     </div>
-                    <p class="error card-numberError">error</p>
-                    <p class="error DateError">error</p>
-                    <p class="error CVVError">error</p>
+                    <p class="error card-numberError">Card number - error</p>
+                    <p class="error DateError">Card valid thru - error</p>
+                    <p class="error CVVError">CVV - error</p>
                 </div>
                 <button class="buttonConfirm">CONFIRM</button>
             </div>
