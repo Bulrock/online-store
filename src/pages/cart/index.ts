@@ -10,6 +10,8 @@ import {
   arrPromo,
   drawDiscountCartTotal,
 } from "../../components/cart_components/forcart";
+import { showModalWindow } from "../../components/cart_components/modal_window_cart";
+
 import type { Data } from "../../components/cart_components/forcart";
 
 const upData: Data[] = data.slice(0, 20);
@@ -196,48 +198,56 @@ inputForPromo.addEventListener("input", () => {
     if (value === arrPromo[i].id) {
       console.log(typeof arrPromo[i].id);
       drawblockPromoADD(arrPromo[i].name, arrPromo[i].discount, arrPromo[i].id);
-      (document.querySelector(".button-ADD") as HTMLElement).addEventListener(
-        "click",
-        function drawDrop() {
-          discountCartTotal += arrPromo[i].discount;
-          drawDiscountCartTotal(cartTotal, discountCartTotal);
-          if (!document.querySelector(".drop-table")) {
-            drawDropTable();
-          }
-          drawblockPromoDROP(
-            arrPromo[i].name,
-            arrPromo[i].discount,
-            arrPromo[i].id
-          );
-          (document.querySelector(
-            ".button-ADD"
-          ) as HTMLElement).removeEventListener("click", drawDrop);
-          inputForPromo.value = "";
-          if (document.querySelector(".add-promo") as HTMLElement) {
-            (document.querySelector(".add-promo") as HTMLElement).remove();
-          }
-          ((document.getElementById(
-            `${arrPromo[i].id}`
-          ) as HTMLElement).querySelector(
-            ".button-DROP"
-          ) as HTMLElement).addEventListener("click", () => {
-            console.log("click2");
-            discountCartTotal -= arrPromo[i].discount;
+      if (document.querySelector(".button-ADD") as HTMLElement) {
+        (document.querySelector(".button-ADD") as HTMLElement).addEventListener(
+          "click",
+          function drawDrop() {
+            discountCartTotal += arrPromo[i].discount;
             drawDiscountCartTotal(cartTotal, discountCartTotal);
-            document.getElementById(`${arrPromo[i].id}`)?.remove();
-            if (document.querySelector(".drop-table_wrap")?.innerHTML === "") {
-              (document.querySelector(".drop-table") as HTMLElement).remove();
-              (document.querySelector(
-                ".summary_total-discount"
-              ) as HTMLElement).remove();
-              (document.querySelector(
-                ".summary_total"
-              ) as HTMLElement).style.textDecoration = "none";
+            if (!document.querySelector(".drop-table")) {
+              drawDropTable();
             }
-          });
-          console.log(discountCartTotal);
-        }
-      );
+            drawblockPromoDROP(
+              arrPromo[i].name,
+              arrPromo[i].discount,
+              arrPromo[i].id
+            );
+            (document.querySelector(
+              ".button-ADD"
+            ) as HTMLElement).removeEventListener("click", drawDrop);
+            inputForPromo.value = "";
+            if (document.querySelector(".add-promo") as HTMLElement) {
+              (document.querySelector(".add-promo") as HTMLElement).remove();
+            }
+            ((document.getElementById(
+              `${arrPromo[i].id}`
+            ) as HTMLElement).querySelector(
+              ".button-DROP"
+            ) as HTMLElement).addEventListener("click", () => {
+              console.log("click2");
+              discountCartTotal -= arrPromo[i].discount;
+              drawDiscountCartTotal(cartTotal, discountCartTotal);
+              inputForPromo.value = "";
+              if (document.querySelector(".add-promo") as HTMLElement) {
+                (document.querySelector(".add-promo") as HTMLElement).remove();
+              }
+              document.getElementById(`${arrPromo[i].id}`)?.remove();
+              if (
+                document.querySelector(".drop-table_wrap")?.innerHTML === ""
+              ) {
+                (document.querySelector(".drop-table") as HTMLElement).remove();
+                (document.querySelector(
+                  ".summary_total-discount"
+                ) as HTMLElement).remove();
+                (document.querySelector(
+                  ".summary_total"
+                ) as HTMLElement).style.textDecoration = "none";
+              }
+            });
+            console.log(discountCartTotal);
+          }
+        );
+      }
       break;
     } else {
       console.log("удалил блок");
@@ -247,3 +257,5 @@ inputForPromo.addEventListener("input", () => {
     }
   }
 });
+
+showModalWindow();

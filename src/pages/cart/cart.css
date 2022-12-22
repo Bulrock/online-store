@@ -7,6 +7,9 @@
     height: 100vh;
     gap: 40px;
 }
+.body.active {
+    overflow: hidden;
+}
 
 .container {
     display: flex;
@@ -343,15 +346,12 @@
     font-weight: 600;
 }
 
-.summary_form {
-    width: 80%;
-}
 .summary_form p {
     margin: 0;
 }
 
-.summary_form form {
-    width: 100%;
+.summary_form {
+    width: 80%;
     display: flex;
     flex-direction: column;
     font-size: 20px;
@@ -447,6 +447,188 @@
     box-shadow: 0 -8px 16px rgba(0,0,0,0.2);
 }
 
+.wrapper_dataCard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper_dataCard.active {
+    display: flex;
+}
+
+.dataCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border-radius: 10px;
+    border: 3px solid #ff5a00;
+    width: 30%;
+    position: absolute;
+    z-index: 20;
+    padding: 10px 0 20px 0;
+    background-color: #fff;
+    color: #ff5900;
+}
+
+.personalData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 80%;
+}
+
+.personalData input {
+    border-radius: 10px;
+    border: 3px solid #ff5a00;
+    width: 100%;
+    padding: 5px 10px;
+    text-align: center;
+    outline: #ff5a00;
+    color: #ff5900;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 600;
+}
+.personalData input::placeholder {
+    color: rgb(122, 122, 122);
+    font-weight: 200;
+    font-size: 14px;
+}
+
+.label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.blockCard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.personalCard {
+    width: 65%;
+    background: linear-gradient(90deg,rgb(0,9,36) 6%,rgb(9,9,121) 34%,rgb(0,212,255) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+    gap: 30px;
+    border-radius: 10px;
+}
+
+.numberCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    gap: 10px;
+}
+
+.numberCard input,
+.cvv-date input {
+    border-radius: 5px;
+    border: 1px solid #ff5a00;
+    outline: #ff5a00;
+    padding: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    box-sizing: border-box;
+    color: #ff5900;
+}
+.numberCard input::placeholder,
+.cvv-date input::placeholder {
+    color: rgb(122, 122, 122);
+    font-weight: 200;
+    font-size: 14px;
+}
+
+#card-number {
+    width: 100%;
+}
+
+.imgCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 30px;
+    background-color: #fff;
+    padding: 3px;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.imgCard img{
+    width: 100%;
+    border-radius: 5px;
+}
+
+.cvv-date {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.cvv-date input {
+    width: 20%;
+}
+.buttonConfirm {
+    width: 30%;
+    padding: 5px 0;
+    border-radius: 5px;
+    border: 3px solid #ff5a00;
+    background-color: #fff;
+}
+
+.error {
+    font-weight: 600;
+    display: none;
+}
+.error.active {
+    display: inline;
+}
+
+.personalData .valid,
+.numberCard .valid,
+.cvv-date .valid {
+    color: rgb(20, 183, 20);
+    border: 3px solid rgb(20, 183, 20);
+}
+
+@media (max-width: 1500px) {
+    .products {
+        width: 70%;
+    }
+    .summary {
+        width: 30%;
+    }
+    .dataCard {
+        width: 40%;
+    }
+}
 
 @media (max-width: 1200px) {
     .products {
@@ -454,6 +636,9 @@
     }
     .summary {
         width: 30%;
+    }
+    .dataCard {
+        width: 45%;
     }
 }
 
@@ -493,5 +678,43 @@
         top: 20px;
         font-size: 16px;
         width: 30px;
+    }
+    .dataCard {
+        width: 50%;
+    }
+}
+
+@media (max-width: 800px) {
+    .dataCard {
+        width: 60%;
+    }
+    .personalCard {
+        width: 70%;
+    }
+}
+
+@media (max-width: 600px) {
+    .dataCard {
+        width: 70%;
+    }
+    .personalCard {
+        width: 80%;
+    }
+}
+@media (max-width: 500px) {
+    .dataCard {
+        width: 90%;
+    }
+}
+
+@media (max-width: 400px) {
+    .dataCard {
+        width: 95%;
+    }
+    .personalCard {
+        width: 90%;
+    }
+    .personalData {
+        width: 90%;
     }
 }
