@@ -343,6 +343,13 @@ function updateUrl() {
   const url = new URL(window.location.href);
   const checkedCategories = filters.getCheckedCategories();
   const checkedBrands = filters.getCheckedBrands();
+  const searchInputValue = filters.searchInput;
+  const minPrice = filters.priceFrom;
+  const maxPrice = filters.priceTo;
+  const price = [minPrice, maxPrice];
+  const stockFrom = filters.stockFrom;
+  const stockTo = filters.stockTo;
+  const stock = [stockFrom, stockTo];
 
   checkedCategories.length
     ? url.searchParams.set("category", checkedCategories.join("↕"))
@@ -352,6 +359,39 @@ function updateUrl() {
     ? url.searchParams.set("brand", checkedBrands.join("↕"))
     : url.searchParams.delete("brand");
 
-  // Now update the current URL
+  minPrice || maxPrice
+    ? url.searchParams.set("price", price.join("↕"))
+    : url.searchParams.delete("price");
+
+  stockFrom !== 0 || stockTo !== Number.MAX_VALUE
+    ? url.searchParams.set("stock", stock.join("↕"))
+    : url.searchParams.delete("stock");
+
+  searchInputValue
+    ? url.searchParams.set("search", searchInputValue)
+    : url.searchParams.delete("search");
+
+  // Update the current URL
   window.history.replaceState(null, "", url);
+}
+
+function coptToClipboard() {
+  const currentUrl = (<Window>window).location.href;
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(currentUrl);
+}
+
+const copyBtn = <HTMLButtonElement>document.querySelector(".btn-copy");
+copyBtn.addEventListener("click", onCopyBtnClick);
+
+function onCopyBtnClick() {
+  copyBtn.setAttribute("style", "display: none;");
+  const copiedBtn = <HTMLButtonElement>document.querySelector(".btn-copied");
+  copiedBtn.setAttribute("style", "display: block;");
+  setTimeout(() => {
+    copiedBtn.setAttribute("style", "display: none;");
+    copyBtn.setAttribute("style", "display: block;");
+  }, 500);
+  coptToClipboard();
 }
