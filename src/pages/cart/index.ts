@@ -13,17 +13,17 @@ import {
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
 import type { Data } from "../../components/cart_components/forcart";
 
-/* let storage = localStorage.getItem('arrProduct');
-let arrStorage;
+let storage = localStorage.getItem('cartProductIds');
+let arrStorage:number[] = [];
 if(typeof storage === "string"){
   arrStorage = JSON.parse(storage);
-} */
+}
 
-const arrId: number[] = [1, 3, 6, 8, 9, 12, 14, 15, 16, 17, 20];
+/* const arrId: number[] = [1, 3, 6, 8, 9, 12, 14, 15, 16, 17, 20]; */
 const upData: Data[] = [];
 
-for (let i = 0; i < arrId.length; i++) {
-  const product = data.find((item) => item.id == arrId[i]);
+for (let i = 0; i < arrStorage.length; i++) {
+  const product = data.find((item) => item.id == arrStorage[i]);
   if (product) {
     upData.push(product);
   }
@@ -33,9 +33,7 @@ drawIfCartEmpty(upData);
 console.log(upData);
 
 const a = 3;
-let page = 1; /* Number(
-  (document.querySelector(".page-view") as HTMLElement).innerHTML
-); */
+let page = 1; 
 let counUpData: Array<Data[]> = [];
 changeArr(a);
 
