@@ -11,7 +11,7 @@ import {
   drawDiscountCartTotal,
 } from "../../components/cart_components/forcart";
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
-import type { Data } from "../../components/cart_components/forcart";
+import { Product } from "../../components/model/types";
 
 const storage = localStorage.getItem("cartProductIds");
 let arrStorage: number[] = [];
@@ -20,7 +20,7 @@ if (typeof storage === "string") {
 }
 
 /* const arrId: number[] = [1, 3, 6, 8, 9, 12, 14, 15, 16, 17, 20]; */
-const upData: Data[] = [];
+const upData: Product[] = [];
 
 for (let i = 0; i < arrStorage.length; i++) {
   const product = data.find((item) => item.id == arrStorage[i]);
@@ -34,7 +34,7 @@ console.log(upData);
 
 const a = 3;
 let page = 1;
-let counUpData: Array<Data[]> = [];
+let counUpData: Array<Product[]> = [];
 changeArr(a);
 
 let cartTotal = 0;
@@ -97,7 +97,7 @@ document.querySelector(".arrow_next")?.addEventListener("click", () => {
 
 function changeArr(count: number) {
   counUpData = [];
-  let arr: Data[] = [];
+  let arr: Product[] = [];
   for (let i = 0; i < upData.length; i++) {
     arr.push(upData[i]);
     if (arr.length === count) {

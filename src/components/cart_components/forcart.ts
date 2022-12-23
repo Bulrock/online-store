@@ -1,4 +1,6 @@
-export type Data = {
+import { Product } from "../model/types";
+
+/* export type Data = {
   id: number;
   title: string;
   description: string;
@@ -11,12 +13,12 @@ export type Data = {
   thumbnail: string;
   images: string[];
   countBuyProduct: number;
-};
+}; */
 
 export function drawPriceHeaderSummary(
   sumprice: number,
   sumproducts: number,
-  arr: Data[]
+  arr: Product[]
 ): void {
   const spanSummaryTotatl = document.querySelector(
     ".summary_total span"
@@ -35,7 +37,7 @@ export function drawPriceHeaderSummary(
   }
 }
 
-export function drawIfCartEmpty(arr: Data[]): void {
+export function drawIfCartEmpty(arr: Product[]): void {
   if (arr.length === 0) {
     (document.querySelector(
       ".main"
@@ -45,7 +47,7 @@ export function drawIfCartEmpty(arr: Data[]): void {
   }
 }
 
-export function draw(page: number, arr: Array<Data[]>): void {
+export function draw(page: number, arr: Array<Product[]>): void {
   const blockProducts = document.querySelector(
     ".products_description"
   ) as HTMLElement;
