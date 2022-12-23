@@ -1,4 +1,7 @@
-export const data = [
+import { Product } from "./model/types";
+import ProductList from "./model/productList";
+
+const data: Array<Product> = [
   {
     id: 1,
     title: "iPhone 9",
@@ -1920,3 +1923,6 @@ export const data = [
     ],
   },
 ];
+
+const productList = new ProductList(data);
+export default productList;

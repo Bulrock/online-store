@@ -1,18 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-</head>
-<body>
-    <img class="icon" src="" alt="icon">
-    <img class="logo" src="" alt="logo">
-
-    <a href="./products.html">Product</a>
-    <a href="./error.html">Error</a>
-    <a href="./cart.html">Cart</a>
-    <script src="./main.js"></script>
-</body>
+    <title>Online Store</title>
+  </head>
+  <body class="body-main">
+    <header class="header-main">
+      <!--
+      <a href="./error.html">Error</a>
+       -->
+    <a href="./index.html">
+      <div class="header-logotype">
+        <p class="brand-logo">🛍</p>
+        <p class="text-for-logo">Online Store</p>
+      </div>
+    </a>
+    <div class="header-price">
+        <p>Cart total: €<span class="cart-price">0</span></p>
+    </div>
+    <div class="header-basket">
+      <a href="./cart.html">
+        <div class="basket">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#ff5a00;" d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
+        </div>
+        <div class="product-amount">0</div>
+      </a>
+    </div>
+    </header>
+    <aside class="aside-main">
+      <div class="filters">
+        <div class="reset-total">
+          <button class="btn-reset">Reset Filters</button>
+          <button class="btn-copy" style="display: block;">Copy Link</button>
+          <button class="btn-copied" style="display: none;">Copied!</button>
+        </div>
+        <div class="category">
+          <h3>Category</h3>
+          <div class="filter-list category-list">
+            <template>
+              <div class="checkbox-line item-active category-container">
+                <input class="category-input" type="checkbox" id="smartphones">
+                <label class="category-label" for="smartphones">smartphones</label>
+                <span class="category-span">(5/5)</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="brand">
+          <h3>Brand</h3>
+          <div class="filter-list brand-list">
+            <template>
+              <div class="checkbox-line item-active brand-container">
+                <input class="brand-input" type="checkbox" id="Apple">
+                <label class="brand-label" for="Apple">Apple</label>
+                <span class="brand-span">(3/3)</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="range-container" item="€" filtername="price">
+          <div class="price-heder">
+            <h3 class="range-price-header">Price</h3>
+          </div>
+          <div class="inputs-price">
+            <div class="price-input">
+              <input class="input" maxlength="10" placeholder="from...€" type="text" id="price-from">
+            </div>
+            <div class="price-input">
+              <input class="input" length="8" placeholder="to...€" type="text" id="price-to">
+            </div>
+          </div>
+        </div>
+        <div class="range-container" filtername="stock">
+          <div class="stock-heder">
+            <h3 class="range-stock-header">Stock</h3>
+          </div>
+          <div class="inputs-stock">
+            <div class="stock-input">
+              <input class="input" maxlength="10" placeholder="from..." type="text" id="stock-from">
+            </div>
+            <div class="stock-input">
+              <input class="input" length="8" placeholder="to..." type="text" id="stock-to">
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="main-main">
+      <div class="products">
+        <div class="sort-products">
+          <div class="sort-bar">
+            <select name="sort-options" id="sort" class="sort-select">
+              <option value="sort-title" class="sort-name">Sort options:</option>
+              <option value="price-ASC">Sort by price ASC</option>
+              <option value="price-DESC">Sort by price DESC</option>
+              <option value="rating-ASC">Sort by rating ASC</option>
+              <option value="rating-DESC">Sort by rating DESC</option>
+              <option value="discount-ASC">Sort by discount ASC</option>
+              <option value="discount-DESC">Sort by discount DESC</option>
+            </select>
+          </div>
+          <div class="stat">Found: 100</div>
+          <div class="search-bar">
+            <input type="search" placeholder="Search product" class="search-product">
+          </div>
+          <div class="view-mode">
+            <div class="small-v"></div>
+            <div class="big-v active-mode"></div>
+          </div>
+        </div>
+        <div class="products-items">
+          <template>
+            <div class="big-item">
+              <div class="product-item">
+                <div class="item-wrapper" style="background: url('https://i.dummyjson.com/data/products/1/thumbnail.jpg');">
+                  <div class="item-text">
+                    <div class="item-title">iPhone9</div>
+                    <div class="item-info">
+                      <a href="./products.html">
+                        <div class="item-info-item">
+                          <p class="item-info-text">
+                            <span class="item-info-text text-category">Category:</span>
+                            <span class="item-info-text text-item p-category">smartphones</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-brand">Brand:</span>
+                            <span class="item-info-text text-item p-brand">Apple:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-price">Price:</span>
+                            <span class="item-info-text text-item p-price">€549.00:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-discount">Discount:</span>
+                            <span class="item-info-text text-item p-discount">12.96%:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-rating">Rating:</span>
+                            <span class="item-info-text text-item p-rating">4.69:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-stock">Stock:</span>
+                            <span class="item-info-text text-item p-stock">94:</span>
+                          </p>
+                        </div>
+                      </a>
+                      <div class="item-buttons">
+                        <button class="btn-add-cart" style="display: block;" id="add-0">ADD TO CART</button>
+                        <button class="btn-drop-cart" style="display: none;" id="drop-0">DROP FROM CART</button>
+                        <a href="./products.html">
+                          <button class="btn-details">DETAILS</button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="container bottom">
+        <a class="social-link" href="https://github.com/bulrock" target="_blank">
+          <img class="icon github-icon" src="" alt="github icon"/>
+        </a>
+        <p class="copyrights">Online Store © 2022</p>
+        <a href="https://rs.school/js/" class="social-link">
+          <img class="logo" src="" alt="rs school logo"/>
+        </a>
+      </div>
+    </footer>
+  <script src="./main.js"></script>
+  </body>
 </html>
