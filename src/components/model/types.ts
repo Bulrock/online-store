@@ -14,3 +14,8 @@ export type Product = {
 
   [key: string]: string | number | string[];
 };
+
+export type CartProduct = {
+  id: number;
+  count: number;
+};

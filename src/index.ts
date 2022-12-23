@@ -43,10 +43,12 @@ if (logoSchool) {
   logoSchool.setAttribute("src", logo);
 }
 
-const iconGit = document.querySelector(".icon");
+const iconGit1 = document.querySelector(".github-icon1");
+const iconGit2 = document.querySelector(".github-icon2");
 
-if (iconGit) {
-  iconGit.setAttribute("src", icon);
+if (iconGit1 && iconGit2) {
+  iconGit1.setAttribute("src", icon);
+  iconGit2.setAttribute("src", icon);
 }
 
 const filterCategoryList = <HTMLElement>(
@@ -100,10 +102,6 @@ function onCategoryCheckboxClick(event: Event): void {
   redrawProducts();
 }
 
-const categoryArr = productList.getPropertyValues<string>("category");
-
-createCategoryFilter(categoryArr);
-
 const filterBrandList = <HTMLElement>document.querySelector(".brand-list");
 
 function createBrandFilter(
@@ -149,44 +147,7 @@ function onBrandCheckboxClick(event: Event): void {
   redrawProducts();
 }
 
-const brandArr = productList.getPropertyValues<string>("brand");
-
-createBrandFilter(brandArr);
-
 //Filtration
-// function getSelectedCategories(): string[] {
-//   const categoryElements: NodeListOf<Element> = document.querySelectorAll(
-//     ".category-input"
-//   );
-
-//   const categoryArr: string[] = [];
-
-//   if (categoryElements) {
-//     categoryElements.forEach((elem) => {
-//       if ((<HTMLInputElement>elem).checked === true) {
-//         categoryArr.push(elem.id);
-//       }
-//     });
-//   }
-//   return categoryArr;
-// }
-
-// function getSelectedBrands(): string[] {
-//   const brandElements: NodeListOf<Element> = document.querySelectorAll(
-//     ".brand-input"
-//   );
-
-//   const brandArr: string[] = [];
-
-//   if (brandElements) {
-//     brandElements.forEach((elem) => {
-//       if ((<HTMLInputElement>elem).checked === true) {
-//         brandArr.push(elem.id);
-//       }
-//     });
-//   }
-//   return brandArr;
-// }
 
 const searchInput = <HTMLInputElement>document.querySelector(".search-product");
 searchInput.addEventListener("input", onSearchInputChange);
@@ -281,12 +242,8 @@ function drawProducts(productsArray: Array<Product>): void {
   }
 }
 
-drawProducts(productList.products);
-
 function redrawProducts(): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
-  // const selectedBrands = getSelectedBrands();
-  // const selectedCategories = getSelectedCategories();
 
   const list = productList.filterProducts(
     filters.getCheckedCategories(),
@@ -303,6 +260,43 @@ function redrawProducts(): void {
   productsStats.textContent = `Found: ${list.length}`;
 
   updateUrl();
+
+  redrawAddRemoveCartBtn();
+}
+
+function redrawAddRemoveCartBtn() {
+  const btnAddCart: NodeListOf<Element> = document.querySelectorAll(
+    ".btn-add-cart"
+  );
+  btnAddCart.forEach((elem) => {
+    if (cart.cartProducts.has(Number(elem.id.slice(4)))) {
+      elem.setAttribute("style", "display: none;");
+    }
+  });
+
+  const btnRemoveCart: NodeListOf<Element> = document.querySelectorAll(
+    ".btn-drop-cart"
+  );
+  btnRemoveCart.forEach((elem) => {
+    if (cart.cartProducts.has(Number(elem.id.slice(5)))) {
+      elem.setAttribute("style", "display: block;");
+    }
+  });
+}
+
+function redrawFilters() {
+  const removedFilterElements: NodeListOf<Element> = document.querySelectorAll(
+    ".checkbox-line"
+  );
+  removedFilterElements.forEach((elem) => elem.remove());
+  createBrandFilter(productList.getAllBrands());
+  createCategoryFilter(productList.getAllCategories());
+
+  minPriceInput.value = String(filters.priceFrom);
+  maxPriceInput.value = String(filters.priceTo);
+  minStockInput.value = String(filters.stockFrom);
+  maxStockInput.value = String(filters.stockTo);
+  searchInput.value = filters.searchInput;
 }
 
 const btnResetFilters = <HTMLButtonElement>document.querySelector(".btn-reset");
@@ -320,6 +314,7 @@ function resetFilters() {
   );
 
   redrawProducts();
+  redrawFilters();
 }
 
 function addItemToCart(e: Event): void {
@@ -364,15 +359,21 @@ function deleteItemFromCart(e: Event): void {
   );
   productBigItem.classList.remove("in-cart");
 
-  const cartPrice = <HTMLElement>document.querySelector(".cart-price");
-  cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
+  // const cartPrice = <HTMLElement>document.querySelector(".cart-price");
+  // cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
+  refreshProductsCount();
 }
 
 function refreshCountProductsCart(): void {
   const amountProductsCart = <HTMLElement>(
-    document.querySelector(".product-amount")
+    document.querySelector(".product-count")
   );
   amountProductsCart.textContent = `${cart.getProductsCount()}`;
+}
+
+function refreshProductsCount() {
+  const cartPrice = <HTMLElement>document.querySelector(".cart-price");
+  cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
 }
 
 function updateUrl() {
@@ -431,3 +432,11 @@ function onCopyBtnClick() {
   }, 500);
   copyToClipboard();
 }
+
+redrawProducts();
+
+redrawFilters();
+
+refreshCountProductsCart();
+
+refreshProductsCount();
