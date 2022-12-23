@@ -51,8 +51,6 @@ export default class ProductList {
     return this.products.find((elem) => elem.id === productId);
   }
 
-  // getProductsAmountByProperty()
-
   getAllCategories(): string[] {
     return this.getPropertyValues<string>("category");
   }

@@ -6,8 +6,7 @@ import { Product } from "./components/model/types";
 import Cart from "./components/model/cart";
 import Filters from "./components/model/filters";
 
-const cart = new Cart(productList);
-const filters = new Filters(
+let filters = new Filters(
   productList.getAllCategories(),
   productList.getAllBrands(),
   productList.getMinPrice(),
@@ -17,19 +16,26 @@ const filters = new Filters(
   ""
 );
 
-// function setLocalStorage(): void {
-//   localStorage.setItem("stateMain", JSON.stringify(stateMain));
-// }
+const url = new URL((<Window>window).location.href);
+filters.setCheckedCategories(
+  url.searchParams.get("category")?.split("↕") || []
+);
+filters.setCheckedBrands(url.searchParams.get("brand")?.split("↕") || []);
+filters.priceFrom = Number(
+  url.searchParams.get("price")?.split("↕")[0] || productList.getMinPrice()
+);
+filters.priceTo = Number(
+  url.searchParams.get("price")?.split("↕")[1] || productList.getMaxPrice()
+);
+filters.stockFrom = Number(
+  url.searchParams.get("stock")?.split("↕")[0] || productList.getMinStock()
+);
+filters.stockTo = Number(
+  url.searchParams.get("stock")?.split("↕")[1] || productList.getMaxStock()
+);
+filters.searchInput = url.searchParams.get("search") || "";
 
-// window.addEventListener("beforeunload", setLocalStorage);
-
-// function getLocalStorage(): void {
-//   if (localStorage.getItem("stateMain")) {
-//     stateMain = JSON.parse(localStorage.getItem("stateMain") || "{}");
-//   }
-// }
-
-// getLocalStorage();
+const cart = new Cart(productList);
 
 const logoSchool = <HTMLImageElement>document.querySelector(".logo");
 
@@ -76,6 +82,7 @@ function createCategoryFilter(
       ) {
         categoryInput.id = `${filteredElem[i]}`;
         categoryInput.addEventListener("change", onCategoryCheckboxClick);
+        categoryInput.checked = filters.isCategoryChecked(`${filteredElem[i]}`);
         categoryLabel.setAttribute("for", `${filteredElem[i]}`);
         categoryLabel.textContent = `${filteredElem[i]}`;
       }
@@ -124,6 +131,7 @@ function createBrandFilter(
       ) {
         categoryInput.id = `${filteredElem[i]}`;
         categoryInput.addEventListener("change", onBrandCheckboxClick);
+        categoryInput.checked = filters.isBrandChecked(`${filteredElem[i]}`);
         categoryLabel.setAttribute("for", `${filteredElem[i]}`);
         categoryLabel.textContent = `${filteredElem[i]}`;
       }
@@ -146,39 +154,39 @@ const brandArr = productList.getPropertyValues<string>("brand");
 createBrandFilter(brandArr);
 
 //Filtration
-function getSelectedCategories(): string[] {
-  const categoryElements: NodeListOf<Element> = document.querySelectorAll(
-    ".category-input"
-  );
+// function getSelectedCategories(): string[] {
+//   const categoryElements: NodeListOf<Element> = document.querySelectorAll(
+//     ".category-input"
+//   );
 
-  const categoryArr: string[] = [];
+//   const categoryArr: string[] = [];
 
-  if (categoryElements) {
-    categoryElements.forEach((elem) => {
-      if ((<HTMLInputElement>elem).checked === true) {
-        categoryArr.push(elem.id);
-      }
-    });
-  }
-  return categoryArr;
-}
+//   if (categoryElements) {
+//     categoryElements.forEach((elem) => {
+//       if ((<HTMLInputElement>elem).checked === true) {
+//         categoryArr.push(elem.id);
+//       }
+//     });
+//   }
+//   return categoryArr;
+// }
 
-function getSelectedBrands(): string[] {
-  const brandElements: NodeListOf<Element> = document.querySelectorAll(
-    ".brand-input"
-  );
+// function getSelectedBrands(): string[] {
+//   const brandElements: NodeListOf<Element> = document.querySelectorAll(
+//     ".brand-input"
+//   );
 
-  const brandArr: string[] = [];
+//   const brandArr: string[] = [];
 
-  if (brandElements) {
-    brandElements.forEach((elem) => {
-      if ((<HTMLInputElement>elem).checked === true) {
-        brandArr.push(elem.id);
-      }
-    });
-  }
-  return brandArr;
-}
+//   if (brandElements) {
+//     brandElements.forEach((elem) => {
+//       if ((<HTMLInputElement>elem).checked === true) {
+//         brandArr.push(elem.id);
+//       }
+//     });
+//   }
+//   return brandArr;
+// }
 
 const searchInput = <HTMLInputElement>document.querySelector(".search-product");
 searchInput.addEventListener("input", onSearchInputChange);
@@ -192,7 +200,7 @@ const minPriceInput = <HTMLInputElement>document.getElementById("price-from");
 minPriceInput.addEventListener("input", onMinPriceChange);
 
 function onMinPriceChange() {
-  filters.priceFrom = Number(minPriceInput.value);
+  filters.priceFrom = Number(minPriceInput.value) || productList.getMinPrice();
   redrawProducts();
 }
 
@@ -200,7 +208,7 @@ const maxPriceInput = <HTMLInputElement>document.getElementById("price-to");
 maxPriceInput.addEventListener("input", onMaxPriceChange);
 
 function onMaxPriceChange() {
-  filters.priceTo = Number(maxPriceInput.value);
+  filters.priceTo = Number(maxPriceInput.value) || productList.getMaxPrice();
   redrawProducts();
 }
 
@@ -208,7 +216,7 @@ const minStockInput = <HTMLInputElement>document.getElementById("stock-from");
 minStockInput.addEventListener("input", onMinStockChange);
 
 function onMinStockChange() {
-  filters.stockFrom = Number(minStockInput.value);
+  filters.stockFrom = Number(minStockInput.value) || productList.getMinStock();
   redrawProducts();
 }
 
@@ -216,7 +224,7 @@ const maxStockInput = <HTMLInputElement>document.getElementById("stock-to");
 maxStockInput.addEventListener("input", onMaxStockChange);
 
 function onMaxStockChange() {
-  filters.stockTo = Number(maxStockInput.value);
+  filters.stockTo = Number(maxStockInput.value) || productList.getMaxStock();
   redrawProducts();
 }
 
@@ -238,6 +246,7 @@ function drawProducts(productsArray: Array<Product>): void {
     for (let i = 0; i < productsArray.length; i++) {
       const a = <HTMLElement>document.importNode(item, true);
 
+      a.setAttribute("id", `item-${i}`);
       const itemWrapper = <HTMLElement>a.querySelector(".item-wrapper");
       const itemTitle = <HTMLElement>a.querySelector(".item-title");
       const itemInfoCategory = <HTMLElement>a.querySelector(".p-category");
@@ -276,12 +285,12 @@ drawProducts(productList.products);
 
 function redrawProducts(): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
-  const selectedBrands = getSelectedBrands();
-  const selectedCategories = getSelectedCategories();
+  // const selectedBrands = getSelectedBrands();
+  // const selectedCategories = getSelectedCategories();
 
   const list = productList.filterProducts(
-    selectedCategories,
-    selectedBrands,
+    filters.getCheckedCategories(),
+    filters.getCheckedBrands(),
     filters.searchInput,
     filters.priceFrom,
     filters.priceTo,
@@ -296,6 +305,23 @@ function redrawProducts(): void {
   updateUrl();
 }
 
+const btnResetFilters = <HTMLButtonElement>document.querySelector(".btn-reset");
+btnResetFilters.addEventListener("click", resetFilters);
+
+function resetFilters() {
+  filters = new Filters(
+    productList.getAllCategories(),
+    productList.getAllBrands(),
+    productList.getMinPrice(),
+    productList.getMaxPrice(),
+    productList.getMinStock(),
+    productList.getMaxStock(),
+    ""
+  );
+
+  redrawProducts();
+}
+
 function addItemToCart(e: Event): void {
   const productId = Number((<HTMLElement>e.target).id.slice(4));
   const btnAddCart = <HTMLButtonElement>(
@@ -308,7 +334,12 @@ function addItemToCart(e: Event): void {
   btnDropCart.setAttribute("style", "display: block;");
 
   cart.add(productId);
-  refreshAmountProductsCart();
+  refreshCountProductsCart();
+
+  const productBigItem = <HTMLElement>(
+    document.getElementById(`item-${productId - 1}`)
+  );
+  productBigItem.classList.add("in-cart");
 
   const cartPrice = <HTMLElement>document.querySelector(".cart-price");
   cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
@@ -326,13 +357,18 @@ function deleteItemFromCart(e: Event): void {
   btnAddCart.setAttribute("style", "display: block;");
 
   cart.delete(productId);
-  refreshAmountProductsCart();
+  refreshCountProductsCart();
+
+  const productBigItem = <HTMLElement>(
+    document.getElementById(`item-${productId - 1}`)
+  );
+  productBigItem.classList.remove("in-cart");
 
   const cartPrice = <HTMLElement>document.querySelector(".cart-price");
   cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
 }
 
-function refreshAmountProductsCart(): void {
+function refreshCountProductsCart(): void {
   const amountProductsCart = <HTMLElement>(
     document.querySelector(".product-amount")
   );
@@ -363,7 +399,7 @@ function updateUrl() {
     ? url.searchParams.set("price", price.join("↕"))
     : url.searchParams.delete("price");
 
-  stockFrom !== 0 || stockTo !== Number.MAX_VALUE
+  stockFrom || stockTo
     ? url.searchParams.set("stock", stock.join("↕"))
     : url.searchParams.delete("stock");
 
@@ -375,7 +411,7 @@ function updateUrl() {
   window.history.replaceState(null, "", url);
 }
 
-function coptToClipboard() {
+function copyToClipboard() {
   const currentUrl = (<Window>window).location.href;
 
   // Copy the text inside the text field
@@ -393,5 +429,5 @@ function onCopyBtnClick() {
     copiedBtn.setAttribute("style", "display: none;");
     copyBtn.setAttribute("style", "display: block;");
   }, 500);
-  coptToClipboard();
+  copyToClipboard();
 }

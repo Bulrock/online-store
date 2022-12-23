@@ -41,7 +41,7 @@ export default class Filters {
     this.brands.set(brand, isChecked);
   }
 
-  getCheckedCategories() {
+  getCheckedCategories(): string[] {
     const checkedCategoriesArr: string[] = [];
     this.categories.forEach((value, key) => {
       if (value === true) checkedCategoriesArr.push(key);
@@ -49,11 +49,31 @@ export default class Filters {
     return checkedCategoriesArr;
   }
 
-  getCheckedBrands() {
+  getCheckedBrands(): string[] {
     const checkedBrandsArr: string[] = [];
     this.brands.forEach((value, key) => {
       if (value === true) checkedBrandsArr.push(key);
     });
     return checkedBrandsArr;
+  }
+
+  setCheckedCategories(categories: string[]): void {
+    categories.forEach((elem) => {
+      this.categories.set(elem, true);
+    });
+  }
+
+  setCheckedBrands(brands: string[]): void {
+    brands.forEach((elem) => {
+      this.brands.set(elem, true);
+    });
+  }
+
+  isCategoryChecked(category: string): boolean {
+    return this.categories.get(category) || false;
+  }
+
+  isBrandChecked(brand: string): boolean {
+    return this.brands.get(brand) || false;
   }
 }
