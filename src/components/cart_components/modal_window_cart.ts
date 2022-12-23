@@ -278,7 +278,7 @@ function isTrueforClickButton() {
         }
         if (time === 0) {
           document.location.href = "./index.html";
-          localStorage.setItem("arr", "");
+          localStorage.setItem("cartProductIds", "");
         }
       }, 1000);
     }

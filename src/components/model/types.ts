@@ -14,3 +14,8 @@ export type Product = {
 
   [key: string]: string | number | string[];
 };
+
+export type Storage = {
+  id: number;
+  countBuyProduct: number;
+};

@@ -11,89 +11,107 @@ import {
   drawDiscountCartTotal,
 } from "../../components/cart_components/forcart";
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
-import { Product } from "../../components/model/types";
+import { Product, Storage } from "../../components/model/types";
 
-const storage = localStorage.getItem("cartProductIds");
+/* const storage = localStorage.getItem("cartProductIds");
+console.log(storage);
 let arrStorage: number[] = [];
-if (typeof storage === "string") {
+if (typeof storage === "string" && storage.length > 0) {
   arrStorage = JSON.parse(storage);
-}
+} */
 
-/* const arrId: number[] = [1, 3, 6, 8, 9, 12, 14, 15, 16, 17, 20]; */
-const upData: Product[] = [];
+const arrStorage: Storage[] = [
+  { id: 1, countBuyProduct: 3 },
+  { id: 3, countBuyProduct: 1 },
+  { id: 5, countBuyProduct: 2 },
+  { id: 6, countBuyProduct: 1 },
+  { id: 8, countBuyProduct: 1 },
+  { id: 10, countBuyProduct: 1 },
+  { id: 15, countBuyProduct: 1 },
+  { id: 21, countBuyProduct: 1 },
+  { id: 81, countBuyProduct: 1 },
+];
 
-for (let i = 0; i < arrStorage.length; i++) {
-  const product = data.find((item) => item.id == arrStorage[i]);
-  if (product) {
-    upData.push(product);
-  }
-}
-
-drawIfCartEmpty(upData);
-console.log(upData);
-
-const a = 3;
 let page = 1;
-let counUpData: Array<Product[]> = [];
-changeArr(a);
-
 let cartTotal = 0;
 let discountCartTotal = 0;
 let countProducts = 0;
+let valueNumber = 3;
+let counUpData: Array<Product[]> = [];
+const upData: Product[] = [];
 
+for (let i = 0; i < arrStorage.length; i++) {
+  const product = data.find((item) => item.id == arrStorage[i].id);
+
+  if (product) {
+    upData.push(product);
+    upData[i].countBuyProduct = arrStorage[i].countBuyProduct;
+  }
+}
 upData.forEach((item) => {
-  cartTotal += item.price;
-  countProducts++;
+  cartTotal += item.price * item.countBuyProduct;
+  countProducts += item.countBuyProduct;
 });
 
+drawIfCartEmpty(upData);
+changeArr(3);
 drawPriceHeaderSummary(cartTotal, countProducts, upData);
-
 draw(page, counUpData);
 changeCountProduct();
-if (document.querySelector(".item") as HTMLInputElement) {
-  (document.querySelector(".item") as HTMLInputElement).value = "" + a;
+showModalWindow();
+
+const item = document.querySelector(".item") as HTMLInputElement;
+const viewPage = document.querySelector(".page-view") as HTMLElement;
+const inputForPromo = document.querySelector(
+  ".summary_form_promo_input"
+) as HTMLInputElement;
+
+if (item) {
+  item.value = "" + 3;
 }
 
-let valueNumber = 3;
-
-document.querySelector(".item")?.addEventListener("input", () => {
-  const value = (document.querySelector(".item") as HTMLInputElement).value;
+item.addEventListener("input", () => {
+  const value = item.value;
   valueNumber = Number(value);
   if (!value) {
-    valueNumber = a;
+    valueNumber = 3;
   }
   changeArr(valueNumber);
   if (counUpData.length < page) {
     page = counUpData.length;
-    (document.querySelector(".page-view") as HTMLElement).innerHTML = "" + page;
+    viewPage.innerHTML = "" + page;
   }
   draw(page, counUpData);
   changeCountProduct();
   console.log(counUpData);
 });
 
-document.querySelector(".item")?.addEventListener("change", () => {
-  const value = (document.querySelector(".item") as HTMLInputElement).value;
-  if (!value) {
-    (document.querySelector(".item") as HTMLInputElement).value = String(a);
+item.addEventListener("change", () => {
+  if (!item.value) item.value = "" + 3;
+});
+
+(document.querySelector(".arrow_prev") as HTMLElement).addEventListener(
+  "click",
+  () => {
+    console.log("prev");
+    page === 1 ? (page = 1) : page--;
+    console.log(page);
+    viewPage.innerHTML = "" + page;
+    draw(page, counUpData);
+    changeCountProduct();
   }
-});
-document.querySelector(".arrow_prev")?.addEventListener("click", () => {
-  console.log("prev");
-  page === 1 ? (page = 1) : page--;
-  console.log(page);
-  (document.querySelector(".page-view") as HTMLElement).innerHTML = "" + page;
-  draw(page, counUpData);
-  changeCountProduct();
-});
-document.querySelector(".arrow_next")?.addEventListener("click", () => {
-  console.log("next");
-  page >= counUpData.length ? (page = counUpData.length) : page++;
-  console.log(page);
-  (document.querySelector(".page-view") as HTMLElement).innerHTML = "" + page;
-  draw(page, counUpData);
-  changeCountProduct();
-});
+);
+(document.querySelector(".arrow_next") as HTMLElement).addEventListener(
+  "click",
+  () => {
+    console.log("next");
+    page >= counUpData.length ? (page = counUpData.length) : page++;
+    console.log(page);
+    viewPage.innerHTML = "" + page;
+    draw(page, counUpData);
+    changeCountProduct();
+  }
+);
 
 function changeArr(count: number) {
   counUpData = [];
@@ -118,7 +136,6 @@ function changeCountProduct() {
         const productControls = (e.target as HTMLElement).closest(
           ".product_controlls"
         );
-
         const productControlsCountItem = (productControls as HTMLElement).querySelector(
           ".count-item"
         ) as HTMLElement;
@@ -128,9 +145,6 @@ function changeCountProduct() {
         const productPrice = (productControls as HTMLElement).querySelector(
           ".product-controll_money"
         ) as HTMLElement;
-        const pageView = document.querySelector(".page-view") as HTMLElement;
-
-        console.log(nameProduct);
 
         if (targetClossestClass === "sign minus") {
           console.log("minus");
@@ -141,16 +155,17 @@ function changeCountProduct() {
               countProducts--;
               if (upData[i].countBuyProduct === 1) {
                 upData.splice(i, 1);
+                arrStorage.splice(i, 1);
                 drawIfCartEmpty(upData);
                 changeArr(valueNumber);
-                console.log(counUpData);
                 page > counUpData.length ? (page = counUpData.length) : page;
 
-                pageView.innerHTML = "" + page;
+                viewPage.innerHTML = "" + page;
                 draw(page, counUpData);
                 changeCountProduct();
               } else {
                 upData[i].countBuyProduct -= 1;
+                arrStorage[i].countBuyProduct = upData[i].countBuyProduct;
               }
               if (
                 productPrice &&
@@ -180,6 +195,10 @@ function changeCountProduct() {
                 cartTotal = cartTotal + upData[i].price;
                 countProducts++;
               }
+
+              arrStorage[i].countBuyProduct = upData[i].countBuyProduct;
+              console.log(arrStorage);
+
               ((productControls as HTMLElement).querySelector(
                 ".count-item"
               ) as HTMLElement).innerHTML = "" + upData[i].countBuyProduct;
@@ -195,17 +214,16 @@ function changeCountProduct() {
         } else {
           return;
         }
+        localStorage.setItem("cartProductIds", JSON.stringify(arrStorage));
       }
     });
   });
 }
 
-const inputForPromo = document.querySelector(
-  ".summary_form_promo_input"
-) as HTMLInputElement;
 let value;
 if (inputForPromo) {
   inputForPromo.addEventListener("input", () => {
+    const addPromo = document.querySelector(".add-promo") as HTMLElement;
     value = inputForPromo.value;
     console.log(`${value}: ${typeof value}`);
 
@@ -217,10 +235,9 @@ if (inputForPromo) {
           arrPromo[i].discount,
           arrPromo[i].id
         );
-        if (document.querySelector(".button-ADD") as HTMLElement) {
-          (document.querySelector(
-            ".button-ADD"
-          ) as HTMLElement).addEventListener("click", function drawDrop() {
+        const buttonADD = document.querySelector(".button-ADD") as HTMLElement;
+        if (buttonADD) {
+          buttonADD.addEventListener("click", function drawDrop() {
             discountCartTotal += arrPromo[i].discount;
             drawDiscountCartTotal(cartTotal, discountCartTotal);
             if (!document.querySelector(".drop-table")) {
@@ -231,13 +248,12 @@ if (inputForPromo) {
               arrPromo[i].discount,
               arrPromo[i].id
             );
-            (document.querySelector(
-              ".button-ADD"
-            ) as HTMLElement).removeEventListener("click", drawDrop);
+            buttonADD.removeEventListener("click", drawDrop);
             inputForPromo.value = "";
-            if (document.querySelector(".add-promo") as HTMLElement) {
-              (document.querySelector(".add-promo") as HTMLElement).remove();
-            }
+            const addPromo = document.querySelector(
+              ".add-promo"
+            ) as HTMLElement;
+            if (addPromo) addPromo.remove();
             ((document.getElementById(
               `${arrPromo[i].id}`
             ) as HTMLElement).querySelector(
@@ -247,9 +263,10 @@ if (inputForPromo) {
               discountCartTotal -= arrPromo[i].discount;
               drawDiscountCartTotal(cartTotal, discountCartTotal);
               inputForPromo.value = "";
-              if (document.querySelector(".add-promo") as HTMLElement) {
-                (document.querySelector(".add-promo") as HTMLElement).remove();
-              }
+              const addPromo = document.querySelector(
+                ".add-promo"
+              ) as HTMLElement;
+              if (addPromo) addPromo.remove();
               document.getElementById(`${arrPromo[i].id}`)?.remove();
               if (
                 document.querySelector(".drop-table_wrap")?.innerHTML === ""
@@ -268,13 +285,8 @@ if (inputForPromo) {
         }
         break;
       } else {
-        console.log("удалил блок");
-        if (document.querySelector(".add-promo") as HTMLElement) {
-          (document.querySelector(".add-promo") as HTMLElement).remove();
-        }
+        if (addPromo) addPromo.remove();
       }
     }
   });
 }
-
-showModalWindow();
