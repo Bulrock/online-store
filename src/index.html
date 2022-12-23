@@ -24,15 +24,15 @@
       <a href="./cart.html">
         <div class="basket">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#ff5a00;" d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
-          <div class="product-amount">0</div>
         </div>
+        <div class="product-amount">0</div>
       </a>
     </div>
     </header>
     <aside class="aside-main">
       <div class="filters">
         <div class="reset-total">
-          <button tabindex="0">Reset Filters</button>
+          <button class="btn-reset">Reset Filters</button>
           <button class="btn-copy" style="display: block;">Copy Link</button>
           <button class="btn-copied" style="display: none;">Copied!</button>
         </div>
@@ -113,38 +113,40 @@
         </div>
         <div class="products-items">
           <template>
-            <div class="big-item item1">
+            <div class="big-item">
               <div class="product-item">
                 <div class="item-wrapper" style="background: url('https://i.dummyjson.com/data/products/1/thumbnail.jpg');">
                   <div class="item-text">
                     <div class="item-title">iPhone9</div>
                     <div class="item-info">
-                      <div class="item-info-item">
-                        <p class="item-info-text">
-                          <span class="item-info-text text-category">Category:</span>
-                          <span class="item-info-text text-item p-category">smartphones</span>
-                        </p>
-                        <p class="item-info-text">
-                          <span class="item-info-text text-brand">Brand:</span>
-                          <span class="item-info-text text-item p-brand">Apple:</span>
-                        </p>
-                        <p class="item-info-text">
-                          <span class="item-info-text text-price">Price:</span>
-                          <span class="item-info-text text-item p-price">€549.00:</span>
-                        </p>
-                        <p class="item-info-text">
-                          <span class="item-info-text text-discount">Discount:</span>
-                          <span class="item-info-text text-item p-discount">12.96%:</span>
-                        </p>
-                        <p class="item-info-text">
-                          <span class="item-info-text text-rating">Rating:</span>
-                          <span class="item-info-text text-item p-rating">4.69:</span>
-                        </p>
-                        <p class="item-info-text">
-                          <span class="item-info-text text-stock">Stock:</span>
-                          <span class="item-info-text text-item p-stock">94:</span>
-                        </p>
-                      </div>
+                      <a href="./products.html">
+                        <div class="item-info-item">
+                          <p class="item-info-text">
+                            <span class="item-info-text text-category">Category:</span>
+                            <span class="item-info-text text-item p-category">smartphones</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-brand">Brand:</span>
+                            <span class="item-info-text text-item p-brand">Apple:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-price">Price:</span>
+                            <span class="item-info-text text-item p-price">€549.00:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-discount">Discount:</span>
+                            <span class="item-info-text text-item p-discount">12.96%:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-rating">Rating:</span>
+                            <span class="item-info-text text-item p-rating">4.69:</span>
+                          </p>
+                          <p class="item-info-text">
+                            <span class="item-info-text text-stock">Stock:</span>
+                            <span class="item-info-text text-item p-stock">94:</span>
+                          </p>
+                        </div>
+                      </a>
                       <div class="item-buttons">
                         <button class="btn-add-cart" style="display: block;" id="add-0">ADD TO CART</button>
                         <button class="btn-drop-cart" style="display: none;" id="drop-0">DROP FROM CART</button>
