@@ -68,29 +68,29 @@ const inputForPromo = document.querySelector(
 
 if (item) {
   item.value = "" + 3;
+
+  item.addEventListener("input", () => {
+    const value = item.value;
+    valueNumber = Number(value);
+    if (!value) {
+      valueNumber = 3;
+    }
+    changeArr(valueNumber);
+    if (counUpData.length < page) {
+      page = counUpData.length;
+      viewPage.innerHTML = "" + page;
+    }
+    draw(page, counUpData);
+    changeCountProduct();
+    console.log(counUpData);
+  });
+
+  item.addEventListener("change", () => {
+    if (!item.value) item.value = "" + 3;
+  });
 }
 
-item.addEventListener("input", () => {
-  const value = item.value;
-  valueNumber = Number(value);
-  if (!value) {
-    valueNumber = 3;
-  }
-  changeArr(valueNumber);
-  if (counUpData.length < page) {
-    page = counUpData.length;
-    viewPage.innerHTML = "" + page;
-  }
-  draw(page, counUpData);
-  changeCountProduct();
-  console.log(counUpData);
-});
-
-item.addEventListener("change", () => {
-  if (!item.value) item.value = "" + 3;
-});
-
-(document.querySelector(".arrow_prev") as HTMLElement).addEventListener(
+(document.querySelector(".arrow_prev") as HTMLElement)?.addEventListener(
   "click",
   () => {
     console.log("prev");
@@ -101,7 +101,7 @@ item.addEventListener("change", () => {
     changeCountProduct();
   }
 );
-(document.querySelector(".arrow_next") as HTMLElement).addEventListener(
+(document.querySelector(".arrow_next") as HTMLElement)?.addEventListener(
   "click",
   () => {
     console.log("next");
