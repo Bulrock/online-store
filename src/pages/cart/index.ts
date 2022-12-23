@@ -13,9 +13,9 @@ import {
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
 import type { Data } from "../../components/cart_components/forcart";
 
-let storage = localStorage.getItem('cartProductIds');
-let arrStorage:number[] = [];
-if(typeof storage === "string"){
+const storage = localStorage.getItem("cartProductIds");
+let arrStorage: number[] = [];
+if (typeof storage === "string") {
   arrStorage = JSON.parse(storage);
 }
 
@@ -33,7 +33,7 @@ drawIfCartEmpty(upData);
 console.log(upData);
 
 const a = 3;
-let page = 1; 
+let page = 1;
 let counUpData: Array<Data[]> = [];
 changeArr(a);
 
