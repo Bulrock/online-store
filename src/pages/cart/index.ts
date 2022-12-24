@@ -11,16 +11,16 @@ import {
   drawDiscountCartTotal,
 } from "../../components/cart_components/forcart";
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
-import { Product, Storage } from "../../components/model/types";
+import { Product, CartProduct } from "../../components/model/types";
 
-/* const storage = localStorage.getItem("cartProductIds");
+const storage = localStorage.getItem("countBuyProduct");
 console.log(storage);
-let arrStorage: number[] = [];
+let arrStorage: CartProduct[] = [];
 if (typeof storage === "string" && storage.length > 0) {
   arrStorage = JSON.parse(storage);
-} */
+}
 
-const arrStorage: Storage[] = [
+/* const arrStorage: Storage[] = [
   { id: 1, countBuyProduct: 3 },
   { id: 3, countBuyProduct: 1 },
   { id: 5, countBuyProduct: 2 },
@@ -30,7 +30,7 @@ const arrStorage: Storage[] = [
   { id: 15, countBuyProduct: 1 },
   { id: 21, countBuyProduct: 1 },
   { id: 81, countBuyProduct: 1 },
-];
+]; */
 
 let page = 1;
 let cartTotal = 0;
@@ -45,7 +45,7 @@ for (let i = 0; i < arrStorage.length; i++) {
 
   if (product) {
     upData.push(product);
-    upData[i].countBuyProduct = arrStorage[i].countBuyProduct;
+    upData[i].countBuyProduct = arrStorage[i].count;
   }
 }
 upData.forEach((item) => {
@@ -165,7 +165,7 @@ function changeCountProduct() {
                 changeCountProduct();
               } else {
                 upData[i].countBuyProduct -= 1;
-                arrStorage[i].countBuyProduct = upData[i].countBuyProduct;
+                arrStorage[i].count = upData[i].countBuyProduct;
               }
               if (
                 productPrice &&
@@ -196,7 +196,7 @@ function changeCountProduct() {
                 countProducts++;
               }
 
-              arrStorage[i].countBuyProduct = upData[i].countBuyProduct;
+              arrStorage[i].count = upData[i].countBuyProduct;
               console.log(arrStorage);
 
               ((productControls as HTMLElement).querySelector(
@@ -214,7 +214,7 @@ function changeCountProduct() {
         } else {
           return;
         }
-        localStorage.setItem("cartProductIds", JSON.stringify(arrStorage));
+        localStorage.setItem("countBuyProduct", JSON.stringify(arrStorage));
       }
     });
   });

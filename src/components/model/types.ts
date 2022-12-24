@@ -15,7 +15,7 @@ export type Product = {
   [key: string]: string | number | string[];
 };
 
-export type Storage = {
+export type CartProduct = {
   id: number;
-  countBuyProduct: number;
+  count: number;
 };

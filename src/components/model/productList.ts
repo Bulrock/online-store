@@ -40,7 +40,7 @@ export default class ProductList {
   getMaxStock() {
     let maxStock = this.products[0].stock;
     this.products.forEach((elem) => {
-      if (elem.price > maxStock) {
+      if (elem.stock > maxStock) {
         maxStock = elem.stock;
       }
     });
