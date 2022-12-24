@@ -26,15 +26,26 @@ export default class Cart {
   }
 
   getProductsTotalPrice(): number {
+    const savedProducts = localStorage.getItem("countBuyProduct");
     let totalPrice = 0;
-    this.cartProducts.forEach((value, key) => {
-      totalPrice += this.products.getProductById(key)?.price || 0;
-    });
+    let totalPriceN = 0;
+    if (savedProducts) {
+      this.cartProducts.forEach((value, key) => {
+        const priceOfCurrentId = this.products.getProductById(key)?.price || 0;
+        totalPriceN = priceOfCurrentId * value;
+        totalPrice += totalPriceN;
+      });
+    }
     return totalPrice;
   }
 
   getProductsCount(): number {
-    return this.cartProducts.size;
+    const savedProducts = localStorage.getItem("countBuyProduct");
+    let totalProductsCount = 0;
+    if (savedProducts) {
+      this.cartProducts.forEach((value) => (totalProductsCount += value));
+    }
+    return totalProductsCount;
   }
 
   saveToLocalStorage() {

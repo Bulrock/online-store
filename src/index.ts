@@ -364,8 +364,7 @@ function addItemToCart(e: Event): void {
   );
   productBigItem.classList.add("in-cart");
 
-  const cartPrice = <HTMLElement>document.querySelector(".cart-price");
-  cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
+  refreshProductsPrice();
 }
 
 function deleteItemFromCart(e: Event): void {
@@ -387,7 +386,7 @@ function deleteItemFromCart(e: Event): void {
   );
   productBigItem.classList.remove("in-cart");
 
-  refreshProductsCount();
+  refreshProductsPrice();
 }
 
 function refreshCountProductsCart(): void {
@@ -397,7 +396,7 @@ function refreshCountProductsCart(): void {
   amountProductsCart.textContent = `${cart.getProductsCount()}`;
 }
 
-function refreshProductsCount() {
+function refreshProductsPrice() {
   const cartPrice = <HTMLElement>document.querySelector(".cart-price");
   cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
 }
@@ -465,4 +464,4 @@ redrawFilters();
 
 refreshCountProductsCart();
 
-refreshProductsCount();
+refreshProductsPrice();
