@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-size: calc(.1rem + 1vw); */
   word-wrap: break-word;
 }
 
@@ -375,6 +374,35 @@ h3 {
   font-family: 'Times New Roman', Times, sans-serif;
   font-size: 100%;
   text-align: center;
+}
+
+.view-mode {
+  display: flex;
+  gap: 1em;
+  margin: 0.4em;
+}
+
+.small-v,
+.huge-v {
+  max-height: 40px;
+  padding: 0.5em;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.small-v.active-mode,
+.huge-v.active-mode {
+  padding: 0.5em;
+  transition: all .3s ease-in-out;
+  box-shadow: 0 0 5px 2px #ff5a00;
+  border-radius: 10px;
+}
+
+.small-v:hover,
+.huge-v:hover {
+  box-shadow: 0 0 5px 2px #ff5a00;
+  border-radius: 10px;
+  transform: scale(1.03);
 }
 
 .products-items {

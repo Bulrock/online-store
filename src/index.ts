@@ -1,6 +1,8 @@
 import "./style.css";
 import logo from "./assets/rs_school.svg";
 import icon from "./assets/github_icon.svg";
+import smallViewBtn from "./assets/small_list.svg";
+import hugeViewBtn from "./assets/huge_list.svg";
 import productList from "./components/data";
 import { Product } from "./components/model/types";
 import Cart from "./components/model/cart";
@@ -37,14 +39,40 @@ filters.searchInput = url.searchParams.get("search") || "";
 
 const cart = new Cart(productList);
 
+const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
+
+if (smallVBtn) {
+  smallVBtn.setAttribute("src", smallViewBtn);
+}
+
+smallVBtn.addEventListener("click", changeDisplayMode);
+
+const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
+
+if (hugeVBtn) {
+  hugeVBtn.setAttribute("src", hugeViewBtn);
+}
+
+hugeVBtn.addEventListener("click", changeDisplayMode);
+
+function changeDisplayMode(): void {
+  if (hugeVBtn.classList.contains("active-mode")) {
+    hugeVBtn.classList.remove("active-mode");
+    smallVBtn.classList.add("active-mode");
+  } else {
+    hugeVBtn.classList.add("active-mode");
+    smallVBtn.classList.remove("active-mode");
+  }
+}
+
 const logoSchool = <HTMLImageElement>document.querySelector(".logo");
 
 if (logoSchool) {
   logoSchool.setAttribute("src", logo);
 }
 
-const iconGit1 = document.querySelector(".github-icon1");
-const iconGit2 = document.querySelector(".github-icon2");
+const iconGit1 = <HTMLImageElement>document.querySelector(".github-icon1");
+const iconGit2 = <HTMLImageElement>document.querySelector(".github-icon2");
 
 if (iconGit1 && iconGit2) {
   iconGit1.setAttribute("src", icon);
@@ -359,8 +387,6 @@ function deleteItemFromCart(e: Event): void {
   );
   productBigItem.classList.remove("in-cart");
 
-  // const cartPrice = <HTMLElement>document.querySelector(".cart-price");
-  // cartPrice.textContent = `${cart.getProductsTotalPrice()}`;
   refreshProductsCount();
 }
 
