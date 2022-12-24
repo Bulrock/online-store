@@ -88,9 +88,11 @@ export default class ProductList {
     minPrice: number,
     maxPrice: number,
     minStock: number,
-    maxStock: number
+    maxStock: number,
+    sortOption: string,
+    sortOptionValue: string
   ): Product[] {
-    return this.products.filter((elem) => {
+    const filteredProducts = this.products.filter((elem) => {
       if (categoryList.length > 0 && !categoryList.includes(elem.category))
         return false;
       if (brandList.length > 0 && !brandList.includes(elem.brand)) return false;
@@ -114,5 +116,58 @@ export default class ProductList {
       if (elem.stock < minStock || elem.stock > maxStock) return false;
       return true;
     });
+
+    function sortByPrice(value: string) {
+      if (value === "ASC") {
+        return filteredProducts.sort((a, b) => a.price - b.price);
+      }
+      if (value === "DESC") {
+        return filteredProducts.sort((a, b) => b.price - a.price);
+      }
+    }
+
+    if (sortOption === "price" && sortOptionValue === "ASC") {
+      sortByPrice("ASC");
+    }
+    if (sortOption === "price" && sortOptionValue === "DESC") {
+      sortByPrice("DESC");
+    }
+
+    function sortByRating(value: string) {
+      if (value === "ASC") {
+        return filteredProducts.sort((a, b) => a.rating - b.rating);
+      }
+      if (value === "DESC") {
+        return filteredProducts.sort((a, b) => b.rating - a.rating);
+      }
+    }
+
+    if (sortOption === "rating" && sortOptionValue === "ASC") {
+      sortByRating("ASC");
+    }
+    if (sortOption === "rating" && sortOptionValue === "DESC") {
+      sortByRating("DESC");
+    }
+
+    function sortByDiscount(value: string) {
+      if (value === "ASC") {
+        return filteredProducts.sort(
+          (a, b) => a.discountPercentage - b.discountPercentage
+        );
+      }
+      if (value === "DESC") {
+        return filteredProducts.sort(
+          (a, b) => b.discountPercentage - a.discountPercentage
+        );
+      }
+    }
+
+    if (sortOption === "discount" && sortOptionValue === "ASC") {
+      sortByDiscount("ASC");
+    }
+    if (sortOption === "discount" && sortOptionValue === "DESC") {
+      sortByDiscount("DESC");
+    }
+    return filteredProducts;
   }
 }

@@ -270,8 +270,19 @@ function drawProducts(productsArray: Array<Product>): void {
   }
 }
 
+const select = <HTMLSelectElement>document.getElementById("sort");
+select.addEventListener("click", redrawProducts);
+
+function getSortOption(): string[] {
+  return select.options[select.selectedIndex].text.slice(8).split(" ");
+}
+
 function redrawProducts(): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
+  const sortOptionValues: string[] = getSortOption();
+
+  console.log(sortOptionValues[0]);
+  console.log(sortOptionValues[1]);
 
   const list = productList.filterProducts(
     filters.getCheckedCategories(),
@@ -280,7 +291,9 @@ function redrawProducts(): void {
     filters.priceFrom,
     filters.priceTo,
     filters.stockFrom,
-    filters.stockTo
+    filters.stockTo,
+    sortOptionValues[0],
+    sortOptionValues[1]
   );
 
   drawProducts(list);
