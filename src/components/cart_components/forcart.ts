@@ -1,20 +1,5 @@
 import { Product } from "../model/types";
 
-/* export type Data = {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-  countBuyProduct: number;
-}; */
-
 export function drawPriceHeaderSummary(
   sumprice: number,
   sumproducts: number,
@@ -57,23 +42,27 @@ export function draw(page: number, arr: Array<Product[]>): void {
     arr[page - 1].forEach((item, index) => {
       const div = document.createElement("div");
       div.innerHTML = `
-          <div class="product_number">${index + 1}</div>
-          <div class="product_descr">
+          <div class="wrapper_product-number-descr">
+            <div class="wrapper_number-img">
+              <div class="product_number">${index + 1}</div>
               <img class="product_img" src="${item.images[0]}" alt="${
         item.title
       }">
+            </div>
+            <div class="product_descr">
               <div class="product_about">
-                  <p class="product_about_name">${item.title}</p>
-                  <p class="product_about_description">${item.description}</p>
-                  <div class="product_about_raiting-discount">
-                      <p class="product_about_raiting-discount_raiting">Rating: ${
-                        item.rating
-                      }</p>
-                      <p class="product_about_raiting-discount_discount">Discount: ${
-                        item.discountPercentage
-                      }</p>
-                  </div>
+                <p class="product_about_name">${item.title}</p>
+                <p class="product_about_description">${item.description}</p>
+                <div class="product_about_raiting-discount">
+                    <p class="product_about_raiting-discount_raiting">Rating: ${
+                      item.rating
+                    }</p>
+                    <p class="product_about_raiting-discount_discount">Discount: ${
+                      item.discountPercentage
+                    }</p>
+                </div>
               </div>
+            </div>
           </div>
           <div class="product_controlls">
               <p class="stock">Stock: <span>${item.stock}</span></p>
