@@ -20,23 +20,15 @@ if (typeof storage === "string" && storage.length > 0) {
   arrStorage = JSON.parse(storage);
 }
 
-/* const arrStorage: Storage[] = [
-  { id: 1, countBuyProduct: 3 },
-  { id: 3, countBuyProduct: 1 },
-  { id: 5, countBuyProduct: 2 },
-  { id: 6, countBuyProduct: 1 },
-  { id: 8, countBuyProduct: 1 },
-  { id: 10, countBuyProduct: 1 },
-  { id: 15, countBuyProduct: 1 },
-  { id: 21, countBuyProduct: 1 },
-  { id: 81, countBuyProduct: 1 },
-]; */
-
-let page = 1;
+let page = new URL(window.location.href).searchParams.has("page")
+  ? Number(new URL(window.location.href).searchParams.get("page"))
+  : 1;
+let valueNumber = new URL(window.location.href).searchParams.has("item")
+  ? Number(new URL(window.location.href).searchParams.get("item"))
+  : 3;
 let cartTotal = 0;
 let discountCartTotal = 0;
 let countProducts = 0;
-let valueNumber = 3;
 let counUpData: Array<Product[]> = [];
 const upData: Product[] = [];
 
@@ -54,7 +46,7 @@ upData.forEach((item) => {
 });
 
 drawIfCartEmpty(upData);
-changeArr(3);
+changeArr(valueNumber);
 drawPriceHeaderSummary(cartTotal, countProducts, upData);
 draw(page, counUpData);
 changeCountProduct();
@@ -67,7 +59,7 @@ const inputForPromo = document.querySelector(
 ) as HTMLInputElement;
 
 if (item) {
-  item.value = "" + 3;
+  item.value = "" + valueNumber;
 
   item.addEventListener("input", () => {
     const value = item.value;
@@ -83,10 +75,14 @@ if (item) {
     draw(page, counUpData);
     changeCountProduct();
     console.log(counUpData);
+    addContProductOnePageUrl();
   });
 
   item.addEventListener("change", () => {
-    if (!item.value) item.value = "" + 3;
+    if (!item.value) {
+      valueNumber = 3;
+      item.value = "" + valueNumber;
+    }
   });
 }
 
@@ -99,6 +95,7 @@ if (item) {
     viewPage.innerHTML = "" + page;
     draw(page, counUpData);
     changeCountProduct();
+    addPageUrl();
   }
 );
 (document.querySelector(".arrow_next") as HTMLElement)?.addEventListener(
@@ -110,6 +107,7 @@ if (item) {
     viewPage.innerHTML = "" + page;
     draw(page, counUpData);
     changeCountProduct();
+    addPageUrl();
   }
 );
 
@@ -124,6 +122,15 @@ function changeArr(count: number) {
     }
   }
   if (arr.length > 0) counUpData.push(arr);
+  localStorage.setItem("page", JSON.stringify(counUpData.length));
+  if (new URL(window.location.href).searchParams.has("page")) {
+    if (
+      Number(new URL(window.location.href).searchParams.get("page")) >
+      Number(localStorage.getItem("page"))
+    ) {
+      document.location.href = "./error.html";
+    }
+  }
 }
 
 function changeCountProduct() {
@@ -289,4 +296,18 @@ if (inputForPromo) {
       }
     }
   });
+}
+
+function addPageUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("page", String(page));
+  console.log(url);
+  window.history.replaceState(null, "", url);
+}
+
+function addContProductOnePageUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("item", String(valueNumber));
+  console.log(url);
+  window.history.replaceState(null, "", url);
 }

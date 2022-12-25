@@ -33,6 +33,8 @@ export function drawIfCartEmpty(arr: Product[]): void {
 }
 
 export function draw(page: number, arr: Array<Product[]>): void {
+  const viewPage = document.querySelector(".page-view") as HTMLElement;
+  viewPage.innerHTML = "" + page;
   const blockProducts = document.querySelector(
     ".products_description"
   ) as HTMLElement;
