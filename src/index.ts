@@ -15,6 +15,7 @@ let filters = new Filters(
   productList.getMaxPrice(),
   productList.getMinStock(),
   productList.getMaxStock(),
+  "",
   ""
 );
 
@@ -36,10 +37,118 @@ filters.stockTo = Number(
   url.searchParams.get("stock")?.split("↕")[1] || productList.getMaxStock()
 );
 filters.searchInput = url.searchParams.get("search") || "";
+filters.sortOptionValues = url.searchParams.get("sort") || "";
 
 const cart = new Cart(productList);
 
 const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
+
+const lowerSlider = <HTMLInputElement>document.getElementById("lower"),
+  upperSlider = <HTMLInputElement>document.getElementById("upper");
+let lowerVal = parseInt(lowerSlider.value),
+  upperVal = parseInt(upperSlider.value);
+
+const minPriceLabel = <HTMLLabelElement>(
+  document.getElementById("min-price-label")
+);
+
+const maxPriceLabel = <HTMLLabelElement>(
+  document.getElementById("max-price-label")
+);
+
+upperSlider.oninput = function () {
+  lowerVal = parseInt(lowerSlider.value);
+  upperVal = parseInt(upperSlider.value);
+  filters.priceTo = Number(upperSlider.value) || productList.getMaxPrice();
+  redrawProducts();
+  minPriceLabel.textContent = `€${lowerVal}.00`;
+  maxPriceLabel.textContent = `€${upperVal}.00`;
+
+  if (upperVal < lowerVal + 4) {
+    lowerSlider.value = String(upperVal - 4);
+
+    if (String(lowerVal) === lowerSlider.min) {
+      upperSlider.value = String(4);
+    }
+  }
+};
+
+lowerSlider.oninput = function () {
+  lowerVal = parseInt(lowerSlider.value);
+  upperVal = parseInt(upperSlider.value);
+  filters.priceFrom = Number(lowerSlider.value) || productList.getMinPrice();
+  redrawProducts();
+  minPriceLabel.textContent = `€${lowerVal}.00`;
+  maxPriceLabel.textContent = `€${upperVal}.00`;
+
+  if (lowerVal > upperVal - 4) {
+    upperSlider.value = String(lowerVal + 4);
+
+    if (upperVal === Number(upperSlider.max)) {
+      lowerSlider.value = String(parseInt(upperSlider.max) - 4);
+    }
+  }
+};
+
+lowerSlider.min = String(productList.getMinPrice());
+lowerSlider.max = String(productList.getMaxPrice());
+upperSlider.min = String(productList.getMinPrice());
+upperSlider.max = String(productList.getMaxPrice());
+
+const lowerStockSlider = <HTMLInputElement>(
+    document.getElementById("lower-stock")
+  ),
+  upperStockSlider = <HTMLInputElement>document.getElementById("upper-stock");
+let lowerStockVal = parseInt(lowerStockSlider.value),
+  upperStockVal = parseInt(upperStockSlider.value);
+
+const minStockLabel = <HTMLLabelElement>(
+  document.getElementById("min-stock-label")
+);
+
+const maxStockLabel = <HTMLLabelElement>(
+  document.getElementById("max-stock-label")
+);
+
+upperStockSlider.oninput = function () {
+  lowerStockVal = parseInt(lowerStockSlider.value);
+  upperStockVal = parseInt(upperStockSlider.value);
+  filters.stockTo = Number(upperStockSlider.value) || productList.getMaxStock();
+  redrawProducts();
+  minStockLabel.textContent = String(lowerStockVal);
+  maxStockLabel.textContent = String(upperStockVal);
+
+  if (upperStockVal < lowerStockVal + 4) {
+    lowerStockSlider.value = String(upperStockVal - 4);
+
+    if (String(lowerStockVal) === lowerStockSlider.min) {
+      upperStockSlider.value = String(4);
+    }
+  }
+};
+
+lowerStockSlider.oninput = function () {
+  lowerStockVal = parseInt(lowerStockSlider.value);
+  upperStockVal = parseInt(upperStockSlider.value);
+  filters.stockFrom =
+    Number(lowerStockSlider.value) || productList.getMinStock();
+  redrawProducts();
+  minStockLabel.textContent = String(lowerStockVal);
+  maxStockLabel.textContent = String(upperStockVal);
+
+  if (lowerStockVal > upperStockVal - 4) {
+    upperStockSlider.value = String(lowerStockVal + 4);
+
+    if (upperStockVal === Number(upperStockSlider.max)) {
+      lowerStockSlider.value = String(parseInt(upperStockSlider.max) - 4);
+    }
+  }
+};
+
+lowerStockSlider.min = String(productList.getMinStock());
+lowerStockSlider.max = String(productList.getMaxStock());
+upperStockSlider.min = String(productList.getMinStock());
+upperStockSlider.max = String(productList.getMaxStock());
 
 if (smallVBtn) {
   smallVBtn.setAttribute("src", smallViewBtn);
@@ -185,38 +294,6 @@ function onSearchInputChange() {
   redrawProducts();
 }
 
-const minPriceInput = <HTMLInputElement>document.getElementById("price-from");
-minPriceInput.addEventListener("input", onMinPriceChange);
-
-function onMinPriceChange() {
-  filters.priceFrom = Number(minPriceInput.value) || productList.getMinPrice();
-  redrawProducts();
-}
-
-const maxPriceInput = <HTMLInputElement>document.getElementById("price-to");
-maxPriceInput.addEventListener("input", onMaxPriceChange);
-
-function onMaxPriceChange() {
-  filters.priceTo = Number(maxPriceInput.value) || productList.getMaxPrice();
-  redrawProducts();
-}
-
-const minStockInput = <HTMLInputElement>document.getElementById("stock-from");
-minStockInput.addEventListener("input", onMinStockChange);
-
-function onMinStockChange() {
-  filters.stockFrom = Number(minStockInput.value) || productList.getMinStock();
-  redrawProducts();
-}
-
-const maxStockInput = <HTMLInputElement>document.getElementById("stock-to");
-maxStockInput.addEventListener("input", onMaxStockChange);
-
-function onMaxStockChange() {
-  filters.stockTo = Number(maxStockInput.value) || productList.getMaxStock();
-  redrawProducts();
-}
-
 const productsItems = <HTMLElement>document.querySelector(".products-items");
 
 function drawProducts(productsArray: Array<Product>): void {
@@ -271,18 +348,16 @@ function drawProducts(productsArray: Array<Product>): void {
 }
 
 const select = <HTMLSelectElement>document.getElementById("sort");
-select.addEventListener("click", redrawProducts);
 
-function getSortOption(): string[] {
-  return select.options[select.selectedIndex].text.slice(8).split(" ");
+select.addEventListener("click", setSortOption);
+
+function setSortOption() {
+  filters.sortOptionValues = select.options[select.selectedIndex].value;
+  redrawProducts();
 }
 
 function redrawProducts(): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
-  const sortOptionValues: string[] = getSortOption();
-
-  console.log(sortOptionValues[0]);
-  console.log(sortOptionValues[1]);
 
   const list = productList.filterProducts(
     filters.getCheckedCategories(),
@@ -292,13 +367,13 @@ function redrawProducts(): void {
     filters.priceTo,
     filters.stockFrom,
     filters.stockTo,
-    sortOptionValues[0],
-    sortOptionValues[1]
+    filters.sortOptionValues.split("-")[0],
+    filters.sortOptionValues.split("-")[1]
   );
 
-  drawProducts(list);
+  drawProducts(list.products);
 
-  productsStats.textContent = `Found: ${list.length}`;
+  productsStats.textContent = `Found: ${list.products.length}`;
 
   updateUrl();
 
@@ -333,10 +408,6 @@ function redrawFilters() {
   createBrandFilter(productList.getAllBrands());
   createCategoryFilter(productList.getAllCategories());
 
-  minPriceInput.value = String(filters.priceFrom);
-  maxPriceInput.value = String(filters.priceTo);
-  minStockInput.value = String(filters.stockFrom);
-  maxStockInput.value = String(filters.stockTo);
   searchInput.value = filters.searchInput;
 }
 
@@ -351,6 +422,7 @@ function resetFilters() {
     productList.getMaxPrice(),
     productList.getMinStock(),
     productList.getMaxStock(),
+    "",
     ""
   );
 
@@ -425,6 +497,7 @@ function updateUrl() {
   const stockFrom = filters.stockFrom;
   const stockTo = filters.stockTo;
   const stock = [stockFrom, stockTo];
+  const sortOptionValues = filters.sortOptionValues;
 
   checkedCategories.length
     ? url.searchParams.set("category", checkedCategories.join("↕"))
@@ -445,6 +518,10 @@ function updateUrl() {
   searchInputValue
     ? url.searchParams.set("search", searchInputValue)
     : url.searchParams.delete("search");
+
+  sortOptionValues
+    ? url.searchParams.set("sort", sortOptionValues)
+    : url.searchParams.delete("sort");
 
   // Update the current URL
   window.history.replaceState(null, "", url);

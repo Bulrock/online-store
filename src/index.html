@@ -64,27 +64,27 @@
           <div class="price-heder">
             <h3 class="range-price-header">Price</h3>
           </div>
-          <div class="inputs-price">
-            <div class="price-input">
-              <input class="input" maxlength="10" placeholder="from...€" type="text" id="price-from">
-            </div>
-            <div class="price-input">
-              <input class="input" length="8" placeholder="to...€" type="text" id="price-to">
-            </div>
+          <div class="label-container">
+            <label id="min-price-label" for="lower">€10.00</label>
+            <label id="max-price-label" for="upper">€1749.00</label>
           </div>
+          <span class="multi-range">
+            <input type="range" min="10" max="" value="10" id="lower">
+            <input type="range" min="10" max="1749" value="1749" id="upper">
+          </span>
         </div>
         <div class="range-container" filtername="stock">
           <div class="stock-heder">
             <h3 class="range-stock-header">Stock</h3>
           </div>
-          <div class="inputs-stock">
-            <div class="stock-input">
-              <input class="input" maxlength="10" placeholder="from..." type="text" id="stock-from">
-            </div>
-            <div class="stock-input">
-              <input class="input" length="8" placeholder="to..." type="text" id="stock-to">
-            </div>
+          <div class="label-container">
+            <label id="min-stock-label" for="lower-stock">2</label>
+            <label id="max-stock-label" for="upper-stock">150</label>
           </div>
+          <span class="multi-range">
+            <input type="range" min="1" max="" value="1" id="lower-stock">
+            <input type="range" min="1" max="150" value="150" id="upper-stock">
+          </span>
         </div>
       </div>
     </aside>

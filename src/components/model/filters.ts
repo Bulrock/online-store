@@ -6,6 +6,7 @@ export default class Filters {
   stockFrom = 0;
   stockTo = Number.MAX_VALUE;
   searchInput = "";
+  sortOptionValues = "";
 
   constructor(
     categories: string[],
@@ -14,7 +15,8 @@ export default class Filters {
     priceTo: number,
     stockFrom: number,
     stockTo: number,
-    searchInput: string
+    searchInput: string,
+    sortOptionValues: string
   ) {
     this.categories = categories.reduce((prev, current) => {
       prev.set(current, false);
@@ -31,6 +33,7 @@ export default class Filters {
     this.stockFrom = stockFrom;
     this.stockTo = stockTo;
     this.searchInput = searchInput;
+    this.sortOptionValues = sortOptionValues;
   }
 
   changeCategoryFilter(category: string, isChecked: boolean) {

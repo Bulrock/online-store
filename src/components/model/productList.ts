@@ -1,3 +1,4 @@
+// import productList from "../data";
 import { Product } from "./types";
 
 export default class ProductList {
@@ -91,7 +92,7 @@ export default class ProductList {
     maxStock: number,
     sortOption: string,
     sortOptionValue: string
-  ): Product[] {
+  ): ProductList {
     const filteredProducts = this.products.filter((elem) => {
       if (categoryList.length > 0 && !categoryList.includes(elem.category))
         return false;
@@ -168,6 +169,6 @@ export default class ProductList {
     if (sortOption === "discount" && sortOptionValue === "DESC") {
       sortByDiscount("DESC");
     }
-    return filteredProducts;
+    return new ProductList(filteredProducts);
   }
 }
