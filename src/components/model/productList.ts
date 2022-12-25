@@ -1,4 +1,3 @@
-// import productList from "../data";
 import { Product } from "./types";
 
 export default class ProductList {
@@ -69,6 +68,20 @@ export default class ProductList {
       .filter((elem) => elem !== undefined);
 
     return Array.from(new Set(array));
+  }
+
+  getNumberOfProductsByCategory(productCategory: string) {
+    return this.products.filter((product) => {
+      if (product.category === productCategory) return true;
+      return false;
+    }).length;
+  }
+
+  getNumberOfProductsByBrand(productBrand: string) {
+    return this.products.filter((product) => {
+      if (product.brand === productBrand) return true;
+      return false;
+    }).length;
   }
 
   getSortedProducts(propertyName: string, isAscending: boolean): Product[] {

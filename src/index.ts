@@ -7,6 +7,9 @@ import productList from "./components/data";
 import { Product } from "./components/model/types";
 import Cart from "./components/model/cart";
 import Filters from "./components/model/filters";
+import RangeSlider from "./components/view/rangeSlider";
+
+let filteredProductList = productList;
 
 let filters = new Filters(
   productList.getAllCategories(),
@@ -43,112 +46,39 @@ const cart = new Cart(productList);
 
 const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
 
-const lowerSlider = <HTMLInputElement>document.getElementById("lower"),
-  upperSlider = <HTMLInputElement>document.getElementById("upper");
-let lowerVal = parseInt(lowerSlider.value),
-  upperVal = parseInt(upperSlider.value);
-
-const minPriceLabel = <HTMLLabelElement>(
-  document.getElementById("min-price-label")
+const priceSlider = RangeSlider.create(
+  "lower",
+  "upper",
+  "min-price-label",
+  "max-price-label",
+  productList.getMinPrice(),
+  productList.getMaxPrice(),
+  onPriceFilterChange,
+  (value) => `€${value}.00`
 );
 
-const maxPriceLabel = <HTMLLabelElement>(
-  document.getElementById("max-price-label")
+const stockSlider = RangeSlider.create(
+  "lower-stock",
+  "upper-stock",
+  "min-stock-label",
+  "max-stock-label",
+  productList.getMinStock(),
+  productList.getMaxStock(),
+  onStockFilterChange,
+  (value) => String(value)
 );
 
-upperSlider.oninput = function () {
-  lowerVal = parseInt(lowerSlider.value);
-  upperVal = parseInt(upperSlider.value);
-  filters.priceTo = Number(upperSlider.value) || productList.getMaxPrice();
-  redrawProducts();
-  minPriceLabel.textContent = `€${lowerVal}.00`;
-  maxPriceLabel.textContent = `€${upperVal}.00`;
+function onPriceFilterChange(minValue: number, maxValue: number) {
+  filters.priceFrom = minValue;
+  filters.priceTo = maxValue;
+  redraw();
+}
 
-  if (upperVal < lowerVal + 4) {
-    lowerSlider.value = String(upperVal - 4);
-
-    if (String(lowerVal) === lowerSlider.min) {
-      upperSlider.value = String(4);
-    }
-  }
-};
-
-lowerSlider.oninput = function () {
-  lowerVal = parseInt(lowerSlider.value);
-  upperVal = parseInt(upperSlider.value);
-  filters.priceFrom = Number(lowerSlider.value) || productList.getMinPrice();
-  redrawProducts();
-  minPriceLabel.textContent = `€${lowerVal}.00`;
-  maxPriceLabel.textContent = `€${upperVal}.00`;
-
-  if (lowerVal > upperVal - 4) {
-    upperSlider.value = String(lowerVal + 4);
-
-    if (upperVal === Number(upperSlider.max)) {
-      lowerSlider.value = String(parseInt(upperSlider.max) - 4);
-    }
-  }
-};
-
-lowerSlider.min = String(productList.getMinPrice());
-lowerSlider.max = String(productList.getMaxPrice());
-upperSlider.min = String(productList.getMinPrice());
-upperSlider.max = String(productList.getMaxPrice());
-
-const lowerStockSlider = <HTMLInputElement>(
-    document.getElementById("lower-stock")
-  ),
-  upperStockSlider = <HTMLInputElement>document.getElementById("upper-stock");
-let lowerStockVal = parseInt(lowerStockSlider.value),
-  upperStockVal = parseInt(upperStockSlider.value);
-
-const minStockLabel = <HTMLLabelElement>(
-  document.getElementById("min-stock-label")
-);
-
-const maxStockLabel = <HTMLLabelElement>(
-  document.getElementById("max-stock-label")
-);
-
-upperStockSlider.oninput = function () {
-  lowerStockVal = parseInt(lowerStockSlider.value);
-  upperStockVal = parseInt(upperStockSlider.value);
-  filters.stockTo = Number(upperStockSlider.value) || productList.getMaxStock();
-  redrawProducts();
-  minStockLabel.textContent = String(lowerStockVal);
-  maxStockLabel.textContent = String(upperStockVal);
-
-  if (upperStockVal < lowerStockVal + 4) {
-    lowerStockSlider.value = String(upperStockVal - 4);
-
-    if (String(lowerStockVal) === lowerStockSlider.min) {
-      upperStockSlider.value = String(4);
-    }
-  }
-};
-
-lowerStockSlider.oninput = function () {
-  lowerStockVal = parseInt(lowerStockSlider.value);
-  upperStockVal = parseInt(upperStockSlider.value);
-  filters.stockFrom =
-    Number(lowerStockSlider.value) || productList.getMinStock();
-  redrawProducts();
-  minStockLabel.textContent = String(lowerStockVal);
-  maxStockLabel.textContent = String(upperStockVal);
-
-  if (lowerStockVal > upperStockVal - 4) {
-    upperStockSlider.value = String(lowerStockVal + 4);
-
-    if (upperStockVal === Number(upperStockSlider.max)) {
-      lowerStockSlider.value = String(parseInt(upperStockSlider.max) - 4);
-    }
-  }
-};
-
-lowerStockSlider.min = String(productList.getMinStock());
-lowerStockSlider.max = String(productList.getMaxStock());
-upperStockSlider.min = String(productList.getMinStock());
-upperStockSlider.max = String(productList.getMaxStock());
+function onStockFilterChange(minValue: number, maxValue: number) {
+  filters.stockFrom = minValue;
+  filters.stockTo = maxValue;
+  redraw();
+}
 
 if (smallVBtn) {
   smallVBtn.setAttribute("src", smallViewBtn);
@@ -226,7 +156,13 @@ function createCategoryFilter(
         categoryLabel.textContent = `${filteredElem[i]}`;
       }
 
-      categorySpan.textContent = "(5/5)";
+      const totalProductCount = productList.getNumberOfProductsByCategory(
+        String(filteredElem[i])
+      );
+      const filteredProductCount = filteredProductList.getNumberOfProductsByCategory(
+        String(filteredElem[i])
+      );
+      categorySpan.textContent = `(${filteredProductCount}/${totalProductCount})`;
       filterCategoryList.appendChild(a);
     }
   }
@@ -236,7 +172,7 @@ function onCategoryCheckboxClick(event: Event): void {
   const id = (<HTMLInputElement>event.target)?.id;
   const isChecked = (<HTMLInputElement>event.target)?.checked;
   filters.changeCategoryFilter(id, isChecked);
-  redrawProducts();
+  redraw();
 }
 
 const filterBrandList = <HTMLElement>document.querySelector(".brand-list");
@@ -271,7 +207,14 @@ function createBrandFilter(
         categoryLabel.textContent = `${filteredElem[i]}`;
       }
 
-      categorySpan.textContent = "(5/5)";
+      const totalProductCount = productList.getNumberOfProductsByBrand(
+        String(filteredElem[i])
+      );
+      const filteredProductCount = filteredProductList.getNumberOfProductsByBrand(
+        String(filteredElem[i])
+      );
+
+      categorySpan.textContent = `(${filteredProductCount}/${totalProductCount})`;
       filterBrandList.appendChild(a);
     }
   }
@@ -281,7 +224,7 @@ function onBrandCheckboxClick(event: Event): void {
   const id = (<HTMLInputElement>event.target)?.id;
   const isChecked = (<HTMLInputElement>event.target)?.checked;
   filters.changeBrandFilter(id, isChecked);
-  redrawProducts();
+  redraw();
 }
 
 //Filtration
@@ -291,7 +234,7 @@ searchInput.addEventListener("input", onSearchInputChange);
 
 function onSearchInputChange() {
   filters.searchInput = searchInput.value;
-  redrawProducts();
+  redraw();
 }
 
 const productsItems = <HTMLElement>document.querySelector(".products-items");
@@ -353,13 +296,13 @@ select.addEventListener("click", setSortOption);
 
 function setSortOption() {
   filters.sortOptionValues = select.options[select.selectedIndex].value;
-  redrawProducts();
+  redraw();
 }
 
-function redrawProducts(): void {
+function redraw(): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
 
-  const list = productList.filterProducts(
+  filteredProductList = productList.filterProducts(
     filters.getCheckedCategories(),
     filters.getCheckedBrands(),
     filters.searchInput,
@@ -371,13 +314,15 @@ function redrawProducts(): void {
     filters.sortOptionValues.split("-")[1]
   );
 
-  drawProducts(list.products);
+  drawProducts(filteredProductList.products);
 
-  productsStats.textContent = `Found: ${list.products.length}`;
-
-  updateUrl();
+  productsStats.textContent = `Found: ${filteredProductList.products.length}`;
 
   redrawAddRemoveCartBtn();
+
+  redrawFilters();
+
+  updateUrl();
 }
 
 function redrawAddRemoveCartBtn() {
@@ -401,6 +346,26 @@ function redrawAddRemoveCartBtn() {
 }
 
 function redrawFilters() {
+  const minPrice = filteredProductList.getMinPrice();
+  if (filters.priceFrom < minPrice) {
+    filters.priceFrom = minPrice;
+  }
+
+  const maxPrice = filteredProductList.getMaxPrice();
+  if (filters.priceTo > maxPrice) {
+    filters.priceTo = maxPrice;
+  }
+
+  const minStock = filteredProductList.getMinStock();
+  if (filters.stockFrom < minStock) {
+    filters.stockFrom = minStock;
+  }
+
+  const maxStock = filteredProductList.getMaxStock();
+  if (filters.stockTo > maxStock) {
+    filters.stockTo = maxStock;
+  }
+
   const removedFilterElements: NodeListOf<Element> = document.querySelectorAll(
     ".checkbox-line"
   );
@@ -409,6 +374,11 @@ function redrawFilters() {
   createCategoryFilter(productList.getAllCategories());
 
   searchInput.value = filters.searchInput;
+
+  priceSlider.setMinValue(filters.priceFrom);
+  priceSlider.setMaxValue(filters.priceTo);
+  stockSlider.setMinValue(filters.stockFrom);
+  stockSlider.setMaxValue(filters.stockTo);
 }
 
 const btnResetFilters = <HTMLButtonElement>document.querySelector(".btn-reset");
@@ -426,8 +396,7 @@ function resetFilters() {
     ""
   );
 
-  redrawProducts();
-  redrawFilters();
+  redraw();
 }
 
 function addItemToCart(e: Event): void {
@@ -548,7 +517,7 @@ function onCopyBtnClick() {
   copyToClipboard();
 }
 
-redrawProducts();
+redraw();
 
 redrawFilters();
 
