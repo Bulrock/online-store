@@ -167,13 +167,19 @@ function trueValueInputDate() {
     inputDate.value = value;
     console.log(value);
 
-    if (inputDate.value.length === 5) {
+    if (
+      inputDate.value.length === 5 &&
+      Number(inputDate.value.substring(0, 2)) <= 12
+    ) {
       console.log(inputDate.value.length);
       (document.querySelector(".DateError") as HTMLElement).classList.remove(
         "active"
       );
       inputDate.className = "valid";
-    } else if (inputDate.value.length < 5) {
+    } else if (
+      inputDate.value.length < 5 &&
+      Number(inputDate.value.substring(0, 2)) > 12
+    ) {
       (document.querySelector(".DateError") as HTMLElement).classList.add(
         "active"
       );
