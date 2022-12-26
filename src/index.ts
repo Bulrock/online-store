@@ -204,12 +204,11 @@ function onBrandCheckboxClick(event: Event): void {
 //Filtration
 
 const searchInput = <HTMLInputElement>document.querySelector(".search-product");
-searchInput.addEventListener("input", onSearchInputChange);
 
-function onSearchInputChange() {
+searchInput.oninput = function onSearchInputChange() {
   filters.searchInput = searchInput.value;
   redraw();
-}
+};
 
 const productsItems = <HTMLElement>document.querySelector(".products-items");
 
@@ -246,6 +245,12 @@ function drawProducts(productsArray: Array<Product>): void {
       const btnDropCart = <HTMLButtonElement>a.querySelector(".btn-drop-cart");
       btnDropCart.setAttribute("id", `drop-${productsArray[i].id}`);
       btnDropCart.addEventListener("click", deleteItemFromCart);
+
+      const btnDetails = <HTMLElement>a.querySelector(".btn-details-id");
+      btnDetails.setAttribute(
+        "href",
+        `${setUrlForDetailBtn(String(productsArray[i].id))}`
+      );
 
       itemWrapper.setAttribute(
         "style",
@@ -371,6 +376,11 @@ function resetFilters() {
   );
 
   redraw();
+}
+
+function setUrlForDetailBtn(id: string): URL {
+  const url = new URL(window.location.href);
+  return new URL(`/product-details/${id}`, url);
 }
 
 function addItemToCart(e: Event): void {
