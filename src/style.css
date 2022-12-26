@@ -412,11 +412,26 @@ h3 {
   justify-content: center;
 }
 
-.big-item {
+.huge-view {
   width: 23%;
   padding-top: 20%;
   min-height: 210px;
   min-width: 220px;
+  position: relative;
+  margin: 0.8%;
+  border: 1px solid #ff5a00;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all .3s ease-in-out;
+}
+
+.small-view {
+  width: 19%;
+  padding-top: 20%;
+  min-height: 182px;
+  min-width: 182px;
   position: relative;
   margin: 0.8%;
   border: 1px solid #ff5a00;

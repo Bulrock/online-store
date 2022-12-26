@@ -44,8 +44,6 @@ filters.sortOptionValues = url.searchParams.get("sort") || "";
 
 const cart = new Cart(productList);
 
-const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
-
 const priceSlider = RangeSlider.create(
   "lower",
   "upper",
@@ -78,30 +76,6 @@ function onStockFilterChange(minValue: number, maxValue: number) {
   filters.stockFrom = minValue;
   filters.stockTo = maxValue;
   redraw();
-}
-
-if (smallVBtn) {
-  smallVBtn.setAttribute("src", smallViewBtn);
-}
-
-smallVBtn.addEventListener("click", changeDisplayMode);
-
-const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
-
-if (hugeVBtn) {
-  hugeVBtn.setAttribute("src", hugeViewBtn);
-}
-
-hugeVBtn.addEventListener("click", changeDisplayMode);
-
-function changeDisplayMode(): void {
-  if (hugeVBtn.classList.contains("active-mode")) {
-    hugeVBtn.classList.remove("active-mode");
-    smallVBtn.classList.add("active-mode");
-  } else {
-    hugeVBtn.classList.add("active-mode");
-    smallVBtn.classList.remove("active-mode");
-  }
 }
 
 const logoSchool = <HTMLImageElement>document.querySelector(".logo");
@@ -524,3 +498,45 @@ redrawFilters();
 refreshCountProductsCart();
 
 refreshProductsPrice();
+
+const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
+
+if (smallVBtn) {
+  smallVBtn.setAttribute("src", smallViewBtn);
+}
+
+smallVBtn.addEventListener("click", changeDisplayMode);
+
+const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
+
+if (hugeVBtn) {
+  hugeVBtn.setAttribute("src", hugeViewBtn);
+}
+
+hugeVBtn.addEventListener("click", changeDisplayMode);
+
+const itemInfoBlock: NodeListOf<Element> = document.querySelectorAll(
+  ".item-info-item"
+);
+
+const bigItem: NodeListOf<Element> = document.querySelectorAll(".big-item");
+
+function changeDisplayMode(): void {
+  if (hugeVBtn.classList.contains("active-mode")) {
+    itemInfoBlock.forEach((infoBlock) =>
+      infoBlock.setAttribute("style", "display: none;")
+    );
+    bigItem.forEach((infoBlock) => infoBlock.classList.remove("huge-view"));
+    bigItem.forEach((infoBlock) => infoBlock.classList.add("small-view"));
+    hugeVBtn.classList.remove("active-mode");
+    smallVBtn.classList.add("active-mode");
+  } else {
+    itemInfoBlock.forEach((infoBlock) =>
+      infoBlock.setAttribute("style", "display: block;")
+    );
+    bigItem.forEach((infoBlock) => infoBlock.classList.add("huge-view"));
+    bigItem.forEach((infoBlock) => infoBlock.classList.remove("small-view"));
+    hugeVBtn.classList.add("active-mode");
+    smallVBtn.classList.remove("active-mode");
+  }
+}
