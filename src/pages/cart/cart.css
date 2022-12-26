@@ -271,6 +271,7 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .product_img {
@@ -279,6 +280,7 @@
     display: block;
     border-radius: 10px;
     border: 2px solid #ff5a00;
+    cursor: pointer;
 }
 
 .product_about {

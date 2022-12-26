@@ -13,6 +13,10 @@ import {
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
 import { Product, CartProduct } from "../../components/model/types";
 
+if (window.location.hash) {
+  document.querySelector(".wrapper_dataCard")?.classList.add("active");
+}
+
 const storage = localStorage.getItem("countBuyProduct");
 console.log(storage);
 let arrStorage: CartProduct[] = [];
@@ -143,15 +147,29 @@ function changeCountProduct() {
         const productControls = (e.target as HTMLElement).closest(
           ".product_controlls"
         );
-        const productControlsCountItem = (productControls as HTMLElement).querySelector(
+        const productControlsCountItem = (productControls as HTMLElement)?.querySelector(
           ".count-item"
         ) as HTMLElement;
         const nameProduct = (e.target as HTMLElement)
           .closest(".product")
           ?.querySelector(".product_about_name")?.innerHTML;
-        const productPrice = (productControls as HTMLElement).querySelector(
+        const productPrice = (productControls as HTMLElement)?.querySelector(
           ".product-controll_money"
         ) as HTMLElement;
+        if (
+          (e.target as HTMLElement).closest(".product_img") ||
+          (e.target as HTMLElement).closest(".product_descr")
+        ) {
+          console.log(item.getAttribute("id"));
+          const id = item.getAttribute("id");
+          if (id) {
+            const url = new URL(window.location.origin);
+            const newUrl = new URL("products.html", url);
+            newUrl.searchParams.set("id", id);
+            console.log(newUrl);
+            document.location.href = `${newUrl}`;
+          }
+        }
 
         if (targetClossestClass === "sign minus") {
           console.log("minus");
@@ -311,3 +329,11 @@ function addContProductOnePageUrl() {
   console.log(url);
   window.history.replaceState(null, "", url);
 }
+
+(document.querySelector(".basket") as HTMLElement).addEventListener(
+  "click",
+  () => {
+    const url = new URL(window.location.href);
+    document.location.href = `${url}`;
+  }
+);

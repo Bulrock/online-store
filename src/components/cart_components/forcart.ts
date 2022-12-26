@@ -1,4 +1,19 @@
-import { Product } from "../model/types";
+import { Product, CartProduct } from "../model/types";
+import { data } from "../data";
+
+export function createArrUpData(
+  arrFromStorage: CartProduct[],
+  upData: Product[]
+) {
+  for (let i = 0; i < arrFromStorage.length; i++) {
+    const product = data.find((item) => item.id == arrFromStorage[i].id);
+
+    if (product) {
+      upData.push(product);
+      upData[i].countBuyProduct = arrFromStorage[i].count;
+    }
+  }
+}
 
 export function drawPriceHeaderSummary(
   sumprice: number,
@@ -42,6 +57,8 @@ export function draw(page: number, arr: Array<Product[]>): void {
     blockProducts.innerHTML = "";
 
     arr[page - 1].forEach((item, index) => {
+      console.log(arr);
+      console.log(page);
       const div = document.createElement("div");
       div.innerHTML = `
           <div class="wrapper_product-number-descr">
@@ -78,6 +95,7 @@ export function draw(page: number, arr: Array<Product[]>): void {
               }</div>
           </div>`;
       div.setAttribute("class", "product");
+      div.setAttribute("id", `${item.id}`);
       document.querySelector(".products_description")?.appendChild(div);
     });
   }
