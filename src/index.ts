@@ -22,7 +22,12 @@ let filters = new Filters(
   ""
 );
 
-const url = new URL((<Window>window).location.href);
+let bigItem: NodeListOf<Element>;
+let itemInfoBlock: NodeListOf<Element>;
+const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
+const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
+
+let url = new URL((<Window>window).location.href);
 filters.setCheckedCategories(
   url.searchParams.get("category")?.split("↕") || []
 );
@@ -41,6 +46,8 @@ filters.stockTo = Number(
 );
 filters.searchInput = url.searchParams.get("search") || "";
 filters.sortOptionValues = url.searchParams.get("sort") || "";
+
+changeSortOptionsView();
 
 const cart = new Cart(productList);
 
@@ -267,6 +274,8 @@ function drawProducts(productsArray: Array<Product>): void {
       productsItems.appendChild(a);
     }
   }
+  bigItem = document.querySelectorAll(".big-item");
+  itemInfoBlock = document.querySelectorAll(".item-info-item");
 }
 
 const select = <HTMLSelectElement>document.getElementById("sort");
@@ -276,6 +285,20 @@ select.addEventListener("click", setSortOption);
 function setSortOption() {
   filters.sortOptionValues = select.options[select.selectedIndex].value;
   redraw();
+}
+
+function changeSortOptionsView() {
+  const sortOptions: NodeListOf<HTMLOptionElement> = document.querySelectorAll(
+    ".sort-option"
+  );
+  const sortTitle = <HTMLOptionElement>document.querySelector(".sort-name");
+  sortOptions.forEach((option) => {
+    if (option.value === filters.sortOptionValues) {
+      sortTitle.removeAttribute("selected");
+      option.setAttribute("selected", "selected");
+      console.log(option);
+    }
+  });
 }
 
 function redraw(): void {
@@ -300,6 +323,14 @@ function redraw(): void {
   redrawAddRemoveCartBtn();
 
   redrawFilters();
+
+  if (url.searchParams.get("big") === "false") {
+    hugeVBtn.classList.remove("active-mode");
+    smallVBtn.classList.add("active-mode");
+    setDisplayMode(false);
+  } else {
+    setDisplayMode(true);
+  }
 
   updateUrl();
 }
@@ -440,7 +471,7 @@ function refreshProductsPrice() {
 }
 
 function updateUrl() {
-  const url = new URL(window.location.href);
+  url = new URL(window.location.href);
   const checkedCategories = filters.getCheckedCategories();
   const checkedBrands = filters.getCheckedBrands();
   const searchInputValue = filters.searchInput;
@@ -451,6 +482,7 @@ function updateUrl() {
   const stockTo = filters.stockTo;
   const stock = [stockFrom, stockTo];
   const sortOptionValues = filters.sortOptionValues;
+  const viewMode = isBigMode();
 
   checkedCategories.length
     ? url.searchParams.set("category", checkedCategories.join("↕"))
@@ -475,6 +507,10 @@ function updateUrl() {
   sortOptionValues
     ? url.searchParams.set("sort", sortOptionValues)
     : url.searchParams.delete("sort");
+
+  viewMode
+    ? url.searchParams.set("big", "true")
+    : url.searchParams.set("big", "false");
 
   // Update the current URL
   window.history.replaceState(null, "", url);
@@ -509,15 +545,11 @@ refreshCountProductsCart();
 
 refreshProductsPrice();
 
-const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
-
 if (smallVBtn) {
   smallVBtn.setAttribute("src", smallViewBtn);
 }
 
 smallVBtn.addEventListener("click", changeDisplayMode);
-
-const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
 
 if (hugeVBtn) {
   hugeVBtn.setAttribute("src", hugeViewBtn);
@@ -525,14 +557,17 @@ if (hugeVBtn) {
 
 hugeVBtn.addEventListener("click", changeDisplayMode);
 
-const itemInfoBlock: NodeListOf<Element> = document.querySelectorAll(
-  ".item-info-item"
-);
-
-const bigItem: NodeListOf<Element> = document.querySelectorAll(".big-item");
-
 function changeDisplayMode(): void {
-  if (hugeVBtn.classList.contains("active-mode")) {
+  setDisplayMode(!hugeVBtn.classList.contains("active-mode"));
+  updateUrl();
+}
+
+function isBigMode(): boolean {
+  return hugeVBtn.classList.contains("active-mode") ? true : false;
+}
+
+function setDisplayMode(isBig: boolean) {
+  if (!isBig) {
     itemInfoBlock.forEach((infoBlock) =>
       infoBlock.setAttribute("style", "display: none;")
     );

@@ -159,11 +159,13 @@ h3 {
 
 .category-label {
   margin-left: 0.5vw;
+  font-weight: 600;
 }
 
 .category-span {
   justify-self: right;
   margin-left: auto;
+  font-weight: 600;
 }
 
 .brand {
@@ -188,11 +190,13 @@ h3 {
 
 .brand-label {
   margin-left: 0.5vw;
+  font-weight: 600;
 }
 
 .brand-span {
   justify-self: right;
   margin-left: auto;
+  font-weight: 600;
 }
 
 .range-container {
