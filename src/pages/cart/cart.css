@@ -218,7 +218,13 @@
     gap: 10px;
 }
 
-.product{
+.noPage {
+    color: #ff5900;
+    text-align: center;
+    font-size: 22px;
+}
+
+.product {
     display: flex;
     flex-direction: row;
     align-items: center;
