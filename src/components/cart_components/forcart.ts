@@ -1,3 +1,6 @@
+import logo from "../../assets/rs_school.svg";
+import icon from "../../assets/github_icon.svg";
+
 import { Product, CartProduct } from "../model/types";
 import { data } from "../data";
 
@@ -208,5 +211,21 @@ export function drawDiscountCartTotal(
     (document.querySelector(
       ".summary_total-discount"
     ) as HTMLElement).innerHTML = `Total: €${totalAfterDiscount.toFixed(2)}`;
+  }
+}
+
+export function addLinkCithubRS() {
+  const logoSchool = <HTMLImageElement>document.querySelector(".logoRS");
+
+  if (logoSchool) {
+    logoSchool.setAttribute("src", logo);
+  }
+
+  const iconGit1 = <HTMLImageElement>document.querySelector(".github-icon1");
+  const iconGit2 = <HTMLImageElement>document.querySelector(".github-icon2");
+
+  if (iconGit1 && iconGit2) {
+    iconGit1.setAttribute("src", icon);
+    iconGit2.setAttribute("src", icon);
   }
 }

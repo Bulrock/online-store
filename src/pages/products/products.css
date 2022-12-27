@@ -261,12 +261,36 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     color: #ff5a00;
     font-size: 30px;
     box-shadow: 0 -8px 16px rgba(0,0,0,0.2);
 }
 
+.footer a {
+    text-decoration: none;
+}
+
+.social-link img {
+    max-height: 40px;
+  }
+  
+  .github-icon1,
+  .github-icon2 {
+    height: 40px;
+  }
+  
+  .social-link {
+    opacity: .8;
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+    background-color: unset;
+  }
+  
+  .social-link:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
 @media (max-width: 1300px) {
     .product {
         width: 90%;
@@ -408,6 +432,12 @@
     .product_buy button {
         width: 50%;
     }
+    .footer {
+        font-size: 24px;
+    }
+    .social-link img {
+        max-height: 32px;
+      }
 }
 @media (max-width: 500px) {
     .header {
@@ -427,4 +457,10 @@
         font-size: 13px;
         gap: 5px;
     }
+    .footer {
+        font-size: 18px;
+    }
+    .social-link img {
+        max-height: 28px;
+      }
 }

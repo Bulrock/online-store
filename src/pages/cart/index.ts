@@ -9,12 +9,15 @@ import {
   drawblockPromoDROP,
   arrPromo,
   drawDiscountCartTotal,
+  addLinkCithubRS,
 } from "../../components/cart_components/forcart";
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
 import { Product, CartProduct } from "../../components/model/types";
 
 if (window.location.hash) {
   document.querySelector(".wrapper_dataCard")?.classList.add("active");
+  const url = window.location.pathname;
+  window.history.replaceState(null, "", url);
 }
 
 const storage = localStorage.getItem("countBuyProduct");
@@ -55,6 +58,7 @@ drawPriceHeaderSummary(cartTotal, countProducts, upData);
 draw(page, counUpData);
 changeCountProduct();
 showModalWindow();
+addLinkCithubRS();
 
 const item = document.querySelector(".item") as HTMLInputElement;
 const viewPage = document.querySelector(".page-view") as HTMLElement;

@@ -3,6 +3,7 @@ import { data } from "../../components/data";
 import {
   drawPriceHeaderSummary,
   createArrUpData,
+  addLinkCithubRS,
 } from "../../components/cart_components/forcart";
 import { Product, CartProduct } from "../../components/model/types";
 
@@ -40,6 +41,7 @@ upData.forEach((item) => {
 drawPriceHeaderSummary(cartTotal, countProducts, upData);
 
 drowProduct();
+addLinkCithubRS();
 
 function drowProduct() {
   (document.querySelector(".header-product") as HTMLElement).innerHTML = `
