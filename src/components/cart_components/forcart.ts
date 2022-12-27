@@ -49,7 +49,7 @@ export function drawIfCartEmpty(arr: Product[]): void {
 
 export function draw(page: number, arr: Array<Product[]>): void {
   const viewPage = document.querySelector(".page-view") as HTMLElement;
-  viewPage.innerHTML = "" + page;
+  if (viewPage) viewPage.innerHTML = "" + page;
   const blockProducts = document.querySelector(
     ".products_description"
   ) as HTMLElement;
@@ -57,8 +57,6 @@ export function draw(page: number, arr: Array<Product[]>): void {
     blockProducts.innerHTML = "";
 
     arr[page - 1].forEach((item, index) => {
-      console.log(arr);
-      console.log(page);
       const number = (page - 1) * arr[0].length + index + 1;
       const div = document.createElement("div");
       div.innerHTML = `

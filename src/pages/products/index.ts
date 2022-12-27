@@ -11,9 +11,11 @@ const url = new URL(window.location.href);
 
 if (url.searchParams.has("id")) {
   id = Number(url.searchParams.get("id"));
+  if (!data.find((item) => item.id === id)) {
+    document.location.href = "./error.html";
+  }
 }
 
-/* const id = 30; */
 const product = data.find((item) => item.id === id);
 console.log(product);
 

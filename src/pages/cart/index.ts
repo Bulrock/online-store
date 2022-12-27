@@ -75,6 +75,7 @@ if (item) {
     if (counUpData.length < page) {
       page = counUpData.length;
       viewPage.innerHTML = "" + page;
+      addPageUrl();
     }
     draw(page, counUpData);
     changeCountProduct();
@@ -127,14 +128,6 @@ function changeArr(count: number) {
   }
   if (arr.length > 0) counUpData.push(arr);
   localStorage.setItem("page", JSON.stringify(counUpData.length));
-  if (new URL(window.location.href).searchParams.has("page")) {
-    if (
-      Number(new URL(window.location.href).searchParams.get("page")) >
-      Number(localStorage.getItem("page"))
-    ) {
-      document.location.href = "./error.html";
-    }
-  }
 }
 
 function changeCountProduct() {
