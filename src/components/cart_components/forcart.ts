@@ -59,11 +59,12 @@ export function draw(page: number, arr: Array<Product[]>): void {
     arr[page - 1].forEach((item, index) => {
       console.log(arr);
       console.log(page);
+      const number = (page - 1) * arr[0].length + index + 1;
       const div = document.createElement("div");
       div.innerHTML = `
           <div class="wrapper_product-number-descr">
             <div class="wrapper_number-img">
-              <div class="product_number">${index + 1}</div>
+              <div class="product_number">${number}</div>
               <img class="product_img" src="${item.images[0]}" alt="${
         item.title
       }">
