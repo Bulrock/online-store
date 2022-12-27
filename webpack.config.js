@@ -6,11 +6,10 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const EslintPlugin = require("eslint-webpack-plugin");
 
 const config = {
-  //   entry: "./src/index.ts",
   entry: {
     main: path.resolve(__dirname, "./src/index.ts"),
     products: path.resolve(__dirname, "./src/pages/products/index.ts"),
-    error: path.resolve(__dirname, "./src/pages/error/index.ts"),
+    404: path.resolve(__dirname, "./src/pages/error/index.ts"),
     cart: path.resolve(__dirname, "./src/pages/cart/index.ts"),
   },
   mode: "development",
@@ -59,7 +58,7 @@ const config = {
     new HtmlWebpackPlugin({
       inject: false,
       template: path.resolve(__dirname, "./src/pages/error/index.html"),
-      filename: "error.html",
+      filename: "404.html",
     }),
     new CleanWebpackPlugin(),
     new EslintPlugin({ extensions: "ts" }),

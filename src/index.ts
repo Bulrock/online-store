@@ -410,8 +410,10 @@ function resetFilters() {
 }
 
 function setUrlForDetailBtn(id: string): URL {
-  const url = new URL(window.location.href);
-  return new URL(`/product-details/${id}`, url);
+  const url = new URL(window.location.origin);
+  const newUrl = new URL("products.html", url);
+  newUrl.searchParams.set("id", id);
+  return newUrl;
 }
 
 function addItemToCart(e: Event): void {
