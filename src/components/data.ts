@@ -978,7 +978,7 @@ export const data: Array<Product> = [
   },
   {
     id: 49,
-    title: "Chappals & Shoe Ladies Metallic",
+    title: "Chappals and Shoe Ladies Metallic",
     description:
       "Womens Chappals & Shoe Ladies Metallic Tong Thong Sandal Flat Summer 2020 Maasai Sandals",
     price: 23,

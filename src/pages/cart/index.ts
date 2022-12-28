@@ -208,6 +208,7 @@ function changeCountProduct() {
             }
           }
         } else if (targetClossestClass === "sign plus") {
+          console.log("plus");
           for (let i = 0; i < upData.length; i++) {
             if (upData[i].title === nameProduct) {
               if (upData[i].countBuyProduct >= upData[i].stock) {
