@@ -9,9 +9,16 @@ import {
   drawblockPromoDROP,
   arrPromo,
   drawDiscountCartTotal,
+  addLinkCithubRS,
 } from "../../components/cart_components/forcart";
 import { showModalWindow } from "../../components/cart_components/modal_window_cart";
 import { Product, CartProduct } from "../../components/model/types";
+
+if (window.location.hash) {
+  document.querySelector(".wrapper_dataCard")?.classList.add("active");
+  const url = window.location.pathname;
+  window.history.replaceState(null, "", url);
+}
 
 const storage = localStorage.getItem("countBuyProduct");
 console.log(storage);
@@ -20,23 +27,15 @@ if (typeof storage === "string" && storage.length > 0) {
   arrStorage = JSON.parse(storage);
 }
 
-/* const arrStorage: Storage[] = [
-  { id: 1, countBuyProduct: 3 },
-  { id: 3, countBuyProduct: 1 },
-  { id: 5, countBuyProduct: 2 },
-  { id: 6, countBuyProduct: 1 },
-  { id: 8, countBuyProduct: 1 },
-  { id: 10, countBuyProduct: 1 },
-  { id: 15, countBuyProduct: 1 },
-  { id: 21, countBuyProduct: 1 },
-  { id: 81, countBuyProduct: 1 },
-]; */
-
-let page = 1;
+let page = new URL(window.location.href).searchParams.has("page")
+  ? Number(new URL(window.location.href).searchParams.get("page"))
+  : 1;
+let valueNumber = new URL(window.location.href).searchParams.has("item")
+  ? Number(new URL(window.location.href).searchParams.get("item"))
+  : 3;
 let cartTotal = 0;
 let discountCartTotal = 0;
 let countProducts = 0;
-let valueNumber = 3;
 let counUpData: Array<Product[]> = [];
 const upData: Product[] = [];
 
@@ -54,11 +53,12 @@ upData.forEach((item) => {
 });
 
 drawIfCartEmpty(upData);
-changeArr(3);
+changeArr(valueNumber);
 drawPriceHeaderSummary(cartTotal, countProducts, upData);
 draw(page, counUpData);
 changeCountProduct();
 showModalWindow();
+addLinkCithubRS();
 
 const item = document.querySelector(".item") as HTMLInputElement;
 const viewPage = document.querySelector(".page-view") as HTMLElement;
@@ -67,7 +67,7 @@ const inputForPromo = document.querySelector(
 ) as HTMLInputElement;
 
 if (item) {
-  item.value = "" + 3;
+  item.value = "" + valueNumber;
 
   item.addEventListener("input", () => {
     const value = item.value;
@@ -79,14 +79,19 @@ if (item) {
     if (counUpData.length < page) {
       page = counUpData.length;
       viewPage.innerHTML = "" + page;
+      addPageUrl();
     }
     draw(page, counUpData);
     changeCountProduct();
     console.log(counUpData);
+    addContProductOnePageUrl();
   });
 
   item.addEventListener("change", () => {
-    if (!item.value) item.value = "" + 3;
+    if (!item.value) {
+      valueNumber = 3;
+      item.value = "" + valueNumber;
+    }
   });
 }
 
@@ -99,6 +104,7 @@ if (item) {
     viewPage.innerHTML = "" + page;
     draw(page, counUpData);
     changeCountProduct();
+    addPageUrl();
   }
 );
 (document.querySelector(".arrow_next") as HTMLElement)?.addEventListener(
@@ -110,6 +116,7 @@ if (item) {
     viewPage.innerHTML = "" + page;
     draw(page, counUpData);
     changeCountProduct();
+    addPageUrl();
   }
 );
 
@@ -124,6 +131,7 @@ function changeArr(count: number) {
     }
   }
   if (arr.length > 0) counUpData.push(arr);
+  localStorage.setItem("page", JSON.stringify(counUpData.length));
 }
 
 function changeCountProduct() {
@@ -136,15 +144,29 @@ function changeCountProduct() {
         const productControls = (e.target as HTMLElement).closest(
           ".product_controlls"
         );
-        const productControlsCountItem = (productControls as HTMLElement).querySelector(
+        const productControlsCountItem = (productControls as HTMLElement)?.querySelector(
           ".count-item"
         ) as HTMLElement;
         const nameProduct = (e.target as HTMLElement)
           .closest(".product")
           ?.querySelector(".product_about_name")?.innerHTML;
-        const productPrice = (productControls as HTMLElement).querySelector(
+        const productPrice = (productControls as HTMLElement)?.querySelector(
           ".product-controll_money"
         ) as HTMLElement;
+        if (
+          (e.target as HTMLElement).closest(".product_img") ||
+          (e.target as HTMLElement).closest(".product_descr")
+        ) {
+          console.log(item.getAttribute("id"));
+          const id = item.getAttribute("id");
+          if (id) {
+            const url = new URL(window.location.origin);
+            const newUrl = new URL("products.html", url);
+            newUrl.searchParams.set("id", id);
+            console.log(newUrl);
+            document.location.href = `${newUrl}`;
+          }
+        }
 
         if (targetClossestClass === "sign minus") {
           console.log("minus");
@@ -186,6 +208,7 @@ function changeCountProduct() {
             }
           }
         } else if (targetClossestClass === "sign plus") {
+          console.log("plus");
           for (let i = 0; i < upData.length; i++) {
             if (upData[i].title === nameProduct) {
               if (upData[i].countBuyProduct >= upData[i].stock) {
@@ -290,3 +313,25 @@ if (inputForPromo) {
     }
   });
 }
+
+function addPageUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("page", String(page));
+  console.log(url);
+  window.history.replaceState(null, "", url);
+}
+
+function addContProductOnePageUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("item", String(valueNumber));
+  console.log(url);
+  window.history.replaceState(null, "", url);
+}
+
+(document.querySelector(".basket") as HTMLElement).addEventListener(
+  "click",
+  () => {
+    const url = new URL(window.location.href);
+    document.location.href = `${url}`;
+  }
+);

@@ -1,4 +1,22 @@
-import { Product } from "../model/types";
+import logo from "../../assets/rs_school.svg";
+import icon from "../../assets/github_icon.svg";
+
+import { Product, CartProduct } from "../model/types";
+import { data } from "../data";
+
+export function createArrUpData(
+  arrFromStorage: CartProduct[],
+  upData: Product[]
+) {
+  for (let i = 0; i < arrFromStorage.length; i++) {
+    const product = data.find((item) => item.id == arrFromStorage[i].id);
+
+    if (product) {
+      upData.push(product);
+      upData[i].countBuyProduct = arrFromStorage[i].count;
+    }
+  }
+}
 
 export function drawPriceHeaderSummary(
   sumprice: number,
@@ -33,21 +51,25 @@ export function drawIfCartEmpty(arr: Product[]): void {
 }
 
 export function draw(page: number, arr: Array<Product[]>): void {
+  const viewPage = document.querySelector(".page-view") as HTMLElement;
+  if (viewPage) viewPage.innerHTML = "" + page;
   const blockProducts = document.querySelector(
     ".products_description"
   ) as HTMLElement;
   if (blockProducts) {
     blockProducts.innerHTML = "";
 
-    arr[page - 1].forEach((item, index) => {
-      const div = document.createElement("div");
-      div.innerHTML = `
+    if (arr[page - 1]) {
+      arr[page - 1].forEach((item, index) => {
+        const number = (page - 1) * arr[0].length + index + 1;
+        const div = document.createElement("div");
+        div.innerHTML = `
           <div class="wrapper_product-number-descr">
             <div class="wrapper_number-img">
-              <div class="product_number">${index + 1}</div>
+              <div class="product_number">${number}</div>
               <img class="product_img" src="${item.images[0]}" alt="${
-        item.title
-      }">
+          item.title
+        }">
             </div>
             <div class="product_descr">
               <div class="product_about">
@@ -75,9 +97,20 @@ export function draw(page: number, arr: Array<Product[]>): void {
                 item.price * item.countBuyProduct
               }</div>
           </div>`;
-      div.setAttribute("class", "product");
-      document.querySelector(".products_description")?.appendChild(div);
-    });
+        div.setAttribute("class", "product");
+        div.setAttribute("id", `${item.id}`);
+        (document.querySelector(
+          ".products_description"
+        ) as HTMLElement).appendChild(div);
+      });
+    } else {
+      const p = document.createElement("p");
+      p.setAttribute("class", "noPage");
+      p.innerHTML = `Pages with number ${page} does not exist`;
+      (document.querySelector(".products_description") as HTMLElement).append(
+        p
+      );
+    }
   }
 }
 
@@ -178,5 +211,21 @@ export function drawDiscountCartTotal(
     (document.querySelector(
       ".summary_total-discount"
     ) as HTMLElement).innerHTML = `Total: €${totalAfterDiscount.toFixed(2)}`;
+  }
+}
+
+export function addLinkCithubRS() {
+  const logoSchool = <HTMLImageElement>document.querySelector(".logoRS");
+
+  if (logoSchool) {
+    logoSchool.setAttribute("src", logo);
+  }
+
+  const iconGit1 = <HTMLImageElement>document.querySelector(".github-icon1");
+  const iconGit2 = <HTMLImageElement>document.querySelector(".github-icon2");
+
+  if (iconGit1 && iconGit2) {
+    iconGit1.setAttribute("src", icon);
+    iconGit2.setAttribute("src", icon);
   }
 }
