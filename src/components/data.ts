@@ -15,8 +15,6 @@ export const data: Array<Product> = [
     category: "smartphones",
     thumbnail: "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
     images: [
-      "https://i.dummyjson.com/data/products/1/1.jpg",
-      "https://i.dummyjson.com/data/products/1/2.jpg",
       "https://i.dummyjson.com/data/products/1/3.jpg",
       "https://i.dummyjson.com/data/products/1/4.jpg",
       "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
@@ -192,7 +190,6 @@ export const data: Array<Product> = [
     category: "laptops",
     thumbnail: "https://i.dummyjson.com/data/products/10/thumbnail.jpeg",
     images: [
-      "https://i.dummyjson.com/data/products/10/1.jpg",
       "https://i.dummyjson.com/data/products/10/2.jpg",
       "https://i.dummyjson.com/data/products/10/3.jpg",
       "https://i.dummyjson.com/data/products/10/thumbnail.jpeg",
@@ -200,7 +197,7 @@ export const data: Array<Product> = [
   },
   {
     id: 11,
-    title: "perfume Oil",
+    title: "Perfume Oil",
     description:
       "Mega Discount, Impression of Acqua Di Gio by GiorgioArmani concentrated attar perfume Oil",
     price: 13,
@@ -304,7 +301,7 @@ export const data: Array<Product> = [
     id: 16,
     title: "Hyaluronic Acid Serum",
     description:
-      "L'OrÃ©al Paris introduces Hyaluron Expert Replumping Serum formulated with 1.5% Hyaluronic Acid",
+      "L'Oreal Paris introduces Hyaluron Expert Replumping Serum formulated with 1.5% Hyaluronic Acid",
     price: 19,
     discountPercentage: 13.31,
     rating: 4.83,
@@ -316,7 +313,6 @@ export const data: Array<Product> = [
     images: [
       "https://i.dummyjson.com/data/products/16/1.png",
       "https://i.dummyjson.com/data/products/16/2.webp",
-      "https://i.dummyjson.com/data/products/16/3.jpg",
       "https://i.dummyjson.com/data/products/16/4.jpg",
       "https://i.dummyjson.com/data/products/16/thumbnail.jpg",
     ],
@@ -397,15 +393,13 @@ export const data: Array<Product> = [
     thumbnail: "https://i.dummyjson.com/data/products/20/thumbnail.jpg",
     images: [
       "https://i.dummyjson.com/data/products/20/1.jpg",
-      "https://i.dummyjson.com/data/products/20/2.jpg",
-      "https://i.dummyjson.com/data/products/20/3.jpg",
       "https://i.dummyjson.com/data/products/20/4.jpg",
       "https://i.dummyjson.com/data/products/20/thumbnail.jpg",
     ],
   },
   {
     id: 21,
-    title: "- Daal Masoor 500 grams",
+    title: "Daal Masoor 500 grams",
     description: "Fine quality Branded Product Keep in a cool and dry place",
     price: 20,
     discountPercentage: 4.81,
@@ -441,7 +435,7 @@ export const data: Array<Product> = [
   },
   {
     id: 23,
-    title: "Orange Essence Food Flavou",
+    title: "Orange Essence Food Flavour",
     description:
       "Specifications of Orange Essence Food Flavour For Cakes and Baking Food Item",
     price: 14,
@@ -456,13 +450,12 @@ export const data: Array<Product> = [
       "https://i.dummyjson.com/data/products/23/1.jpg",
       "https://i.dummyjson.com/data/products/23/2.jpg",
       "https://i.dummyjson.com/data/products/23/3.jpg",
-      "https://i.dummyjson.com/data/products/23/4.jpg",
       "https://i.dummyjson.com/data/products/23/thumbnail.jpg",
     ],
   },
   {
     id: 24,
-    title: "cereals muesli fruit nuts",
+    title: "Cereals muesli fruit nuts",
     description:
       "original fauji cereal muesli 250gm box pack original fauji cereals muesli fruit nuts flakes breakfast cereal break fast faujicereals cerels cerel foji fouji",
     price: 46,
@@ -477,7 +470,6 @@ export const data: Array<Product> = [
       "https://i.dummyjson.com/data/products/24/1.jpg",
       "https://i.dummyjson.com/data/products/24/2.jpg",
       "https://i.dummyjson.com/data/products/24/3.jpg",
-      "https://i.dummyjson.com/data/products/24/4.jpg",
       "https://i.dummyjson.com/data/products/24/thumbnail.jpg",
     ],
   },
@@ -517,7 +509,6 @@ export const data: Array<Product> = [
     images: [
       "https://i.dummyjson.com/data/products/26/1.jpg",
       "https://i.dummyjson.com/data/products/26/2.jpg",
-      "https://i.dummyjson.com/data/products/26/3.jpg",
       "https://i.dummyjson.com/data/products/26/4.jpg",
       "https://i.dummyjson.com/data/products/26/5.jpg",
       "https://i.dummyjson.com/data/products/26/thumbnail.jpg",
@@ -582,7 +573,6 @@ export const data: Array<Product> = [
       "https://i.dummyjson.com/data/products/29/1.jpg",
       "https://i.dummyjson.com/data/products/29/2.jpg",
       "https://i.dummyjson.com/data/products/29/3.webp",
-      "https://i.dummyjson.com/data/products/29/4.webp",
       "https://i.dummyjson.com/data/products/29/thumbnail.webp",
     ],
   },
@@ -629,9 +619,9 @@ export const data: Array<Product> = [
   },
   {
     id: 32,
-    title: "Sofa for Coffe Cafe",
+    title: "Sofa for Coffee Cafe",
     description:
-      "Ratttan Outdoor furniture Set Waterproof  Rattan Sofa for Coffe Cafe",
+      "Ratttan Outdoor furniture Set Waterproof  Rattan Sofa for Coffee Cafe",
     price: 50,
     discountPercentage: 15.59,
     rating: 4.74,
@@ -672,7 +662,7 @@ export const data: Array<Product> = [
     id: 34,
     title: "Plastic Table",
     description:
-      "V﻿ery good quality plastic table for multi purpose now in reasonable price",
+      "Very good quality plastic table for multi purpose now in reasonable price",
     price: 50,
     discountPercentage: 4,
     rating: 4.01,
@@ -733,7 +723,7 @@ export const data: Array<Product> = [
   },
   {
     id: 37,
-    title: "ank Tops for Womens/Girls",
+    title: "Tops for Womens/Girls",
     description:
       "PACK OF 3 CAMISOLES ,VERY COMFORTABLE SOFT COTTON STUFF, COMFORTABLE IN ALL FOUR SEASONS",
     price: 50,
@@ -754,7 +744,7 @@ export const data: Array<Product> = [
   },
   {
     id: 38,
-    title: "sublimation plain kids tank",
+    title: "Sublimation plain kids tank",
     description: "sublimation plain kids tank tops wholesale",
     price: 100,
     discountPercentage: 11.12,
@@ -794,7 +784,7 @@ export const data: Array<Product> = [
   },
   {
     id: 40,
-    title: "women winter clothes",
+    title: "Women winter clothes",
     description:
       "women winter clothes thick fleece hoodie top with sweat pantjogger women sweatsuit set joggers pants two piece pants set",
     price: 57,
@@ -853,7 +843,7 @@ export const data: Array<Product> = [
   },
   {
     id: 43,
-    title: "frock gold printed",
+    title: "Frock gold printed",
     description:
       "Ghazi fabric long frock gold printed ready to wear stitched collection (G992)",
     price: 600,
@@ -916,7 +906,7 @@ export const data: Array<Product> = [
   },
   {
     id: 46,
-    title: "women's shoes",
+    title: "Women's shoes",
     description:
       "Close: Lace, Style with bottom: Increased inside, Sole Material: Rubber",
     price: 40,
@@ -980,7 +970,7 @@ export const data: Array<Product> = [
     id: 49,
     title: "Chappals and Shoe Ladies Metallic",
     description:
-      "Womens Chappals & Shoe Ladies Metallic Tong Thong Sandal Flat Summer 2020 Maasai Sandals",
+      "Womens Chappals and Shoe Ladies Metallic Tong Thong Sandal Flat Summer 2020 Maasai Sandals",
     price: 23,
     discountPercentage: 2.62,
     rating: 4.72,
@@ -1017,7 +1007,7 @@ export const data: Array<Product> = [
   },
   {
     id: 51,
-    title: "half sleeves T shirts",
+    title: "Half sleeves T shirts",
     description:
       "Many store is creating new designs and trend every month and every year. Daraz.pk have a beautiful range of men fashion brands",
     price: 23,
@@ -1058,7 +1048,7 @@ export const data: Array<Product> = [
   },
   {
     id: 53,
-    title: "printed high quality T shirts",
+    title: "Printed high quality T shirts",
     description: "Brand: vintage Apparel ,Export quality",
     price: 35,
     discountPercentage: 7.54,
@@ -1135,7 +1125,6 @@ export const data: Array<Product> = [
       "https://i.dummyjson.com/data/products/56/2.jpg",
       "https://i.dummyjson.com/data/products/56/3.jpg",
       "https://i.dummyjson.com/data/products/56/4.jpg",
-      "https://i.dummyjson.com/data/products/56/5.jpg",
       "https://i.dummyjson.com/data/products/56/thumbnail.jpg",
     ],
   },
@@ -1162,7 +1151,7 @@ export const data: Array<Product> = [
   },
   {
     id: 58,
-    title: "formal offices shoes",
+    title: "Formal offices shoes",
     description:
       "Pattern Type: Solid, Material: PU, Toe Shape: Pointed Toe ,Outsole Material: Rubber",
     price: 57,
@@ -1413,7 +1402,6 @@ export const data: Array<Product> = [
     category: "womens-watches",
     thumbnail: "https://i.dummyjson.com/data/products/70/thumbnail.jpg",
     images: [
-      "https://i.dummyjson.com/data/products/70/1.jpg",
       "https://i.dummyjson.com/data/products/70/2.jpg",
       "https://i.dummyjson.com/data/products/70/thumbnail.jpg",
     ],
@@ -1554,7 +1542,6 @@ export const data: Array<Product> = [
     thumbnail: "https://i.dummyjson.com/data/products/77/thumbnail.jpg",
     images: [
       "https://i.dummyjson.com/data/products/77/1.jpg",
-      "https://i.dummyjson.com/data/products/77/2.jpg",
       "https://i.dummyjson.com/data/products/77/3.jpg",
       "https://i.dummyjson.com/data/products/77/thumbnail.jpg",
     ],
@@ -1734,7 +1721,7 @@ export const data: Array<Product> = [
   },
   {
     id: 87,
-    title: "t Temperature Controller Incubator Controller",
+    title: "Temperature Controller Incubator Controller",
     description:
       "Both Heat and Cool Purpose, Temperature control range; -50 to +110, Temperature measurement accuracy; 0.1, Control accuracy; 0.1",
     price: 40,
@@ -1790,7 +1777,6 @@ export const data: Array<Product> = [
     images: [
       "https://i.dummyjson.com/data/products/89/1.jpg",
       "https://i.dummyjson.com/data/products/89/2.jpg",
-      "https://i.dummyjson.com/data/products/89/3.jpg",
       "https://i.dummyjson.com/data/products/89/4.jpg",
       "https://i.dummyjson.com/data/products/89/thumbnail.jpg",
     ],
@@ -1880,7 +1866,7 @@ export const data: Array<Product> = [
   },
   {
     id: 94,
-    title: "new arrivals Fashion motocross goggles",
+    title: "New arrivals Fashion motocross goggles",
     description:
       "new arrivals Fashion motocross goggles motorcycle motocross racing motorcycle",
     price: 900,
@@ -1921,7 +1907,7 @@ export const data: Array<Product> = [
   },
   {
     id: 96,
-    title: "lighting ceiling kitchen",
+    title: "Lighting ceiling kitchen",
     description:
       "Wholesale slim hanging decorative kid room lighting ceiling kitchen chandeliers pendant light modern",
     price: 30,
