@@ -7,6 +7,9 @@ import productList from "./components/data";
 import { Product } from "./components/model/types";
 import Cart from "./components/model/cart";
 import Filters from "./components/model/filters";
+import RangeSlider from "./components/view/rangeSlider";
+
+let filteredProductList = productList;
 
 let filters = new Filters(
   productList.getAllCategories(),
@@ -15,10 +18,16 @@ let filters = new Filters(
   productList.getMaxPrice(),
   productList.getMinStock(),
   productList.getMaxStock(),
+  "",
   ""
 );
 
-const url = new URL((<Window>window).location.href);
+let bigItem: NodeListOf<Element>;
+let itemInfoBlock: NodeListOf<Element>;
+const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
+const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
+
+let url = new URL((<Window>window).location.href);
 filters.setCheckedCategories(
   url.searchParams.get("category")?.split("↕") || []
 );
@@ -36,33 +45,44 @@ filters.stockTo = Number(
   url.searchParams.get("stock")?.split("↕")[1] || productList.getMaxStock()
 );
 filters.searchInput = url.searchParams.get("search") || "";
+filters.sortOptionValues = url.searchParams.get("sort") || "";
+
+changeSortOptionsView();
 
 const cart = new Cart(productList);
 
-const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
+const priceSlider = RangeSlider.create(
+  "lower",
+  "upper",
+  "min-price-label",
+  "max-price-label",
+  productList.getMinPrice(),
+  productList.getMaxPrice(),
+  onPriceFilterChange,
+  (value) => `€${value}.00`
+);
 
-if (smallVBtn) {
-  smallVBtn.setAttribute("src", smallViewBtn);
+const stockSlider = RangeSlider.create(
+  "lower-stock",
+  "upper-stock",
+  "min-stock-label",
+  "max-stock-label",
+  productList.getMinStock(),
+  productList.getMaxStock(),
+  onStockFilterChange,
+  (value) => String(value)
+);
+
+function onPriceFilterChange(minValue: number, maxValue: number) {
+  filters.priceFrom = minValue;
+  filters.priceTo = maxValue;
+  redraw();
 }
 
-smallVBtn.addEventListener("click", changeDisplayMode);
-
-const hugeVBtn = <HTMLImageElement>document.querySelector(".huge-v");
-
-if (hugeVBtn) {
-  hugeVBtn.setAttribute("src", hugeViewBtn);
-}
-
-hugeVBtn.addEventListener("click", changeDisplayMode);
-
-function changeDisplayMode(): void {
-  if (hugeVBtn.classList.contains("active-mode")) {
-    hugeVBtn.classList.remove("active-mode");
-    smallVBtn.classList.add("active-mode");
-  } else {
-    hugeVBtn.classList.add("active-mode");
-    smallVBtn.classList.remove("active-mode");
-  }
+function onStockFilterChange(minValue: number, maxValue: number) {
+  filters.stockFrom = minValue;
+  filters.stockTo = maxValue;
+  redraw();
 }
 
 const logoSchool = <HTMLImageElement>document.querySelector(".logo");
@@ -117,7 +137,13 @@ function createCategoryFilter(
         categoryLabel.textContent = `${filteredElem[i]}`;
       }
 
-      categorySpan.textContent = "(5/5)";
+      const totalProductCount = productList.getNumberOfProductsByCategory(
+        String(filteredElem[i])
+      );
+      const filteredProductCount = filteredProductList.getNumberOfProductsByCategory(
+        String(filteredElem[i])
+      );
+      categorySpan.textContent = `(${filteredProductCount}/${totalProductCount})`;
       filterCategoryList.appendChild(a);
     }
   }
@@ -127,7 +153,7 @@ function onCategoryCheckboxClick(event: Event): void {
   const id = (<HTMLInputElement>event.target)?.id;
   const isChecked = (<HTMLInputElement>event.target)?.checked;
   filters.changeCategoryFilter(id, isChecked);
-  redrawProducts();
+  redraw();
 }
 
 const filterBrandList = <HTMLElement>document.querySelector(".brand-list");
@@ -162,7 +188,14 @@ function createBrandFilter(
         categoryLabel.textContent = `${filteredElem[i]}`;
       }
 
-      categorySpan.textContent = "(5/5)";
+      const totalProductCount = productList.getNumberOfProductsByBrand(
+        String(filteredElem[i])
+      );
+      const filteredProductCount = filteredProductList.getNumberOfProductsByBrand(
+        String(filteredElem[i])
+      );
+
+      categorySpan.textContent = `(${filteredProductCount}/${totalProductCount})`;
       filterBrandList.appendChild(a);
     }
   }
@@ -172,50 +205,17 @@ function onBrandCheckboxClick(event: Event): void {
   const id = (<HTMLInputElement>event.target)?.id;
   const isChecked = (<HTMLInputElement>event.target)?.checked;
   filters.changeBrandFilter(id, isChecked);
-  redrawProducts();
+  redraw();
 }
 
 //Filtration
 
 const searchInput = <HTMLInputElement>document.querySelector(".search-product");
-searchInput.addEventListener("input", onSearchInputChange);
 
-function onSearchInputChange() {
+searchInput.oninput = function onSearchInputChange() {
   filters.searchInput = searchInput.value;
-  redrawProducts();
-}
-
-const minPriceInput = <HTMLInputElement>document.getElementById("price-from");
-minPriceInput.addEventListener("input", onMinPriceChange);
-
-function onMinPriceChange() {
-  filters.priceFrom = Number(minPriceInput.value) || productList.getMinPrice();
-  redrawProducts();
-}
-
-const maxPriceInput = <HTMLInputElement>document.getElementById("price-to");
-maxPriceInput.addEventListener("input", onMaxPriceChange);
-
-function onMaxPriceChange() {
-  filters.priceTo = Number(maxPriceInput.value) || productList.getMaxPrice();
-  redrawProducts();
-}
-
-const minStockInput = <HTMLInputElement>document.getElementById("stock-from");
-minStockInput.addEventListener("input", onMinStockChange);
-
-function onMinStockChange() {
-  filters.stockFrom = Number(minStockInput.value) || productList.getMinStock();
-  redrawProducts();
-}
-
-const maxStockInput = <HTMLInputElement>document.getElementById("stock-to");
-maxStockInput.addEventListener("input", onMaxStockChange);
-
-function onMaxStockChange() {
-  filters.stockTo = Number(maxStockInput.value) || productList.getMaxStock();
-  redrawProducts();
-}
+  redraw();
+};
 
 const productsItems = <HTMLElement>document.querySelector(".products-items");
 
@@ -253,6 +253,12 @@ function drawProducts(productsArray: Array<Product>): void {
       btnDropCart.setAttribute("id", `drop-${productsArray[i].id}`);
       btnDropCart.addEventListener("click", deleteItemFromCart);
 
+      const btnDetails = <HTMLElement>a.querySelector(".btn-details-id");
+      btnDetails.setAttribute(
+        "href",
+        `${setUrlForDetailBtn(String(productsArray[i].id))}`
+      );
+
       itemWrapper.setAttribute(
         "style",
         `background: url(${productsArray[i].thumbnail}) 0% 0% / cover`
@@ -268,28 +274,75 @@ function drawProducts(productsArray: Array<Product>): void {
       productsItems.appendChild(a);
     }
   }
+  bigItem = document.querySelectorAll(".big-item");
+  itemInfoBlock = document.querySelectorAll(".item-info-item");
 }
 
-function redrawProducts(): void {
+const select = <HTMLSelectElement>document.getElementById("sort");
+
+select.addEventListener("click", setSortOption);
+
+function setSortOption() {
+  filters.sortOptionValues = select.options[select.selectedIndex].value;
+  redraw();
+}
+
+function changeSortOptionsView() {
+  const sortOptions: NodeListOf<HTMLOptionElement> = document.querySelectorAll(
+    ".sort-option"
+  );
+  const sortTitle = <HTMLOptionElement>document.querySelector(".sort-name");
+  sortOptions.forEach((option) => {
+    if (option.value === filters.sortOptionValues) {
+      sortTitle.removeAttribute("selected");
+      option.setAttribute("selected", "selected");
+      console.log(option);
+    }
+  });
+}
+
+function redraw(): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
 
-  const list = productList.filterProducts(
+  filteredProductList = productList.filterProducts(
     filters.getCheckedCategories(),
     filters.getCheckedBrands(),
     filters.searchInput,
     filters.priceFrom,
     filters.priceTo,
     filters.stockFrom,
-    filters.stockTo
+    filters.stockTo,
+    filters.sortOptionValues.split("-")[0],
+    filters.sortOptionValues.split("-")[1]
   );
 
-  drawProducts(list);
+  drawProducts(filteredProductList.products);
 
-  productsStats.textContent = `Found: ${list.length}`;
+  productsStats.textContent = `Found: ${filteredProductList.products.length}`;
 
-  updateUrl();
+  const noProducts = <HTMLElement>document.querySelector(".no-products");
+
+  if (filteredProductList.products.length === 0) {
+    productsItems.setAttribute("style", "display: none;");
+    noProducts.setAttribute("style", "display: flex;");
+  } else {
+    productsItems.setAttribute("style", "display: flex;");
+    noProducts.setAttribute("style", "display: none;");
+  }
 
   redrawAddRemoveCartBtn();
+
+  redrawFilters();
+
+  if (url.searchParams.get("big") === "false") {
+    hugeVBtn.classList.remove("active-mode");
+    smallVBtn.classList.add("active-mode");
+    setDisplayMode(false);
+  } else {
+    setDisplayMode(true);
+  }
+
+  updateUrl();
 }
 
 function redrawAddRemoveCartBtn() {
@@ -313,6 +366,42 @@ function redrawAddRemoveCartBtn() {
 }
 
 function redrawFilters() {
+  const minPrice = filteredProductList.getMinPrice();
+  if (
+    filters.priceFrom !== undefined &&
+    minPrice !== undefined &&
+    filters.priceFrom < minPrice
+  ) {
+    filters.priceFrom = minPrice;
+  }
+
+  const maxPrice = filteredProductList.getMaxPrice();
+  if (
+    filters.priceTo !== undefined &&
+    maxPrice !== undefined &&
+    filters.priceTo > maxPrice
+  ) {
+    filters.priceTo = maxPrice;
+  }
+
+  const minStock = filteredProductList.getMinStock();
+  if (
+    filters.stockFrom !== undefined &&
+    minStock !== undefined &&
+    filters.stockFrom < minStock
+  ) {
+    filters.stockFrom = minStock;
+  }
+
+  const maxStock = filteredProductList.getMaxStock();
+  if (
+    filters.stockTo !== undefined &&
+    maxStock !== undefined &&
+    filters.stockTo > maxStock
+  ) {
+    filters.stockTo = maxStock;
+  }
+
   const removedFilterElements: NodeListOf<Element> = document.querySelectorAll(
     ".checkbox-line"
   );
@@ -320,11 +409,22 @@ function redrawFilters() {
   createBrandFilter(productList.getAllBrands());
   createCategoryFilter(productList.getAllCategories());
 
-  minPriceInput.value = String(filters.priceFrom);
-  maxPriceInput.value = String(filters.priceTo);
-  minStockInput.value = String(filters.stockFrom);
-  maxStockInput.value = String(filters.stockTo);
   searchInput.value = filters.searchInput;
+  if (filters.priceFrom !== undefined) {
+    priceSlider.setMinValue(filters.priceFrom);
+  }
+
+  if (filters.priceTo) {
+    priceSlider.setMaxValue(filters.priceTo);
+  }
+
+  if (filters.stockFrom !== undefined) {
+    stockSlider.setMinValue(filters.stockFrom);
+  }
+
+  if (filters.stockTo !== undefined) {
+    stockSlider.setMaxValue(filters.stockTo);
+  }
 }
 
 const btnResetFilters = <HTMLButtonElement>document.querySelector(".btn-reset");
@@ -338,11 +438,18 @@ function resetFilters() {
     productList.getMaxPrice(),
     productList.getMinStock(),
     productList.getMaxStock(),
+    "",
     ""
   );
 
-  redrawProducts();
-  redrawFilters();
+  redraw();
+}
+
+function setUrlForDetailBtn(id: string): URL {
+  const url = new URL(window.location.origin);
+  const newUrl = new URL("products.html", url);
+  newUrl.searchParams.set("id", id);
+  return newUrl;
 }
 
 function addItemToCart(e: Event): void {
@@ -358,11 +465,6 @@ function addItemToCart(e: Event): void {
 
   cart.add(productId);
   refreshCountProductsCart();
-
-  const productBigItem = <HTMLElement>(
-    document.getElementById(`item-${productId - 1}`)
-  );
-  productBigItem.classList.add("in-cart");
 
   refreshProductsPrice();
 }
@@ -381,11 +483,6 @@ function deleteItemFromCart(e: Event): void {
   cart.delete(productId);
   refreshCountProductsCart();
 
-  const productBigItem = <HTMLElement>(
-    document.getElementById(`item-${productId - 1}`)
-  );
-  productBigItem.classList.remove("in-cart");
-
   refreshProductsPrice();
 }
 
@@ -402,7 +499,7 @@ function refreshProductsPrice() {
 }
 
 function updateUrl() {
-  const url = new URL(window.location.href);
+  url = new URL(window.location.href);
   const checkedCategories = filters.getCheckedCategories();
   const checkedBrands = filters.getCheckedBrands();
   const searchInputValue = filters.searchInput;
@@ -412,6 +509,8 @@ function updateUrl() {
   const stockFrom = filters.stockFrom;
   const stockTo = filters.stockTo;
   const stock = [stockFrom, stockTo];
+  const sortOptionValues = filters.sortOptionValues;
+  const viewMode = isBigMode();
 
   checkedCategories.length
     ? url.searchParams.set("category", checkedCategories.join("↕"))
@@ -432,6 +531,14 @@ function updateUrl() {
   searchInputValue
     ? url.searchParams.set("search", searchInputValue)
     : url.searchParams.delete("search");
+
+  sortOptionValues
+    ? url.searchParams.set("sort", sortOptionValues)
+    : url.searchParams.delete("sort");
+
+  viewMode
+    ? url.searchParams.set("big", "true")
+    : url.searchParams.set("big", "false");
 
   // Update the current URL
   window.history.replaceState(null, "", url);
@@ -458,10 +565,51 @@ function onCopyBtnClick() {
   copyToClipboard();
 }
 
-redrawProducts();
+redraw();
 
 redrawFilters();
 
 refreshCountProductsCart();
 
 refreshProductsPrice();
+
+if (smallVBtn) {
+  smallVBtn.setAttribute("src", smallViewBtn);
+}
+
+smallVBtn.addEventListener("click", changeDisplayMode);
+
+if (hugeVBtn) {
+  hugeVBtn.setAttribute("src", hugeViewBtn);
+}
+
+hugeVBtn.addEventListener("click", changeDisplayMode);
+
+function changeDisplayMode(): void {
+  setDisplayMode(!hugeVBtn.classList.contains("active-mode"));
+  updateUrl();
+}
+
+function isBigMode(): boolean {
+  return hugeVBtn.classList.contains("active-mode") ? true : false;
+}
+
+function setDisplayMode(isBig: boolean) {
+  if (!isBig) {
+    itemInfoBlock.forEach((infoBlock) =>
+      infoBlock.setAttribute("style", "display: none;")
+    );
+    bigItem.forEach((infoBlock) => infoBlock.classList.remove("huge-view"));
+    bigItem.forEach((infoBlock) => infoBlock.classList.add("small-view"));
+    hugeVBtn.classList.remove("active-mode");
+    smallVBtn.classList.add("active-mode");
+  } else {
+    itemInfoBlock.forEach((infoBlock) =>
+      infoBlock.setAttribute("style", "display: block;")
+    );
+    bigItem.forEach((infoBlock) => infoBlock.classList.add("huge-view"));
+    bigItem.forEach((infoBlock) => infoBlock.classList.remove("small-view"));
+    hugeVBtn.classList.add("active-mode");
+    smallVBtn.classList.remove("active-mode");
+  }
+}
