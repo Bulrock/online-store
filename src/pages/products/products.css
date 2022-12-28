@@ -178,7 +178,7 @@
 
 .product_images_list-image img {
     width: 90%;
-
+    cursor: pointer;
 }
 
 .product_images_show-image {

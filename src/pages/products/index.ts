@@ -15,6 +15,8 @@ if (url.searchParams.has("id")) {
   if (!data.find((item) => item.id === id)) {
     document.location.href = "./error.html";
   }
+} else if (!url.search) {
+  document.location.href = "./error.html";
 }
 
 const product = data.find((item) => item.id === id);
@@ -165,5 +167,23 @@ function drowProduct() {
     }
     localStorage.setItem("countBuyProduct", JSON.stringify(arrStorage));
     document.location.href = "./cart.html#modal";
+  }
+);
+
+(document.querySelector(".product_images") as HTMLElement).addEventListener(
+  "click",
+  (e) => {
+    const target = e.target as HTMLElement;
+    if (target) {
+      if (target.closest("img")) {
+        const src = target.closest("img")?.getAttribute("src");
+        if (src) {
+          (document.querySelector(
+            ".product_images_show-image img"
+          ) as HTMLElement).setAttribute("src", src);
+        }
+      }
+      console.log(target.closest("img"));
+    }
   }
 );
