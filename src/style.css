@@ -548,6 +548,16 @@ h3 {
   color: #ff5a00;
 }
 
+.no-products {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20% 0;
+  font-size: 30px;
+  text-align: center;
+}
+
 .footer {
   grid-area: footer;
   display: flex;

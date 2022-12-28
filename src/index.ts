@@ -320,6 +320,16 @@ function redraw(): void {
 
   productsStats.textContent = `Found: ${filteredProductList.products.length}`;
 
+  const noProducts = <HTMLElement>document.querySelector(".no-products");
+
+  if (filteredProductList.products.length === 0) {
+    productsItems.setAttribute("style", "display: none;");
+    noProducts.setAttribute("style", "display: flex;");
+  } else {
+    productsItems.setAttribute("style", "display: flex;");
+    noProducts.setAttribute("style", "display: none;");
+  }
+
   redrawAddRemoveCartBtn();
 
   redrawFilters();
