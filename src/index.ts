@@ -367,22 +367,38 @@ function redrawAddRemoveCartBtn() {
 
 function redrawFilters() {
   const minPrice = filteredProductList.getMinPrice();
-  if (filters.priceFrom < minPrice) {
+  if (
+    filters.priceFrom !== undefined &&
+    minPrice !== undefined &&
+    filters.priceFrom < minPrice
+  ) {
     filters.priceFrom = minPrice;
   }
 
   const maxPrice = filteredProductList.getMaxPrice();
-  if (filters.priceTo > maxPrice) {
+  if (
+    filters.priceTo !== undefined &&
+    maxPrice !== undefined &&
+    filters.priceTo > maxPrice
+  ) {
     filters.priceTo = maxPrice;
   }
 
   const minStock = filteredProductList.getMinStock();
-  if (filters.stockFrom < minStock) {
+  if (
+    filters.stockFrom !== undefined &&
+    minStock !== undefined &&
+    filters.stockFrom < minStock
+  ) {
     filters.stockFrom = minStock;
   }
 
   const maxStock = filteredProductList.getMaxStock();
-  if (filters.stockTo > maxStock) {
+  if (
+    filters.stockTo !== undefined &&
+    maxStock !== undefined &&
+    filters.stockTo > maxStock
+  ) {
     filters.stockTo = maxStock;
   }
 
@@ -394,11 +410,21 @@ function redrawFilters() {
   createCategoryFilter(productList.getAllCategories());
 
   searchInput.value = filters.searchInput;
+  if (filters.priceFrom !== undefined) {
+    priceSlider.setMinValue(filters.priceFrom);
+  }
 
-  priceSlider.setMinValue(filters.priceFrom);
-  priceSlider.setMaxValue(filters.priceTo);
-  stockSlider.setMinValue(filters.stockFrom);
-  stockSlider.setMaxValue(filters.stockTo);
+  if (filters.priceTo) {
+    priceSlider.setMaxValue(filters.priceTo);
+  }
+
+  if (filters.stockFrom !== undefined) {
+    stockSlider.setMinValue(filters.stockFrom);
+  }
+
+  if (filters.stockTo !== undefined) {
+    stockSlider.setMaxValue(filters.stockTo);
+  }
 }
 
 const btnResetFilters = <HTMLButtonElement>document.querySelector(".btn-reset");
@@ -440,11 +466,6 @@ function addItemToCart(e: Event): void {
   cart.add(productId);
   refreshCountProductsCart();
 
-  const productBigItem = <HTMLElement>(
-    document.getElementById(`item-${productId - 1}`)
-  );
-  productBigItem.classList.add("in-cart");
-
   refreshProductsPrice();
 }
 
@@ -461,11 +482,6 @@ function deleteItemFromCart(e: Event): void {
 
   cart.delete(productId);
   refreshCountProductsCart();
-
-  const productBigItem = <HTMLElement>(
-    document.getElementById(`item-${productId - 1}`)
-  );
-  productBigItem.classList.remove("in-cart");
 
   refreshProductsPrice();
 }

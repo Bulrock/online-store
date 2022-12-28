@@ -24,8 +24,8 @@ export default class RangeSlider {
     upperSliderId: string,
     lowerLabelId: string,
     upperLabelId: string,
-    minValue: number,
-    maxValue: number,
+    minValue: number | undefined,
+    maxValue: number | undefined,
     onValueChange: (minValue: number, maxValue: number) => void,
     formatValue: (value: number) => string
   ): RangeSlider {

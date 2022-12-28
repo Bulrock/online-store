@@ -8,6 +8,7 @@ export default class ProductList {
   }
 
   getMinPrice() {
+    if (this.products.length === 0) return undefined;
     let minValue = this.products[0].price;
     this.products.forEach((elem) => {
       if (elem.price < minValue) {
@@ -18,6 +19,7 @@ export default class ProductList {
   }
 
   getMaxPrice() {
+    if (this.products.length === 0) return undefined;
     let maxValue = this.products[0].price;
     this.products.forEach((elem) => {
       if (elem.price > maxValue) {
@@ -28,6 +30,7 @@ export default class ProductList {
   }
 
   getMinStock() {
+    if (this.products.length === 0) return undefined;
     let minStock = this.products[0].stock;
     this.products.forEach((elem) => {
       if (elem.stock < minStock) {
@@ -38,6 +41,7 @@ export default class ProductList {
   }
 
   getMaxStock() {
+    if (this.products.length === 0) return undefined;
     let maxStock = this.products[0].stock;
     this.products.forEach((elem) => {
       if (elem.stock > maxStock) {
@@ -99,10 +103,10 @@ export default class ProductList {
     categoryList: string[],
     brandList: string[],
     searchInputValue: string,
-    minPrice: number,
-    maxPrice: number,
-    minStock: number,
-    maxStock: number,
+    minPrice: number | undefined,
+    maxPrice: number | undefined,
+    minStock: number | undefined,
+    maxStock: number | undefined,
     sortOption: string,
     sortOptionValue: string
   ): ProductList {
@@ -126,8 +130,18 @@ export default class ProductList {
           .includes(searchInputValue.toLocaleLowerCase())
       )
         return false;
-      if (elem.price < minPrice || elem.price > maxPrice) return false;
-      if (elem.stock < minStock || elem.stock > maxStock) return false;
+      if (
+        minPrice !== undefined &&
+        maxPrice !== undefined &&
+        (elem.price < minPrice || elem.price > maxPrice)
+      )
+        return false;
+      if (
+        minStock !== undefined &&
+        maxStock !== undefined &&
+        (elem.stock < minStock || elem.stock > maxStock)
+      )
+        return false;
       return true;
     });
 
