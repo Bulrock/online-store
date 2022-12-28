@@ -1,20 +1,22 @@
 export default class Filters {
   categories: Map<string, boolean>;
   brands: Map<string, boolean>;
-  priceFrom = 0;
-  priceTo = Number.MAX_VALUE;
-  stockFrom = 0;
-  stockTo = Number.MAX_VALUE;
+  priceFrom: number | undefined = 0;
+  priceTo: number | undefined = Number.MAX_VALUE;
+  stockFrom: number | undefined = 0;
+  stockTo: number | undefined = Number.MAX_VALUE;
   searchInput = "";
+  sortOptionValues = "";
 
   constructor(
     categories: string[],
     brands: string[],
-    priceFrom: number,
-    priceTo: number,
-    stockFrom: number,
-    stockTo: number,
-    searchInput: string
+    priceFrom: number | undefined,
+    priceTo: number | undefined,
+    stockFrom: number | undefined,
+    stockTo: number | undefined,
+    searchInput: string,
+    sortOptionValues: string
   ) {
     this.categories = categories.reduce((prev, current) => {
       prev.set(current, false);
@@ -31,6 +33,7 @@ export default class Filters {
     this.stockFrom = stockFrom;
     this.stockTo = stockTo;
     this.searchInput = searchInput;
+    this.sortOptionValues = sortOptionValues;
   }
 
   changeCategoryFilter(category: string, isChecked: boolean) {

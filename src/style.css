@@ -33,7 +33,7 @@ h3 {
     margin: 0;
     text-align: center;
     color: #ff5a00;
-    font-size: 100%;
+    font-size: 115%;
     background-color: rgb(255, 255, 255);
     border-bottom: 1px solid #ff5a00;
     border-top-left-radius: 10px;
@@ -159,11 +159,13 @@ h3 {
 
 .category-label {
   margin-left: 0.5vw;
+  font-weight: 600;
 }
 
 .category-span {
   justify-self: right;
   margin-left: auto;
+  font-weight: 600;
 }
 
 .brand {
@@ -188,11 +190,13 @@ h3 {
 
 .brand-label {
   margin-left: 0.5vw;
+  font-weight: 600;
 }
 
 .brand-span {
   justify-self: right;
   margin-left: auto;
+  font-weight: 600;
 }
 
 .range-container {
@@ -412,11 +416,26 @@ h3 {
   justify-content: center;
 }
 
-.big-item {
+.huge-view {
   width: 23%;
   padding-top: 20%;
   min-height: 210px;
   min-width: 220px;
+  position: relative;
+  margin: 0.8%;
+  border: 1px solid #ff5a00;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all .3s ease-in-out;
+}
+
+.small-view {
+  width: 19%;
+  padding-top: 20%;
+  min-height: 182px;
+  min-width: 182px;
   position: relative;
   margin: 0.8%;
   border: 1px solid #ff5a00;
@@ -529,6 +548,16 @@ h3 {
   color: #ff5a00;
 }
 
+.no-products {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20% 0;
+  font-size: 30px;
+  text-align: center;
+}
+
 .footer {
   grid-area: footer;
   display: flex;
@@ -601,47 +630,6 @@ h3 {
   height: 5px;
   border: 0.5px solid rgba(255, 139, 56, 0.943);
   border-radius: 10px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  pointer-events: all;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px #C6C6C6;
-  cursor: pointer;
-}
-
-input[type=range]::-moz-range-thumb {
-  -webkit-appearance: none;
-  pointer-events: all;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px #C6C6C6;
-  cursor: pointer;
-}
-
-input[type=range]::-webkit-slider-thumb:hover {
-  background: #f7f7f7;
-}
-
-input[type=range]::-webkit-slider-thumb:active {
-  box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-  -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-}
-
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  background-color: #C6C6C6;
-  pointer-events: none;
 }
 
 #fromSlider {
@@ -796,11 +784,6 @@ input[type="range"] {
   .main-main {
     margin: 0 0.5em 1em 0.5em;
   }
-/*
-  .big-item {
-    min-height: unset;
-    min-width: unset;
-  } */
 
   .item-buttons {
     flex-wrap: wrap;
@@ -858,4 +841,88 @@ input[type="range"] {
   .social-link img {
     max-height: 30px;
   }
+}
+
+input[type=range] {
+  box-sizing: border-box;
+  appearance: none;
+  width: 90%;
+  margin: 0;
+  padding: 0 2px;
+  margin: 0 5%;
+  overflow: hidden;
+  border: 0;
+  border-radius: 1px;
+  outline: none;
+  background: linear-gradient(grey, grey) no-repeat center;
+  background-size: 100% 3px;
+  pointer-events: none;
+}
+
+input[type=range]:active,
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  background-color: #fff;
+  position: relative;
+  margin: 5px 0;
+  cursor: pointer;
+  appearance: none;
+  pointer-events: all;
+  box-shadow: 0 1px 4px 0.5px rgba(0, 0, 0, 0.25);
+  transition: all .3s ease-in-out;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 5px 2px #ff5a00;
+  border: 1px solid rgb(200 71 52);
+  color: #ff5a00;
+}
+
+input[type=range]::before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 13px;
+  left: 100%;
+  width: 100%;
+  height: 2px;
+}
+
+.multi-range {
+  position: relative;
+  height: 50px;
+}
+
+input[type=range] {
+  position: absolute;
+}
+input[type=range]:nth-child(1)::-webkit-slider-thumb::before {
+  background-color: red;
+}
+
+input[type=range]:nth-child(2) {
+  background: none;
+}
+
+input[type=range]::-webkit-slider-thumb::before {
+  background-color: grey;
+}
+
+.label-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 4% 5% 1%;
+  font-size: 110%;
+  font-weight: 600;
+  color: #ff5a00;
+}
+
+.arrow {
+  scale: 1.3;
 }

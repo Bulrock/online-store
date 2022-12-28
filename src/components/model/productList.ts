@@ -8,6 +8,7 @@ export default class ProductList {
   }
 
   getMinPrice() {
+    if (this.products.length === 0) return undefined;
     let minValue = this.products[0].price;
     this.products.forEach((elem) => {
       if (elem.price < minValue) {
@@ -18,6 +19,7 @@ export default class ProductList {
   }
 
   getMaxPrice() {
+    if (this.products.length === 0) return undefined;
     let maxValue = this.products[0].price;
     this.products.forEach((elem) => {
       if (elem.price > maxValue) {
@@ -28,6 +30,7 @@ export default class ProductList {
   }
 
   getMinStock() {
+    if (this.products.length === 0) return undefined;
     let minStock = this.products[0].stock;
     this.products.forEach((elem) => {
       if (elem.stock < minStock) {
@@ -38,6 +41,7 @@ export default class ProductList {
   }
 
   getMaxStock() {
+    if (this.products.length === 0) return undefined;
     let maxStock = this.products[0].stock;
     this.products.forEach((elem) => {
       if (elem.stock > maxStock) {
@@ -70,6 +74,20 @@ export default class ProductList {
     return Array.from(new Set(array));
   }
 
+  getNumberOfProductsByCategory(productCategory: string) {
+    return this.products.filter((product) => {
+      if (product.category === productCategory) return true;
+      return false;
+    }).length;
+  }
+
+  getNumberOfProductsByBrand(productBrand: string) {
+    return this.products.filter((product) => {
+      if (product.brand === productBrand) return true;
+      return false;
+    }).length;
+  }
+
   getSortedProducts(propertyName: string, isAscending: boolean): Product[] {
     return this.products.sort((product1, product2) => {
       if (!product1[propertyName] || !product2[propertyName]) return 0;
@@ -85,12 +103,14 @@ export default class ProductList {
     categoryList: string[],
     brandList: string[],
     searchInputValue: string,
-    minPrice: number,
-    maxPrice: number,
-    minStock: number,
-    maxStock: number
-  ): Product[] {
-    return this.products.filter((elem) => {
+    minPrice: number | undefined,
+    maxPrice: number | undefined,
+    minStock: number | undefined,
+    maxStock: number | undefined,
+    sortOption: string,
+    sortOptionValue: string
+  ): ProductList {
+    const filteredProducts = this.products.filter((elem) => {
       if (categoryList.length > 0 && !categoryList.includes(elem.category))
         return false;
       if (brandList.length > 0 && !brandList.includes(elem.brand)) return false;
@@ -110,9 +130,72 @@ export default class ProductList {
           .includes(searchInputValue.toLocaleLowerCase())
       )
         return false;
-      if (elem.price < minPrice || elem.price > maxPrice) return false;
-      if (elem.stock < minStock || elem.stock > maxStock) return false;
+      if (
+        minPrice !== undefined &&
+        maxPrice !== undefined &&
+        (elem.price < minPrice || elem.price > maxPrice)
+      )
+        return false;
+      if (
+        minStock !== undefined &&
+        maxStock !== undefined &&
+        (elem.stock < minStock || elem.stock > maxStock)
+      )
+        return false;
       return true;
     });
+
+    function sortByPrice(value: string) {
+      if (value === "ASC") {
+        return filteredProducts.sort((a, b) => a.price - b.price);
+      }
+      if (value === "DESC") {
+        return filteredProducts.sort((a, b) => b.price - a.price);
+      }
+    }
+
+    if (sortOption === "price" && sortOptionValue === "ASC") {
+      sortByPrice("ASC");
+    }
+    if (sortOption === "price" && sortOptionValue === "DESC") {
+      sortByPrice("DESC");
+    }
+
+    function sortByRating(value: string) {
+      if (value === "ASC") {
+        return filteredProducts.sort((a, b) => a.rating - b.rating);
+      }
+      if (value === "DESC") {
+        return filteredProducts.sort((a, b) => b.rating - a.rating);
+      }
+    }
+
+    if (sortOption === "rating" && sortOptionValue === "ASC") {
+      sortByRating("ASC");
+    }
+    if (sortOption === "rating" && sortOptionValue === "DESC") {
+      sortByRating("DESC");
+    }
+
+    function sortByDiscount(value: string) {
+      if (value === "ASC") {
+        return filteredProducts.sort(
+          (a, b) => a.discountPercentage - b.discountPercentage
+        );
+      }
+      if (value === "DESC") {
+        return filteredProducts.sort(
+          (a, b) => b.discountPercentage - a.discountPercentage
+        );
+      }
+    }
+
+    if (sortOption === "discount" && sortOptionValue === "ASC") {
+      sortByDiscount("ASC");
+    }
+    if (sortOption === "discount" && sortOptionValue === "DESC") {
+      sortByDiscount("DESC");
+    }
+    return new ProductList(filteredProducts);
   }
 }

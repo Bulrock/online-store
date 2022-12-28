@@ -8,9 +8,6 @@
   </head>
   <body class="body-main">
     <header class="header-main">
-      <!--
-      <a href="./error.html">Error</a>
-       -->
       <a href="./index.html">
         <div class="header-logotype">
           <p class="brand-logo">🛍</p>
@@ -64,27 +61,29 @@
           <div class="price-heder">
             <h3 class="range-price-header">Price</h3>
           </div>
-          <div class="inputs-price">
-            <div class="price-input">
-              <input class="input" maxlength="10" placeholder="from...€" type="text" id="price-from">
-            </div>
-            <div class="price-input">
-              <input class="input" length="8" placeholder="to...€" type="text" id="price-to">
-            </div>
+          <div class="label-container">
+            <label id="min-price-label" for="lower">€10.00</label>
+            <div class="arrow"> ⟷ </div>
+            <label id="max-price-label" for="upper">€1749.00</label>
           </div>
+          <span class="multi-range">
+            <input type="range" min="10" max="" value="10" id="lower">
+            <input type="range" min="10" max="1749" value="1749" id="upper">
+          </span>
         </div>
         <div class="range-container" filtername="stock">
           <div class="stock-heder">
             <h3 class="range-stock-header">Stock</h3>
           </div>
-          <div class="inputs-stock">
-            <div class="stock-input">
-              <input class="input" maxlength="10" placeholder="from..." type="text" id="stock-from">
-            </div>
-            <div class="stock-input">
-              <input class="input" length="8" placeholder="to..." type="text" id="stock-to">
-            </div>
+          <div class="label-container">
+            <label id="min-stock-label" for="lower-stock">2</label>
+            <div class="arrow"> ⟷ </div>
+            <label id="max-stock-label" for="upper-stock">150</label>
           </div>
+          <span class="multi-range">
+            <input type="range" min="1" max="" value="1" id="lower-stock">
+            <input type="range" min="1" max="150" value="150" id="upper-stock">
+          </span>
         </div>
       </div>
     </aside>
@@ -93,13 +92,13 @@
         <div class="sort-products">
           <div class="sort-bar">
             <select name="sort-options" id="sort" class="sort-select">
-              <option value="sort-title" class="sort-name">Sort options:</option>
-              <option value="price-ASC">Sort by price ASC</option>
-              <option value="price-DESC">Sort by price DESC</option>
-              <option value="rating-ASC">Sort by rating ASC</option>
-              <option value="rating-DESC">Sort by rating DESC</option>
-              <option value="discount-ASC">Sort by discount ASC</option>
-              <option value="discount-DESC">Sort by discount DESC</option>
+              <option value="sort-title" disabled selected class="sort-name">Sort options:</option>
+              <option class="sort-option" value="price-ASC">Sort by price ASC</option>
+              <option class="sort-option" value="price-DESC">Sort by price DESC</option>
+              <option class="sort-option" value="rating-ASC">Sort by rating ASC</option>
+              <option class="sort-option" value="rating-DESC">Sort by rating DESC</option>
+              <option class="sort-option" value="discount-ASC">Sort by discount ASC</option>
+              <option class="sort-option" value="discount-DESC">Sort by discount DESC</option>
             </select>
           </div>
           <div class="stat">Found: 100</div>
@@ -111,55 +110,60 @@
             <img class="huge-v active-mode" src="" alt="huge view btn"/>
           </div>
         </div>
-        <div class="products-items">
+        <div class="products-items" style="display: flex;">
           <template>
-            <div class="big-item">
-              <div class="product-item">
-                <div class="item-wrapper" style="background: url('https://i.dummyjson.com/data/products/1/thumbnail.jpg');">
-                  <div class="item-text">
-                    <div class="item-title">iPhone9</div>
-                    <div class="item-info">
-                      <a href="./products.html">
-                        <div class="item-info-item">
-                          <p class="item-info-text">
-                            <span class="item-info-text text-category">Category:</span>
-                            <span class="item-info-text text-item p-category">smartphones</span>
-                          </p>
-                          <p class="item-info-text">
-                            <span class="item-info-text text-brand">Brand:</span>
-                            <span class="item-info-text text-item p-brand">Apple:</span>
-                          </p>
-                          <p class="item-info-text">
-                            <span class="item-info-text text-price">Price:</span>
-                            <span class="item-info-text text-item p-price">€549.00:</span>
-                          </p>
-                          <p class="item-info-text">
-                            <span class="item-info-text text-discount">Discount:</span>
-                            <span class="item-info-text text-item p-discount">12.96%:</span>
-                          </p>
-                          <p class="item-info-text">
-                            <span class="item-info-text text-rating">Rating:</span>
-                            <span class="item-info-text text-item p-rating">4.69:</span>
-                          </p>
-                          <p class="item-info-text">
-                            <span class="item-info-text text-stock">Stock:</span>
-                            <span class="item-info-text text-item p-stock">94:</span>
-                          </p>
-                        </div>
-                      </a>
-                      <div class="item-buttons">
-                        <button class="btn-add-cart" style="display: block;" id="add-0">ADD TO CART</button>
-                        <button class="btn-drop-cart" style="display: none;" id="drop-0">DROP FROM CART</button>
+            <a href="./products.html">
+              <div class="big-item huge-view">
+                <div class="product-item">
+                  <div class="item-wrapper" style="background: url('https://i.dummyjson.com/data/products/1/thumbnail.jpg');">
+                    <div class="item-text">
+                      <div class="item-title">iPhone9</div>
+                      <div class="item-info">
                         <a href="./products.html">
-                          <button class="btn-details">DETAILS</button>
+                          <div class="item-info-item">
+                            <p class="item-info-text">
+                              <span class="item-info-text text-category">Category:</span>
+                              <span class="item-info-text text-item p-category">smartphones</span>
+                            </p>
+                            <p class="item-info-text">
+                              <span class="item-info-text text-brand">Brand:</span>
+                              <span class="item-info-text text-item p-brand">Apple:</span>
+                            </p>
+                            <p class="item-info-text">
+                              <span class="item-info-text text-price">Price:</span>
+                              <span class="item-info-text text-item p-price">€549.00:</span>
+                            </p>
+                            <p class="item-info-text">
+                              <span class="item-info-text text-discount">Discount:</span>
+                              <span class="item-info-text text-item p-discount">12.96%:</span>
+                            </p>
+                            <p class="item-info-text">
+                              <span class="item-info-text text-rating">Rating:</span>
+                              <span class="item-info-text text-item p-rating">4.69:</span>
+                            </p>
+                            <p class="item-info-text">
+                              <span class="item-info-text text-stock">Stock:</span>
+                              <span class="item-info-text text-item p-stock">94:</span>
+                            </p>
+                          </div>
                         </a>
+                        <div class="item-buttons">
+                          <button class="btn-add-cart" style="display: block;" id="add-0">ADD TO CART</button>
+                          <button class="btn-drop-cart" style="display: none;" id="drop-0">DROP FROM CART</button>
+                          <a class="btn-details-id" href="">
+                            <button class="btn-details">DETAILS</button>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           </template>
+        </div>
+        <div class="no-products" style="display: none;">
+          <span>No products found</span>
         </div>
       </div>
     </main>
