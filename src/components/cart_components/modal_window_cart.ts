@@ -1,3 +1,4 @@
+import { lengthWordsInput, converteString } from "./testing";
 const inputName = document.getElementById("name") as HTMLInputElement;
 const inputPhone = document.getElementById("phone-number") as HTMLInputElement;
 const inputAddress = document.getElementById("address") as HTMLInputElement;
@@ -47,12 +48,9 @@ export function showModalWindow() {
 
 function trueValueInputName() {
   inputName.addEventListener("input", () => {
-    const value = inputName.value
-      .trim()
-      .split(" ")
-      .filter((item) => item !== "");
+    const value = converteString(inputName.value);
     console.log(value);
-    if (value.every((item) => item.length >= 3) && value.length >= 2) {
+    if (lengthWordsInput(value, 3) && value.length >= 2) {
       (document.querySelector(".nameError") as HTMLElement).classList.remove(
         "active"
       );
@@ -93,11 +91,8 @@ function trueValueInputPhone() {
 
 function trueValueInputAddress() {
   inputAddress.addEventListener("input", () => {
-    const value = inputAddress.value
-      .trim()
-      .split(" ")
-      .filter((item) => item !== "");
-    if (value.every((item) => item.length >= 5) && value.length >= 3) {
+    const value = converteString(inputAddress.value);
+    if (lengthWordsInput(value, 5) && value.length >= 3) {
       (document.querySelector(".addressError") as HTMLElement).classList.remove(
         "active"
       );

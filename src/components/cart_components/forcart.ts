@@ -3,7 +3,7 @@ import icon from "../../assets/github_icon.svg";
 
 import { Product, CartProduct } from "../model/types";
 import { data } from "../data";
-import { drawNumber } from "./draw-number";
+import { drawNumber, calculateDiscount } from "./testing";
 
 export function createArrUpData(
   arrFromStorage: CartProduct[],
@@ -50,10 +50,6 @@ export function drawIfCartEmpty(arr: Product[]): void {
       "center";
   }
 }
-
-/* function drawNumber(page: number, arr: Array<Product[]>, index: number) {
-  return (page - 1) * arr[0].length + index + 1;
-} */
 
 export function draw(page: number, arr: Array<Product[]>): void {
   const viewPage = document.querySelector(".page-view") as HTMLElement;
@@ -200,7 +196,7 @@ export function drawDiscountCartTotal(
   cartTotal: number,
   discountCartTotal: number
 ) {
-  const totalAfterDiscount = cartTotal * ((100 - discountCartTotal) / 100);
+  const totalAfterDiscount = calculateDiscount(cartTotal, discountCartTotal);
   if (document.querySelector(".summary_total") as HTMLElement) {
     (document.querySelector(
       ".summary_total"
@@ -209,14 +205,14 @@ export function drawDiscountCartTotal(
   if (!(document.querySelector(".summary_total-discount") as HTMLElement)) {
     const p = document.createElement("p");
     p.setAttribute("class", "summary_total-discount");
-    p.innerHTML = `Total: €${totalAfterDiscount.toFixed(2)}`;
+    p.innerHTML = `Total: €${totalAfterDiscount}`;
     if (document.querySelector(".total") as HTMLElement) {
       (document.querySelector(".total") as HTMLElement).append(p);
     }
   } else {
     (document.querySelector(
       ".summary_total-discount"
-    ) as HTMLElement).innerHTML = `Total: €${totalAfterDiscount.toFixed(2)}`;
+    ) as HTMLElement).innerHTML = `Total: €${totalAfterDiscount}`;
   }
 }
 

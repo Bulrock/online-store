@@ -1,4 +1,11 @@
-import { drawNumber } from "./draw-number";
+import {
+  drawNumber,
+  calculateDiscount,
+  lengthWordsInput,
+  isIdProduct,
+  converteString,
+} from "./testing";
+import { data } from "../data";
 
 const arr = [
   [
@@ -163,13 +170,93 @@ const arr = [
 describe("drawNumbers function:", () => {
   test("should return number product", () => {
     expect(drawNumber(1, arr, 1)).toBe(2);
-	expect(drawNumber(1, arr, 2)).toBe(3);
-	expect(drawNumber(2, arr, 2)).toBe(6);
-	expect(drawNumber(3, arr, 1)).toBe(8);
+    expect(drawNumber(1, arr, 2)).toBe(3);
+    expect(drawNumber(2, arr, 2)).toBe(6);
+    expect(drawNumber(3, arr, 1)).toBe(8);
   });
   test("should return number product if page is less one", () => {
-	expect(drawNumber(-1, arr, 1)).toBe(2);
-	expect(drawNumber(0, arr, 0)).toBe(1);
+    expect(drawNumber(-1, arr, 1)).toBe(2);
+    expect(drawNumber(0, arr, 0)).toBe(1);
   });
+});
 
+describe("calculateDiscount function:", () => {
+  test("should return price with discount", () => {
+    expect(calculateDiscount(5000, 20)).toBe(4000.0);
+    expect(calculateDiscount(7700, 15)).toBe(6545.0);
+    expect(calculateDiscount(4999, 30)).toBe(3499.3);
+    expect(calculateDiscount(10302, 10)).toBe(9271.8);
+  });
+});
+
+describe("lengthWordsInput function:", () => {
+  test("should return true if the length of each word in the array is greater than or equal to a", () => {
+    const arr: string[] = ["asfsdfsdf", "dkh32bd23", "dh23gfi23gf", "slawa"];
+    const arr2: string[] = ["asfsdfsdf", "sdfsdfsdfdf", "dh23gfi23gf", "tom"];
+    expect(lengthWordsInput(arr, 5)).toBe(true);
+    expect(lengthWordsInput(arr2, 4)).toBe(false);
+    expect(lengthWordsInput(arr2, 3)).toBe(true);
+  });
+});
+
+describe("isIdProduct function:", () => {
+  test("should return product id 82", () => {
+    const id82 = {
+      id: 82,
+      title: "Kabir Singh Square Sunglass",
+      description:
+        "Orignal Metal Kabir Singh design 2020 Sunglasses Men Brand Designer Sun Glasses Kabir Singh Square Sunglass",
+      price: 50,
+      discountPercentage: 15.6,
+      rating: 4.62,
+      stock: 78,
+      countBuyProduct: 1,
+      brand: "Designer Sun Glasses",
+      category: "sunglasses",
+      thumbnail: "https://i.dummyjson.com/data/products/82/thumbnail.jpg",
+      images: [
+        "https://i.dummyjson.com/data/products/82/1.jpg",
+        "https://i.dummyjson.com/data/products/82/2.webp",
+        "https://i.dummyjson.com/data/products/82/3.jpg",
+        "https://i.dummyjson.com/data/products/82/4.jpg",
+        "https://i.dummyjson.com/data/products/82/thumbnail.jpg",
+      ],
+    };
+    expect(isIdProduct(data, 82)).toEqual(id82);
+  });
+  test("should return product id 33", () => {
+    const id33 = {
+      id: 33,
+      title: "3 Tier Corner Shelves",
+      description:
+        "3 Tier Corner Shelves | 3 PCs Wall Mount Kitchen Shelf | Floating Bedroom Shelf",
+      price: 700,
+      discountPercentage: 17,
+      rating: 4.31,
+      stock: 106,
+      countBuyProduct: 1,
+      brand: "Kitchen Shelf",
+      category: "furniture",
+      thumbnail: "https://i.dummyjson.com/data/products/33/thumbnail.jpg",
+      images: [
+        "https://i.dummyjson.com/data/products/33/1.jpg",
+        "https://i.dummyjson.com/data/products/33/2.jpg",
+        "https://i.dummyjson.com/data/products/33/3.jpg",
+        "https://i.dummyjson.com/data/products/33/4.jpg",
+        "https://i.dummyjson.com/data/products/33/thumbnail.jpg",
+      ],
+    };
+    expect(isIdProduct(data, 33)).toEqual(id33);
+  });
+});
+
+describe("converteString function:", () => {
+  test("should return array string", () => {
+    expect(converteString("    sdfhs sjkfsjf  ")).toEqual(["sdfhs", "sjkfsjf"]);
+    expect(converteString("    sdfhs    slawa    sjkfsjf  ")).toEqual([
+      "sdfhs",
+      "slawa",
+      "sjkfsjf",
+    ]);
+  });
 });
