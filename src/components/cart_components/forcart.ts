@@ -3,6 +3,7 @@ import icon from "../../assets/github_icon.svg";
 
 import { Product, CartProduct } from "../model/types";
 import { data } from "../data";
+import { drawNumber } from "./draw-number";
 
 export function createArrUpData(
   arrFromStorage: CartProduct[],
@@ -50,6 +51,10 @@ export function drawIfCartEmpty(arr: Product[]): void {
   }
 }
 
+/* function drawNumber(page: number, arr: Array<Product[]>, index: number) {
+  return (page - 1) * arr[0].length + index + 1;
+} */
+
 export function draw(page: number, arr: Array<Product[]>): void {
   const viewPage = document.querySelector(".page-view") as HTMLElement;
   if (viewPage) viewPage.innerHTML = "" + page;
@@ -61,7 +66,8 @@ export function draw(page: number, arr: Array<Product[]>): void {
 
     if (arr[page - 1]) {
       arr[page - 1].forEach((item, index) => {
-        const number = (page - 1) * arr[0].length + index + 1;
+        console.log(arr);
+        const number = drawNumber(page, arr, index);
         const div = document.createElement("div");
         div.innerHTML = `
           <div class="wrapper_product-number-descr">
