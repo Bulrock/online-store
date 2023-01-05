@@ -328,7 +328,7 @@ function addContProductOnePageUrl() {
   window.history.replaceState(null, "", url);
 }
 
-(document.querySelector(".basket") as HTMLElement).addEventListener(
+(document.querySelector(".basket svg") as HTMLElement).addEventListener(
   "click",
   () => {
     const url = new URL(window.location.href);
