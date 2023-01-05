@@ -1,4 +1,4 @@
-import { data } from "../../../src/components/data";
+import { data } from "../../data/data";
 import { isIdProduct } from "../../../src/components/product_components/forproduct";
 describe("isIdProduct function:", () => {
   test("should return product id 82", () => {
