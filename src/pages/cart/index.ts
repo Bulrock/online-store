@@ -10,8 +10,8 @@ import {
   arrPromo,
   drawDiscountCartTotal,
   addLinkCithubRS,
-} from "../../components/cart_components/forcart";
-import { showModalWindow } from "../../components/cart_components/modal_window_cart";
+} from "../../components/cart_components/drawCart";
+import { showModalWindow } from "../../components/product_components/modal_window_cart";
 import { Product, CartProduct } from "../../components/model/types";
 
 if (window.location.hash) {

@@ -1,4 +1,4 @@
-import { lengthWordsInput, converteString } from "./testing";
+import { lengthWordsInput, converteString } from "./formodal";
 const inputName = document.getElementById("name") as HTMLInputElement;
 const inputPhone = document.getElementById("phone-number") as HTMLInputElement;
 const inputAddress = document.getElementById("address") as HTMLInputElement;

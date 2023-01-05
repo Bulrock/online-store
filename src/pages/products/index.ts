@@ -4,8 +4,8 @@ import {
   drawPriceHeaderSummary,
   createArrUpData,
   addLinkCithubRS,
-} from "../../components/cart_components/forcart";
-import { isIdProduct } from "../../components/cart_components/testing";
+} from "../../components/cart_components/drawCart";
+import { isIdProduct } from "../../components/product_components/forproduct";
 import { Product, CartProduct } from "../../components/model/types";
 
 let id: number;

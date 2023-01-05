@@ -3,7 +3,7 @@ import icon from "../../assets/github_icon.svg";
 
 import { Product, CartProduct } from "../model/types";
 import { data } from "../data";
-import { drawNumber, calculateDiscount } from "./testing";
+import { drawNumber, calculateDiscount } from "./fordrawCart";
 
 export function createArrUpData(
   arrFromStorage: CartProduct[],

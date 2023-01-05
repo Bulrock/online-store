@@ -1,11 +1,7 @@
 import {
   drawNumber,
   calculateDiscount,
-  lengthWordsInput,
-  isIdProduct,
-  converteString,
-} from "./testing";
-import { data } from "../data";
+} from "../../../src/components/cart_components/fordrawCart";
 
 const arr = [
   [
@@ -186,77 +182,5 @@ describe("calculateDiscount function:", () => {
     expect(calculateDiscount(7700, 15)).toBe(6545.0);
     expect(calculateDiscount(4999, 30)).toBe(3499.3);
     expect(calculateDiscount(10302, 10)).toBe(9271.8);
-  });
-});
-
-describe("lengthWordsInput function:", () => {
-  test("should return true if the length of each word in the array is greater than or equal to a", () => {
-    const arr: string[] = ["asfsdfsdf", "dkh32bd23", "dh23gfi23gf", "slawa"];
-    const arr2: string[] = ["asfsdfsdf", "sdfsdfsdfdf", "dh23gfi23gf", "tom"];
-    expect(lengthWordsInput(arr, 5)).toBe(true);
-    expect(lengthWordsInput(arr2, 4)).toBe(false);
-    expect(lengthWordsInput(arr2, 3)).toBe(true);
-  });
-});
-
-describe("isIdProduct function:", () => {
-  test("should return product id 82", () => {
-    const id82 = {
-      id: 82,
-      title: "Kabir Singh Square Sunglass",
-      description:
-        "Orignal Metal Kabir Singh design 2020 Sunglasses Men Brand Designer Sun Glasses Kabir Singh Square Sunglass",
-      price: 50,
-      discountPercentage: 15.6,
-      rating: 4.62,
-      stock: 78,
-      countBuyProduct: 1,
-      brand: "Designer Sun Glasses",
-      category: "sunglasses",
-      thumbnail: "https://i.dummyjson.com/data/products/82/thumbnail.jpg",
-      images: [
-        "https://i.dummyjson.com/data/products/82/1.jpg",
-        "https://i.dummyjson.com/data/products/82/2.webp",
-        "https://i.dummyjson.com/data/products/82/3.jpg",
-        "https://i.dummyjson.com/data/products/82/4.jpg",
-        "https://i.dummyjson.com/data/products/82/thumbnail.jpg",
-      ],
-    };
-    expect(isIdProduct(data, 82)).toEqual(id82);
-  });
-  test("should return product id 33", () => {
-    const id33 = {
-      id: 33,
-      title: "3 Tier Corner Shelves",
-      description:
-        "3 Tier Corner Shelves | 3 PCs Wall Mount Kitchen Shelf | Floating Bedroom Shelf",
-      price: 700,
-      discountPercentage: 17,
-      rating: 4.31,
-      stock: 106,
-      countBuyProduct: 1,
-      brand: "Kitchen Shelf",
-      category: "furniture",
-      thumbnail: "https://i.dummyjson.com/data/products/33/thumbnail.jpg",
-      images: [
-        "https://i.dummyjson.com/data/products/33/1.jpg",
-        "https://i.dummyjson.com/data/products/33/2.jpg",
-        "https://i.dummyjson.com/data/products/33/3.jpg",
-        "https://i.dummyjson.com/data/products/33/4.jpg",
-        "https://i.dummyjson.com/data/products/33/thumbnail.jpg",
-      ],
-    };
-    expect(isIdProduct(data, 33)).toEqual(id33);
-  });
-});
-
-describe("converteString function:", () => {
-  test("should return array string", () => {
-    expect(converteString("    sdfhs sjkfsjf  ")).toEqual(["sdfhs", "sjkfsjf"]);
-    expect(converteString("    sdfhs    slawa    sjkfsjf  ")).toEqual([
-      "sdfhs",
-      "slawa",
-      "sjkfsjf",
-    ]);
   });
 });
