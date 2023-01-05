@@ -15,9 +15,11 @@ import { showModalWindow } from "../../components/product_components/modal_windo
 import { Product, CartProduct } from "../../components/model/types";
 
 if (window.location.hash) {
-  document.querySelector(".wrapper_dataCard")?.classList.add("active");
-  const url = window.location.pathname;
-  window.history.replaceState(null, "", url);
+  (document.querySelector(".wrapper_dataCard") as HTMLElement).classList.add(
+    "active"
+  );
+  /* const url = window.location.pathname;
+  window.history.replaceState(null, "", url); */
 }
 
 const storage = localStorage.getItem("countBuyProduct");

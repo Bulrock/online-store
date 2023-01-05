@@ -31,6 +31,10 @@ export function showModalWindow() {
         (document.querySelector(".body") as HTMLElement).classList.remove(
           "active"
         );
+        if (window.location.hash) {
+          const url = window.location.pathname;
+          window.history.replaceState(null, "", url);
+        }
       }
     });
   }
