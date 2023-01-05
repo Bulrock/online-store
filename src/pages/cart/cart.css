@@ -37,7 +37,13 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    transition: all .3s ease-in-out;
 }
+
+.header_logotype:hover {
+    scale: 1.1;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -76,6 +82,12 @@
     width: 60px;
     height: 60px;
     fill: #ff5a00;
+    transition: all .4s ease-in-out;
+    cursor: pointer;
+}
+
+.basket svg:hover {
+    transform: scale(1.05);
 }
 
 .header_basket_count-product {
@@ -496,15 +508,15 @@
     height: 40px;
   }
   
-  .social-link {
+  .social-link img {
     opacity: .8;
     cursor: pointer;
-    transition: all .5s ease-in-out;
+    transition: all .4s ease-in-out;
     background-color: unset;
   }
   
-  .social-link:hover {
-    transform: scale(1.1);
+  .social-link img:hover {
+    transform: scale(1.2);
     opacity: 1;
   }
 
@@ -913,4 +925,18 @@
     .social-link img {
         max-height: 28px;
       }
+      .count {
+        font-size: 18px;
+      }
+      .item {
+        font-size: 18px;
+        border: 2px solid #ff5a00;
+        width: 45px;
+      }
+      .wrap {
+        border: 2px solid #ff5a00;
+      }
+      .arrow {
+        padding: 5px;
+    }
 }

@@ -10,14 +10,16 @@ import {
   arrPromo,
   drawDiscountCartTotal,
   addLinkCithubRS,
-} from "../../components/cart_components/forcart";
-import { showModalWindow } from "../../components/cart_components/modal_window_cart";
+} from "../../components/cart_components/drawCart";
+import { showModalWindow } from "../../components/product_components/modal_window_cart";
 import { Product, CartProduct } from "../../components/model/types";
 
 if (window.location.hash) {
-  document.querySelector(".wrapper_dataCard")?.classList.add("active");
-  const url = window.location.pathname;
-  window.history.replaceState(null, "", url);
+  (document.querySelector(".wrapper_dataCard") as HTMLElement).classList.add(
+    "active"
+  );
+  /* const url = window.location.pathname;
+  window.history.replaceState(null, "", url); */
 }
 
 const storage = localStorage.getItem("countBuyProduct");
@@ -328,7 +330,7 @@ function addContProductOnePageUrl() {
   window.history.replaceState(null, "", url);
 }
 
-(document.querySelector(".basket") as HTMLElement).addEventListener(
+(document.querySelector(".basket svg") as HTMLElement).addEventListener(
   "click",
   () => {
     const url = new URL(window.location.href);
