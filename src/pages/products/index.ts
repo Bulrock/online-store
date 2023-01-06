@@ -11,14 +11,24 @@ import { Product, CartProduct } from "../../components/model/types";
 let id: number;
 let product: Product | undefined;
 const url = new URL(window.location.href);
-if (url.searchParams.has("id")) {
-  id = Number(url.searchParams.get("id"));
-  product = isIdProduct(data, id);
-  if (product === undefined) {
+
+for (const name of url.searchParams) {
+  console.log(name[0]);
+
+  if (url.searchParams.has("id") || name[0] !== "id") {
+    id = Number(url.searchParams.get(name[0]));
+    product = isIdProduct(data, id);
+    if (product === undefined) {
+      const idmemory = localStorage.getItem("id-memory");
+      if (typeof idmemory === "string" && idmemory.length > 0) {
+        id = JSON.parse(idmemory);
+        product = isIdProduct(data, id);
+      }
+    }
+    localStorage.setItem("id-memory", JSON.stringify(id));
+  } else if (!url.search) {
     document.location.href = "./404.html";
   }
-} else if (!url.search) {
-  document.location.href = "./404.html";
 }
 
 const storage = localStorage.getItem("countBuyProduct");

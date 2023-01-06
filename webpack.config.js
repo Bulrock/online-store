@@ -69,6 +69,10 @@ const config = {
         {
           from: "src/.htaccess",
         },
+        {
+          from: "src/assets/favicon.ico",
+          to: "assets/favicon.ico",
+        },
       ],
     }),
   ],

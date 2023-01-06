@@ -18,8 +18,6 @@ if (window.location.hash) {
   (document.querySelector(".wrapper_dataCard") as HTMLElement).classList.add(
     "active"
   );
-  /* const url = window.location.pathname;
-  window.history.replaceState(null, "", url); */
 }
 
 const storage = localStorage.getItem("countBuyProduct");
