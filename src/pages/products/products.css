@@ -37,7 +37,13 @@
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    transition: all .3s ease-in-out;
 }
+
+.header_logotype:hover {
+    scale: 1.05;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -72,14 +78,16 @@
     z-index: 1;
 }
 
-.basket {
-    cursor: pointer;
-}
-
 .basket svg {
     width: 60px;
     height: 60px;
     fill: #ff5a00;
+    transition: all .4s ease-in-out;
+    cursor: pointer;
+}
+
+.basket svg:hover {
+    transform: scale(1.1);
 }
 
 .header_basket_count-product {
@@ -163,7 +171,6 @@
     border-radius: 10px;
     border: 2px solid #ff5a00;
     box-sizing: border-box;
-    /* display: block; */
     vertical-align: bottom;
     float: right;
 }
@@ -280,14 +287,14 @@
     height: 40px;
   }
   
-  .social-link {
+  .social-link img {
     opacity: .8;
     cursor: pointer;
     transition: all .5s ease-in-out;
     background-color: unset;
   }
   
-  .social-link:hover {
+  .social-link img:hover {
     transform: scale(1.1);
     opacity: 1;
   }

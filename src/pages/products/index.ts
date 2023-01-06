@@ -4,23 +4,22 @@ import {
   drawPriceHeaderSummary,
   createArrUpData,
   addLinkCithubRS,
-} from "../../components/cart_components/forcart";
+} from "../../components/cart_components/drawCart";
+import { isIdProduct } from "../../components/product_components/forproduct";
 import { Product, CartProduct } from "../../components/model/types";
 
 let id: number;
+let product: Product | undefined;
 const url = new URL(window.location.href);
-
 if (url.searchParams.has("id")) {
   id = Number(url.searchParams.get("id"));
-  if (!data.find((item) => item.id === id)) {
+  product = isIdProduct(data, id);
+  if (product === undefined) {
     document.location.href = "./404.html";
   }
 } else if (!url.search) {
   document.location.href = "./404.html";
 }
-
-const product = data.find((item) => item.id === id);
-console.log(product);
 
 const storage = localStorage.getItem("countBuyProduct");
 console.log(storage);
