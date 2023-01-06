@@ -76,13 +76,13 @@ const stockSlider = RangeSlider.create(
 function onPriceFilterChange(minValue: number, maxValue: number) {
   filters.priceFrom = minValue;
   filters.priceTo = maxValue;
-  redraw();
+  redraw(true, false);
 }
 
 function onStockFilterChange(minValue: number, maxValue: number) {
   filters.stockFrom = minValue;
   filters.stockTo = maxValue;
-  redraw();
+  redraw(false, true);
 }
 
 const logoSchool = <HTMLImageElement>document.querySelector(".logo");
@@ -301,7 +301,10 @@ function changeSortOptionsView() {
   });
 }
 
-function redraw(): void {
+function redraw(
+  skipPriceFilterChange = false,
+  skipStockFilterChange = false
+): void {
   const productsStats = <HTMLElement>document.querySelector(".stat");
 
   filteredProductList = productList.filterProducts(
@@ -332,7 +335,7 @@ redrawFilters()
 
   redrawAddRemoveCartBtn();
 
-  redrawFilters();
+  redrawFilters(skipPriceFilterChange, skipStockFilterChange);
 
   if (url.searchParams.get("big") === "false") {
     hugeVBtn.classList.remove("active-mode");
@@ -365,7 +368,10 @@ function redrawAddRemoveCartBtn() {
   });
 }
 
-function redrawFilters() {
+function redrawFilters(
+  skipPriceFilterChange: boolean,
+  skipStockFilterChange: boolean
+) {
   const minPrice = filteredProductList.getMinPrice();
   if (
     filters.priceFrom !== undefined &&
@@ -410,19 +416,19 @@ function redrawFilters() {
   createCategoryFilter(productList.getAllCategories());
 
   searchInput.value = filters.searchInput;
-  if (filters.priceFrom !== undefined) {
+  if (filters.priceFrom !== undefined && !skipPriceFilterChange) {
     priceSlider.setMinValue(filters.priceFrom);
   }
 
-  if (filters.priceTo) {
+  if (filters.priceTo !== undefined && !skipPriceFilterChange) {
     priceSlider.setMaxValue(filters.priceTo);
   }
 
-  if (filters.stockFrom !== undefined) {
+  if (filters.stockFrom !== undefined && !skipStockFilterChange) {
     stockSlider.setMinValue(filters.stockFrom);
   }
 
-  if (filters.stockTo !== undefined) {
+  if (filters.stockTo !== undefined && !skipStockFilterChange) {
     stockSlider.setMaxValue(filters.stockTo);
   }
 }
@@ -566,8 +572,6 @@ function onCopyBtnClick() {
 }
 
 redraw();
-
-redrawFilters();
 
 refreshCountProductsCart();
 
