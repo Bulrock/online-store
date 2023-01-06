@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link class="favicon" href="./assets/favicon.ico" rel="shortcut icon" />
+    <title>Online Store</title>
+  </head>
+  <body class="body-main">
+    <header class="header-main">
+      <a href="./index.html">
+        <div class="header-logotype">
+          <p class="brand-logo">🛍</p>
+          <p class="text-for-logo">Online Store</p>
+        </div>
+      </a>
+      <div class="header-price">
+          <p>Cart total: €<span class="cart-price">0</span></p>
+      </div>
+      <div class="header-basket">
+        <a href="./cart.html">
+          <div class="basket">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#ff5a00;" d="M24 3l-.743 2h-1.929l-3.474 12h-13.239l-4.615-11h16.812l-.564 2h-13.24l2.937 7h10.428l3.432-12h4.195zm-15.5 15c-.828 0-1.5.672-1.5 1.5 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm6.9-7-1.9 7c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5z"/></svg>
+          </div>
+          <div class="product-count">0</div>
+        </a>
+      </div>
+    </header>
+    <aside class="aside-main">
+      <div class="filters">
+        <div class="reset-total">
+          <button class="btn-reset">Reset Filters</button>
+          <button class="btn-copy" style="display: block;">Copy Link</button>
+          <button class="btn-copied" style="display: none;">Copied!</button>
+        </div>
+        <div class="category">
+          <h3>Category</h3>
+          <div class="filter-list category-list">
+            <template>
+              <div class="checkbox-line item-active category-container">
+                <input class="category-input" type="checkbox" id="smartphones">
+                <label class="category-label" for="smartphones">smartphones</label>
+                <span class="category-span">(5/5)</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="brand">
+          <h3>Brand</h3>
+          <div class="filter-list brand-list">
+            <template>
+              <div class="checkbox-line item-active brand-container">
+                <input class="brand-input" type="checkbox" id="Apple">
+                <label class="brand-label" for="Apple">Apple</label>
+                <span class="brand-span">(3/3)</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="range-container" item="€" filtername="price">
+          <div class="price-heder">
+            <h3 class="range-price-header">Price</h3>
+          </div>
+          <div class="label-container">
+            <label id="min-price-label" for="lower">€10.00</label>
+            <div class="arrow"> ⟷ </div>
+            <label id="max-price-label" for="upper">€1749.00</label>
+          </div>
+          <span class="multi-range">
+            <input type="range" min="10" max="" value="10" id="lower">
+            <input type="range" min="10" max="1749" value="1749" id="upper">
+          </span>
+        </div>
+        <div class="range-container" filtername="stock">
+          <div class="stock-heder">
+            <h3 class="range-stock-header">Stock</h3>
+          </div>
+          <div class="label-container">
+            <label id="min-stock-label" for="lower-stock">2</label>
+            <div class="arrow"> ⟷ </div>
+            <label id="max-stock-label" for="upper-stock">150</label>
+          </div>
+          <span class="multi-range">
+            <input type="range" min="1" max="" value="1" id="lower-stock">
+            <input type="range" min="1" max="150" value="150" id="upper-stock">
+          </span>
+        </div>
+      </div>
+    </aside>
+    <main class="main-main">
+      <div class="products">
+        <div class="sort-products">
+          <div class="sort-bar">
+            <select name="sort-options" id="sort" class="sort-select">
+              <option value="sort-title" disabled selected class="sort-name">Sort options:</option>
+              <option class="sort-option" value="price-ASC">Sort by price ASC</option>
+              <option class="sort-option" value="price-DESC">Sort by price DESC</option>
+              <option class="sort-option" value="rating-ASC">Sort by rating ASC</option>
+              <option class="sort-option" value="rating-DESC">Sort by rating DESC</option>
+              <option class="sort-option" value="discount-ASC">Sort by discount ASC</option>
+              <option class="sort-option" value="discount-DESC">Sort by discount DESC</option>
+            </select>
+          </div>
+          <div class="stat">Found: 100</div>
+          <div class="search-bar">
+            <input type="search" placeholder="Search product" class="search-product">
+          </div>
+          <div class="view-mode">
+            <img class="small-v" src="" alt="small view btn"/>
+            <img class="huge-v active-mode" src="" alt="huge view btn"/>
+          </div>
+        </div>
+        <div class="products-items" style="display: flex;">
+          <template>
+            <div class="big-item huge-view">
+              <div class="product-item">
+                <div class="item-wrapper" style="background: url('https://i.dummyjson.com/data/products/1/thumbnail.jpg');">
+                  <div class="item-text">
+                    <div class="item-title">iPhone9</div>
+                    <div class="item-info">
+                      <div class="item-info-item">
+                        <p class="item-info-text">
+                          <span class="item-info-text text-category">Category:</span>
+                          <span class="item-info-text text-item p-category">smartphones</span>
+                        </p>
+                        <p class="item-info-text">
+                          <span class="item-info-text text-brand">Brand:</span>
+                          <span class="item-info-text text-item p-brand">Apple:</span>
+                        </p>
+                        <p class="item-info-text">
+                          <span class="item-info-text text-price">Price:</span>
+                          <span class="item-info-text text-item p-price">€549.00:</span>
+                        </p>
+                        <p class="item-info-text">
+                          <span class="item-info-text text-discount">Discount:</span>
+                          <span class="item-info-text text-item p-discount">12.96%:</span>
+                        </p>
+                        <p class="item-info-text">
+                          <span class="item-info-text text-rating">Rating:</span>
+                          <span class="item-info-text text-item p-rating">4.69:</span>
+                        </p>
+                        <p class="item-info-text">
+                          <span class="item-info-text text-stock">Stock:</span>
+                          <span class="item-info-text text-item p-stock">94:</span>
+                        </p>
+                      </div>
+                      <div class="item-buttons">
+                        <button class="btn-add-cart" style="display: block;" id="add-0">ADD TO CART</button>
+                        <button class="btn-drop-cart" style="display: none;" id="drop-0">DROP FROM CART</button>
+                        <a class="btn-details-id" href="">
+                          <button class="btn-details">DETAILS</button>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="no-products" style="display: none;">
+          <span>No products found</span>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="container bottom">
+        <a class="social-link" href="https://github.com/bulrock" target="_blank">
+          <img class="icon github-icon1" src="" alt="github icon1"/>
+        </a>
+        <a class="social-link" href="https://github.com/Siaw4ik" target="_blank">
+          <img class="icon github-icon2" src="" alt="github icon2"/>
+        </a>
+        <p class="copyrights">Online Store © 2022</p>
+        <a href="https://rs.school/js/" class="social-link">
+          <img class="logo" src="" alt="rs school logo"/>
+        </a>
+      </div>
+    </footer>
+  <script src="./main.js"></script>
+  </body>
+</html>
