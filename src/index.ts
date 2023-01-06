@@ -324,7 +324,7 @@ function redraw(
   productsStats.textContent = `Found: ${filteredProductList.products.length}`;
 
   const noProducts = <HTMLElement>document.querySelector(".no-products");
-redrawFilters()
+
   if (filteredProductList.products.length === 0) {
     productsItems.setAttribute("style", "display: none;");
     noProducts.setAttribute("style", "display: flex;");
