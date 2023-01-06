@@ -21,7 +21,7 @@ let filters = new Filters(
   "",
   ""
 );
-
+console.log(filters);
 let bigItem: NodeListOf<Element>;
 let itemInfoBlock: NodeListOf<Element>;
 const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
@@ -321,7 +321,7 @@ function redraw(): void {
   productsStats.textContent = `Found: ${filteredProductList.products.length}`;
 
   const noProducts = <HTMLElement>document.querySelector(".no-products");
-
+redrawFilters()
   if (filteredProductList.products.length === 0) {
     productsItems.setAttribute("style", "display: none;");
     noProducts.setAttribute("style", "display: flex;");

@@ -78,7 +78,7 @@ function trueValueInputPhone() {
     const valueNoPlus = value.slice(1).map((item) => Number(item));
     const isNan = valueNoPlus.some(isNaN);
 
-    if (value[0] === "+" && value.length >= 9 && !isNan) {
+    if (value[0] === "+" && value.length >= 10 && !isNan) {
       (document.querySelector(".phoneError") as HTMLElement).classList.remove(
         "active"
       );
@@ -158,6 +158,10 @@ function trueValueInputNumberCard() {
     isTrueForm();
   });
 }
+function unvalidateDate() {
+  (document.querySelector(".DateError") as HTMLElement).classList.add("active");
+  inputDate.className = "invalid";
+}
 
 function trueValueInputDate() {
   inputDate.addEventListener("input", () => {
@@ -175,14 +179,12 @@ function trueValueInputDate() {
         "active"
       );
       inputDate.className = "valid";
-    } else if (
-      inputDate.value.length < 5 &&
-      Number(inputDate.value.substring(0, 2)) > 12
-    ) {
-      (document.querySelector(".DateError") as HTMLElement).classList.add(
-        "active"
-      );
-      inputDate.className = "invalid";
+    } else if (Number(inputDate.value.substring(0, 2)) > 12) {
+      unvalidateDate();
+    } else if (value === "") {
+      unvalidateDate();
+    } else if (value.length < 5) {
+      unvalidateDate();
     }
     isTrueForm();
   });
@@ -217,11 +219,9 @@ function isTrueForm() {
     inputDate.className === "valid" &&
     inputCVV.className === "valid"
   ) {
-    console.log(true);
     buttonConfirm.classList.add("active");
     headerForm.classList.add("active");
   } else {
-    console.log(false);
     buttonConfirm.classList.remove("active");
     headerForm.classList.remove("active");
   }
