@@ -21,7 +21,7 @@ let filters = new Filters(
   "",
   ""
 );
-
+console.log(filters);
 let bigItem: NodeListOf<Element>;
 let itemInfoBlock: NodeListOf<Element>;
 const smallVBtn = <HTMLImageElement>document.querySelector(".small-v");
