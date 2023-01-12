@@ -135,15 +135,19 @@ function trueValueInputNumberCard() {
       .substring(0, 16);
     if (value) value = value.match(/.{1,4}/g)?.join(" ") as string;
     inputNumberCard.value = value;
-    if (value[0] === "6")
+    if (value[0] === "6") {
       img.src =
         "https://m.unionpayintl.com/imp_file/global/wap/en/static/images/logo.png";
-    if (value[0] === "5")
+    } else if (value[0] === "5") {
       img.src =
         "https://www.mastercard.hu/content/dam/public/mastercardcom/eu/hu/images/mc-logo-52.svg";
-    if (value[0] === "4")
+    } else if (value[0] === "4") {
       img.src =
         "https://cdn.visa.com/v2/assets/images/logos/visa/blue/logo.png";
+    } else {
+      img.src =
+        "https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71";
+    }
     if (inputNumberCard.value.length === 19) {
       (document.querySelector(
         ".card-numberError"
